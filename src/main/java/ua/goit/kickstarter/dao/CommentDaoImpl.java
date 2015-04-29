@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.dao;
 
+import org.joda.time.DateTime;
 import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Comment;
 import ua.goit.kickstarter.model.Project;
@@ -28,14 +29,8 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
       rs = executeQuery(sqlSelect);
       if (rs.next()) {
         String text = rs.getString("text");
-        String date = rs.getString("dateOfCreation");
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Date dateOfCreation = null;
-        try {
-          dateOfCreation = dateFormat.parse(date);
-        } catch (ParseException e) {
-          e.printStackTrace();
-        }
+        Long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
         Integer projectId = rs.getInt("id_project");
         project = projectDao.getById(projectId);
         comment = new Comment(id, text, dateOfCreation, project);
@@ -67,7 +62,8 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
       while (rs.next()) {
         Integer id = rs.getInt("id");
         String text = rs.getString("text");
-        Date dateOfCreation = rs.getDate("dateOfCreation");
+        Long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
         comment = new Comment(id, text, dateOfCreation, project);
@@ -92,7 +88,8 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
       while (rs.next()) {
         Integer id = rs.getInt("id");
         String text = rs.getString("text");
-        Date dateOfCreation = rs.getDate("dateOfCreation");
+        Long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
         comment = new Comment(id, text, dateOfCreation, project);
@@ -116,7 +113,8 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
       while (rs.next()) {
         Integer id = rs.getInt("id");
         String text = rs.getString("text");
-        Date dateOfCreation = rs.getDate("dateOfCreation");
+        Long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
         comment = new Comment(id, text, dateOfCreation, project);
@@ -136,8 +134,8 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
     try {
       PreparedStatement statement = con.prepareStatement(query);
       statement.setString(1, element.getText());
-      DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-      statement.setString(2, dateFormat.format(element.getDateOfCreation()));
+      DateTime dateOfCreation = element.getDateOfCreation();
+      statement.setLong(2, dateOfCreation.getMillis());
       statement.setString(3, element.getProject().getId().toString());
 
       int affectedRows = statement.executeUpdate();
@@ -177,8 +175,6 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
     if (project == null) {
       throw new RuntimeException("Incorrect project id");
     }
-    return add(new Comment(0, text, new Date(), project));
+    return add(new Comment(0, text, new DateTime(), project));
   }
-
-
 }

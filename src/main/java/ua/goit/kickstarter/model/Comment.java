@@ -1,15 +1,17 @@
 package ua.goit.kickstarter.model;
 
+import org.joda.time.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment extends AbstractModel implements Comparable {
 
     String text;
-    Date dateOfCreation;
+    DateTime dateOfCreation;
     Project project;
 
-    public Comment(Integer id, String text, Date dateOfCreation, Project project) {
+    public Comment(Integer id, String text, DateTime dateOfCreation, Project project) {
         this.id = id;
         this.text = text;
         this.dateOfCreation = dateOfCreation;
@@ -49,11 +51,11 @@ public class Comment extends AbstractModel implements Comparable {
         this.id = id;
     }
 
-    public Date getDateOfCreation() {
+    public DateTime getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(Date dateOfCreation) {
+    public void setDateOfCreation(DateTime dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
 

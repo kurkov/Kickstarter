@@ -1,18 +1,20 @@
 package ua.goit.kickstarter.model;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 public class BlogPost extends AbstractModel {
 
   String title;
   String text;
-  Date dateOfCreation;
+  DateTime dateOfCreation;
   Project project;
 
   public BlogPost() {
   }
 
-  public BlogPost(Integer id, String title, String text, Date dateOfCreation, Project project) {
+  public BlogPost(Integer id, String title, String text, DateTime dateOfCreation, Project project) {
     this.id = id;
     this.title = title;
     this.text = text;
@@ -65,11 +67,11 @@ public class BlogPost extends AbstractModel {
     this.text = text;
   }
 
-  public Date getDateOfCreation() {
+  public DateTime getDateOfCreation() {
     return dateOfCreation;
   }
 
-  public void setDateOfCreation(Date dateOfCreation) {
+  public void setDateOfCreation(DateTime dateOfCreation) {
     this.dateOfCreation = dateOfCreation;
   }
 

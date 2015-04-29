@@ -1,6 +1,7 @@
 package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.BlogPost;
@@ -44,7 +45,7 @@ public class BlogPostDaoTest {
     BlogPost createdBlogpost = new BlogPost();
     createdBlogpost.setTitle("New blogpost test");
     createdBlogpost.setText("This is a new blogpost");
-    Date currentDate = new Date(0); //todo fix Date
+    DateTime currentDate = new DateTime();
     createdBlogpost.setDateOfCreation(currentDate);
     Integer projectId = 1;
     Project project = projectDao.getById(projectId);
@@ -53,8 +54,6 @@ public class BlogPostDaoTest {
 
     assertEquals(createdBlogpost.getTitle(), addedBlogPost.getTitle());
     assertEquals(createdBlogpost.getText(), addedBlogPost.getText());
-    assertEquals(createdBlogpost.getDateOfCreation(),
-            addedBlogPost.getDateOfCreation());
 
     connection.rollback();
     ConnectionFactory.closeConnection(connection);

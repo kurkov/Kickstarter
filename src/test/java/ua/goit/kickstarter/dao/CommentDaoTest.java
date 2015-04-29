@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.dao;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
@@ -27,7 +28,7 @@ public class CommentDaoTest {
     Project project = projectDao.add("New project 11", category.getId().toString(), "Something new invented");
 
     CommentDao commentDao = daoFactory.getCommentDao();
-    Comment newComment = new Comment(2, "New Comment", new Date(), project);
+    Comment newComment = new Comment(2, "New Comment", new DateTime(), project);
     Comment actual = commentDao.add(newComment);
 
     assertNotNull(actual);
@@ -49,7 +50,7 @@ public class CommentDaoTest {
     Project project = projectDao.add("New project 11", category.getId().toString(), "Something new invented");
 
     CommentDao commentDao = daoFactory.getCommentDao();
-    Comment newComment = new Comment(1, "New Comment", new Date(), project);
+    Comment newComment = new Comment(1, "New Comment", new DateTime(), project);
     Comment comment = commentDao.add(newComment);
     Comment actual = commentDao.getById(1);
 
@@ -57,7 +58,6 @@ public class CommentDaoTest {
 
     con.rollback();
     ConnectionFactory.closeConnection(con);
-    //TODO need adding Joda-Time
   }
 
 }

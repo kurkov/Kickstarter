@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.dao;
 
+import org.joda.time.DateTime;
 import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
@@ -24,7 +25,8 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
       rs = executeQuery(sqlSelect);
       String title = rs.getString("title");
       String text = rs.getString("text");
-      Date dateOfCreation = rs.getDate("dateOfCreation");
+      long date = rs.getLong("dateOfCreation");
+      DateTime dateOfCreation = new DateTime(date);
       Integer id_project = rs.getInt("id_project");
       project = projectDao.getById(id_project);
       blogPost = new BlogPost(id, title, text, dateOfCreation,
@@ -49,7 +51,8 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
         Integer id = rs.getInt("id");
         String title = rs.getString("title");
         String text = rs.getString("text");
-        Date dateOfCreation = rs.getDate("dateOfCreation");
+        Long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
         blogPost = new BlogPost(id, title, text, dateOfCreation, project);
@@ -77,7 +80,8 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
         Integer id = rs.getInt("id");
         String title = rs.getString("title");
         String text = rs.getString("text");
-        Date dateOfCreation = rs.getDate("dateOfCreation");
+        Long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
         blogPost = new BlogPost(id, title, text, dateOfCreation, project);
@@ -104,7 +108,8 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
         Integer id = rs.getInt("id");
         String title = rs.getString("title");
         String text = rs.getString("text");
-        Date dateOfCreation = rs.getDate("dateOfCreation");
+        Long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
         blogPost = new BlogPost(id, title, text, dateOfCreation, project);
@@ -127,12 +132,12 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     Project project;
     ProjectDao projectDao = new ProjectDaoImpl();
     Connection con = ConnectionFactory.getConnection();
-    java.sql.Date dateOfCreation = new java.sql.Date(0); //todo fix Date
+    DateTime dateOfCreation = new DateTime();
     try {
       PreparedStatement statement = con.prepareStatement(sqlInsert);
       statement.setString(1, title);
       statement.setString(2, text);
-      statement.setDate(3, dateOfCreation);
+      statement.setLong(3, dateOfCreation.getMillis());
       statement.setInt(4, projectID);
       int affectedRows = statement.executeUpdate();
       if (affectedRows == 0) {
