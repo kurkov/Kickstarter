@@ -1,6 +1,6 @@
 package ua.goit.kickstarter.dao;
 
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.User;
 
 import java.sql.Connection;
@@ -50,7 +50,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
     int userId;
     User newUser = null;
     String sqlInsert = "INSERT INTO users (login,password,firstName, lastName, email ) VALUES ( ?,?,?,?,? )";
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     try {
       PreparedStatement statement = con.prepareStatement(sqlInsert);
       statement.setString(1, element.getLogin());

@@ -4,7 +4,7 @@ package ua.goit.kickstarter.service;
 import ua.goit.kickstarter.dao.CategoryDao;
 import ua.goit.kickstarter.dao.DaoFactory;
 import ua.goit.kickstarter.dao.ProjectDao;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ProjectServiceImpl implements ProjectService {
 
-  private final DaoFactory daoFactory = Factory.getDaoFactory();
+  private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
   private final ProjectDao projectDao = daoFactory.getProjectDao();
   private final CategoryDao categoryDao = daoFactory.getCategoryDao();
 

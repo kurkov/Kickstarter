@@ -1,6 +1,6 @@
 package ua.goit.kickstarter.dao;
 
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Comment;
 import ua.goit.kickstarter.model.Project;
 
@@ -132,7 +132,7 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
   public Comment add(Comment element) {
     String query = "INSERT INTO comments (text, dateOfCreation, id_project) VALUES (?, ?, ?);";
 
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     try {
       PreparedStatement statement = con.prepareStatement(query);
       statement.setString(1, element.getText());

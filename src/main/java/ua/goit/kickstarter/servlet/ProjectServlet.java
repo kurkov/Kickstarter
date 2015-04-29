@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import ua.goit.kickstarter.controller.ControllerFactory;
 import ua.goit.kickstarter.controller.ControllerFactoryImpl;
 import ua.goit.kickstarter.controller.ProjectController;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,11 +21,11 @@ public class ProjectServlet extends HttpServlet {
     Logger logger = Logger.getLogger(this.getClass());
     logger.info("ProjectServlet GET:" + req.getPathInfo());
 
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     ControllerFactory factory = new ControllerFactoryImpl();
     ProjectController projectController = factory.getProjectController();
     projectController.proceedRequest(req, resp);
-    Factory.closeConnection(con);
+    ConnectionFactory.closeConnection(con);
   }
 
   @Override
@@ -37,7 +37,7 @@ public class ProjectServlet extends HttpServlet {
     ProjectController projectController = factory.getProjectController();
     projectController.proceedPost(req, resp);
 
-    Connection con = Factory.getConnection();
-    Factory.closeConnection(con);
+    Connection con = ConnectionFactory.getConnection();
+    ConnectionFactory.closeConnection(con);
   }
 }

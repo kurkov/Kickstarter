@@ -3,7 +3,7 @@ package ua.goit.kickstarter.service;
 
 import ua.goit.kickstarter.dao.BlogPostDao;
 import ua.goit.kickstarter.dao.DaoFactory;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class BlogPostServiceImpl implements BlogPostService {
 
-  private final DaoFactory daoFactory = Factory.getDaoFactory();
+  private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
   private final BlogPostDao blogPostDao = daoFactory.getBlogpostDao();
 
   @Override

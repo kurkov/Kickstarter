@@ -1,7 +1,7 @@
 package ua.goit.kickstarter;
 
 import org.junit.Ignore;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -11,7 +11,7 @@ public class SQLiteTest {
   //@Test
   @Ignore
   public void createTables() {
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     Statement stmt;
     String sql;
 
@@ -22,12 +22,12 @@ public class SQLiteTest {
               " name TEXT)";
       stmt.executeUpdate(sql);
       stmt.close();
-      Factory.closeConnection(con);
+      ConnectionFactory.closeConnection(con);
     } catch ( Exception e ) {
       System.err.println( e.getClass().getName() + ": " + e.getMessage() );
     }
 
-    con = Factory.getConnection();
+    con = ConnectionFactory.getConnection();
     try {
       stmt = con.createStatement();
       sql = "CREATE TABLE projects " +
@@ -38,12 +38,12 @@ public class SQLiteTest {
               "id_category INTEGER)";
       stmt.executeUpdate(sql);
       stmt.close();
-      Factory.closeConnection(con);
+      ConnectionFactory.closeConnection(con);
     } catch ( Exception e ) {
       System.err.println( e.getClass().getName() + ": " + e.getMessage() );
     }
 
-    con = Factory.getConnection();
+    con = ConnectionFactory.getConnection();
     try {
       stmt = con.createStatement();
       sql = "CREATE TABLE blogs " +
@@ -54,12 +54,12 @@ public class SQLiteTest {
               "id_project INTEGER)";
       stmt.executeUpdate(sql);
       stmt.close();
-      Factory.closeConnection(con);
+      ConnectionFactory.closeConnection(con);
     } catch ( Exception e ) {
       System.err.println( e.getClass().getName() + ": " + e.getMessage() );
     }
 
-    con = Factory.getConnection();
+    con = ConnectionFactory.getConnection();
     try {
       stmt = con.createStatement();
       sql = "CREATE TABLE comments " +
@@ -69,7 +69,7 @@ public class SQLiteTest {
               "id_project INTEGER)";
       stmt.executeUpdate(sql);
       stmt.close();
-      Factory.closeConnection(con);
+      ConnectionFactory.closeConnection(con);
     } catch ( Exception e ) {
       System.err.println( e.getClass().getName() + ": " + e.getMessage() );
     }

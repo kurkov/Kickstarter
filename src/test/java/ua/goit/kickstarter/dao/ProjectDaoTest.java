@@ -2,10 +2,7 @@ package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import ua.goit.kickstarter.dao.CategoryDao;
-import ua.goit.kickstarter.dao.DaoFactory;
-import ua.goit.kickstarter.dao.ProjectDao;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
@@ -22,7 +19,7 @@ public class ProjectDaoTest {
   private Integer getExistingCategoryId() {
 
     Integer res = null;
-    DaoFactory daoFactory = Factory.getDaoFactory();
+    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
     List<Category> categoryList = categoryDao.getAll();
 
@@ -40,10 +37,10 @@ public class ProjectDaoTest {
   @Test
   public void add_New_Project() throws SQLException {
 
-    DaoFactory daoFactory = Factory.getDaoFactory();
+    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
     ProjectDao projectDao = daoFactory.getProjectDao();
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
 
 
@@ -61,33 +58,33 @@ public class ProjectDaoTest {
     assertEquals(addedProject.getDescription(), project.getDescription());
     assertEquals(addedProject.getCategory(), project.getCategory());
     connection.rollback();
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
 
   @Test
   public void getProject__byId() throws SQLException {
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
 
     connection.setAutoCommit(false);
 
-    DaoFactory daoFactory = Factory.getDaoFactory();
+    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
     ProjectDao projectDao = daoFactory.getProjectDao();
 
     Project project = projectDao.getById(1);
     assertNotNull(project);
     connection.rollback();
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
   @Test
   public void getProjects__byCategoryId() throws SQLException {
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
 
-    DaoFactory daoFactory = Factory.getDaoFactory();
+    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
     ProjectDao projectDao = daoFactory.getProjectDao();
 
@@ -101,7 +98,7 @@ public class ProjectDaoTest {
     assertTrue(projects.size() > 0);
 
     connection.rollback();
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
 
@@ -109,11 +106,11 @@ public class ProjectDaoTest {
   public void getProjects__byCategory() throws SQLException {
 
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
 
     connection.setAutoCommit(false);
 
-    DaoFactory daoFactory = Factory.getDaoFactory();
+    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
     ProjectDao projectDao = daoFactory.getProjectDao();
 
@@ -124,22 +121,22 @@ public class ProjectDaoTest {
     assertTrue(projects.size() > 0);
 
     connection.rollback();
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
   @Test
   public void getProjects__all() throws SQLException {
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
-    DaoFactory daoFactory = Factory.getDaoFactory();
+    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
     ProjectDao projectDao = daoFactory.getProjectDao();
     List<Project> projects = projectDao.getAll();
     assertNotNull(projects);
     assertTrue(projects.size() > 0);
     connection.rollback();
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
 

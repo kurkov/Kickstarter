@@ -3,10 +3,7 @@ package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import ua.goit.kickstarter.dao.CategoryDao;
-import ua.goit.kickstarter.dao.DaoFactory;
-import ua.goit.kickstarter.dao.DaoFactoryImpl;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 
 import java.sql.Connection;
@@ -36,19 +33,19 @@ public class CategoryDaoTest {
 
   @Test
   public void add_New_Category() throws SQLException {
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     DaoFactory daoFactory = new DaoFactoryImpl();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
 
     Category actual = categoryDao.add("New category2");
     assertNotNull(actual);
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
 
   @Test
   public void get_By_id() throws SQLException {
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     DaoFactory daoFactory = new DaoFactoryImpl();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
 
@@ -62,7 +59,7 @@ public class CategoryDaoTest {
     Category actual = categoryDao.getById(id);
 
     assertNotNull(actual);
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
   @Test
@@ -71,7 +68,7 @@ public class CategoryDaoTest {
 
     DaoFactory daoFactory = new DaoFactoryImpl();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
 
     connection.setAutoCommit(false);
 
@@ -84,7 +81,7 @@ public class CategoryDaoTest {
     assertNull(newElementFromDB);
 
     connection.rollback();
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
   @Test
@@ -93,7 +90,7 @@ public class CategoryDaoTest {
     DaoFactory daoFactory = new DaoFactoryImpl();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
 
     connection.setAutoCommit(false);
 
@@ -106,7 +103,7 @@ public class CategoryDaoTest {
     assertEquals("updated element", elementAfterUpdate.getName());
     connection.rollback();
 
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
 
@@ -116,13 +113,13 @@ public class CategoryDaoTest {
     DaoFactory daoFactory = new DaoFactoryImpl();
     CategoryDao categoryDao = daoFactory.getCategoryDao();
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
 
     Logger logger = Logger.getLogger(this.getClass());
     List<Category> categoryList = categoryDao.getAll();
     logger.info(categoryList);
     assertNotNull(categoryList);
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 }

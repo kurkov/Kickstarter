@@ -1,11 +1,10 @@
 package ua.goit.kickstarter.dao;
 
 import org.junit.Test;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Comment;
 import ua.goit.kickstarter.model.Project;
-import ua.goit.kickstarter.dao.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 public class CommentDaoTest {
   @Test
   public void addNewComment() throws SQLException {
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     con.setAutoCommit(false);
 
     DaoFactory daoFactory = new DaoFactoryImpl();
@@ -34,12 +33,12 @@ public class CommentDaoTest {
     assertNotNull(actual);
 
     con.rollback();
-    Factory.closeConnection(con);
+    ConnectionFactory.closeConnection(con);
   }
 
   @Test
   public void getById() throws SQLException {
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     con.setAutoCommit(false);
 
     DaoFactory daoFactory = new DaoFactoryImpl();
@@ -57,7 +56,7 @@ public class CommentDaoTest {
     assertEquals(comment, actual);
 
     con.rollback();
-    Factory.closeConnection(con);
+    ConnectionFactory.closeConnection(con);
     //TODO need adding Joda-Time
   }
 

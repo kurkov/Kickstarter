@@ -1,7 +1,7 @@
 package ua.goit.kickstarter.dao;
 
 
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public abstract class AbstractDaoImpl <T> implements AbstractDao <T>{
 
   public ResultSet executeQuery(String query){
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
       Statement statement = connection.createStatement();
@@ -36,7 +36,7 @@ public abstract class AbstractDaoImpl <T> implements AbstractDao <T>{
 
   public int executeUpdate(String query){
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     int rs;
     try {
       Statement statement = connection.createStatement();

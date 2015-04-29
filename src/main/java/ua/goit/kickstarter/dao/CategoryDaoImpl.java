@@ -1,6 +1,6 @@
 package ua.goit.kickstarter.dao;
 
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 
 import java.sql.Connection;
@@ -76,7 +76,7 @@ public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements Catego
     Category category;
     int categoryID;
     String sqlInsert = "INSERT INTO categories (name) VALUES ( ? )";
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     try {
       PreparedStatement statement = con.prepareStatement(sqlInsert);
       statement.setString(1, categoryName);

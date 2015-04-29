@@ -3,7 +3,7 @@ package ua.goit.kickstarter.service;
 
 import ua.goit.kickstarter.dao.CommentDao;
 import ua.goit.kickstarter.dao.DaoFactory;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Comment;
 import ua.goit.kickstarter.model.Project;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CommentServiceImpl implements CommentService {
 
-  private final DaoFactory daoFactory = Factory.getDaoFactory();
+  private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
   private final CommentDao commentDao = daoFactory.getCommentDao();
 
   @Override

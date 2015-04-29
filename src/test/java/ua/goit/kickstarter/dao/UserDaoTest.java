@@ -1,9 +1,7 @@
 package ua.goit.kickstarter.dao;
 
 import org.junit.Test;
-import ua.goit.kickstarter.dao.DaoFactory;
-import ua.goit.kickstarter.dao.UserDao;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.User;
 
 import java.sql.Connection;
@@ -18,11 +16,11 @@ public class UserDaoTest {
   @Test
   public void add_New_User() throws SQLException {
 
-    DaoFactory daoFactory = Factory.getDaoFactory();
+    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     UserDao userDao = daoFactory.getUserDao();
 
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
 
 
@@ -35,7 +33,7 @@ public class UserDaoTest {
     assertTrue(newUser.getId() > 0);
 
     connection.rollback();
-    Factory.closeConnection(connection);
+    ConnectionFactory.closeConnection(connection);
   }
 
 

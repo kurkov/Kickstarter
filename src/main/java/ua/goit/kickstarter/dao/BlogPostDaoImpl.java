@@ -1,6 +1,6 @@
 package ua.goit.kickstarter.dao;
 
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 
@@ -18,7 +18,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     Project project;
     ProjectDao projectDao = new ProjectDaoImpl();
     String sqlSelect = "SELECT * FROM blogs WHERE id = " + id + ";";
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
       rs = executeQuery(sqlSelect);
@@ -69,7 +69,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     Integer projectID = project.getId();
     String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
             projectID + ";";
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     try {
       Statement statement = connection.createStatement();
       ResultSet rs = statement.executeQuery(sqlSelect);
@@ -96,7 +96,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     ProjectDao projectDao = new ProjectDaoImpl();
     List<BlogPost> blogPostList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM blogs;";
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
       rs = executeQuery(sqlQuery);
@@ -126,7 +126,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     Integer id;
     Project project;
     ProjectDao projectDao = new ProjectDaoImpl();
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     java.sql.Date dateOfCreation = new java.sql.Date(0); //todo fix Date
     try {
       PreparedStatement statement = con.prepareStatement(sqlInsert);

@@ -76,7 +76,7 @@ public class DBHelper {
 
   public ResultSet executeQuery(String query) {
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
       Statement statement = connection.createStatement();
@@ -89,7 +89,7 @@ public class DBHelper {
 
   public int executeUpdate(String query) {
 
-    Connection connection = Factory.getConnection();
+    Connection connection = ConnectionFactory.getConnection();
     int rs;
     try {
       Statement statement = connection.createStatement();

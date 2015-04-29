@@ -3,7 +3,7 @@ package ua.goit.kickstarter.servlet;
 import ua.goit.kickstarter.controller.BlogPostController;
 import ua.goit.kickstarter.controller.ControllerFactory;
 import ua.goit.kickstarter.controller.ControllerFactoryImpl;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.util.Operation;
 import ua.goit.kickstarter.util.OperationType;
 import ua.goit.kickstarter.util.UrlParser;
@@ -28,7 +28,7 @@ public class BlogPostServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
 
     String url = req.getPathInfo();
     Operation operation = new UrlParser().parse(url);
@@ -39,6 +39,6 @@ public class BlogPostServlet extends HttpServlet {
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
       blogPostController.deleteBlogPost(req, resp);
     }
-    Factory.closeConnection(con);
+    ConnectionFactory.closeConnection(con);
   }
 }

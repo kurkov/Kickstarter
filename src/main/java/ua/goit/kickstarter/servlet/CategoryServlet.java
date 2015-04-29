@@ -4,7 +4,7 @@ package ua.goit.kickstarter.servlet;
 import ua.goit.kickstarter.controller.CategoryController;
 import ua.goit.kickstarter.controller.ControllerFactory;
 import ua.goit.kickstarter.controller.ControllerFactoryImpl;
-import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.factory.ConnectionFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,21 +20,21 @@ public class CategoryServlet extends HttpServlet {
       throws ServletException, IOException {
 
 
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     ControllerFactory factory = new ControllerFactoryImpl();
     CategoryController categoryController = factory.getCategoryController();
     categoryController.proceedRequest(req, resp);
-    Factory.closeConnection(con);
+    ConnectionFactory.closeConnection(con);
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    Connection con = Factory.getConnection();
+    Connection con = ConnectionFactory.getConnection();
     ControllerFactory factory = new ControllerFactoryImpl();
     CategoryController categoryController = factory.getCategoryController();
     categoryController.proceedPost(req, resp);
-    Factory.closeConnection(con);
+    ConnectionFactory.closeConnection(con);
   }
 }
