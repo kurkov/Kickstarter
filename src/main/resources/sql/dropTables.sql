@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS blogs;
+DROP TABLE IF EXISTS blogposts;
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS active_sessions;
+
+
