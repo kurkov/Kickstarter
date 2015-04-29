@@ -1,6 +1,6 @@
 package ua.goit.kickstarter;
 
-import org.junit.Test;
+import org.junit.Ignore;
 import ua.goit.kickstarter.factory.Factory;
 
 import java.sql.Connection;
@@ -8,8 +8,8 @@ import java.sql.Statement;
 
 public class SQLiteTest {
 
-  @Test
-  //@Ignore
+  //@Test
+  @Ignore
   public void createTables() {
     Connection con = Factory.getConnection();
     Statement stmt;

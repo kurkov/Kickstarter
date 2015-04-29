@@ -1,4 +1,4 @@
-package ua.goit.kickstarter.data;
+package ua.goit.kickstarter;
 
 import org.junit.Test;
 import ua.goit.kickstarter.factory.DBHelper;
