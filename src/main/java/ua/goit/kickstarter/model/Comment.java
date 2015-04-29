@@ -18,7 +18,13 @@ public class Comment extends AbstractModel implements Comparable {
         this.project = project;
     }
 
-    @Override
+  public Comment(String text, DateTime dateOfCreation, Project project) {
+    this.text = text;
+    this.dateOfCreation = dateOfCreation;
+    this.project = project;
+  }
+
+  @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -40,14 +46,16 @@ public class Comment extends AbstractModel implements Comparable {
         return result;
     }
 
-    @Override
-    public String toString() {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-        return "("+format.format(getDateOfCreation())+") "+getText();
-    }
+  @Override
+  public String toString() {
+    return "Comment{" +
+        "text='" + text + '\'' +
+        ", dateOfCreation=" + dateOfCreation.toString("dd-MM-yyyy HH:mm:ss") +
+        ", project=" + project +
+        '}';
+  }
 
-
-    public void setId(Integer id) {
+  public void setId(Integer id) {
         this.id = id;
     }
 

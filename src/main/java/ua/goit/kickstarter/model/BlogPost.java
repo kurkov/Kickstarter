@@ -47,6 +47,16 @@ public class BlogPost extends AbstractModel {
     return result;
   }
 
+  @Override
+  public String toString() {
+    return "BlogPost{" +
+        "title='" + title + '\'' +
+        ", text='" + text + '\'' +
+        ", dateOfCreation=" + dateOfCreation.toString("dd-MM-yyyy HH:mm:ss") +
+        ", project=" + project +
+        '}';
+  }
+
   public void setId(Integer id) {
     this.id = id;
   }

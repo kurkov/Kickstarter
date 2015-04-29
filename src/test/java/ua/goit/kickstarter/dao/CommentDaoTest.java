@@ -10,6 +10,7 @@ import ua.goit.kickstarter.model.Project;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -50,9 +51,15 @@ public class CommentDaoTest {
     Project project = projectDao.add("New project 11", category.getId().toString(), "Something new invented");
 
     CommentDao commentDao = daoFactory.getCommentDao();
-    Comment newComment = new Comment(1, "New Comment", new DateTime(), project);
+    Comment newComment = new Comment("New Comment", new DateTime(), project);
     Comment comment = commentDao.add(newComment);
-    Comment actual = commentDao.getById(1);
+
+    List<Comment> commentList = commentDao.getAll();
+    int commentId = 0;
+    for (Comment com : commentList) {
+      commentId = com.getId();
+    }
+    Comment actual = commentDao.getById(commentId);
 
     assertEquals(comment, actual);
 
