@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.controller;
 
+import ua.goit.kickstarter.model.Comment;
 import ua.goit.kickstarter.service.CommentService;
 import ua.goit.kickstarter.service.CommentServiceImpl;
 
@@ -22,7 +23,7 @@ public class CommentControllerImpl implements CommentController {
       if (!newComment.equals("")) {
         if (projectId > 0) {
           CommentService commentService = new CommentServiceImpl();
-          commentService.addNewComment(newComment, projectId);
+          Comment comment = commentService.addNewComment(newComment, projectId);
         }
       } else {
         req.setAttribute("errorMessage", "Cant add empty comment!!!");

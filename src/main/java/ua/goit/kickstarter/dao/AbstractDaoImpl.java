@@ -13,16 +13,14 @@ public abstract class AbstractDaoImpl <T> implements AbstractDao <T>{
   public void deleteById(String strId){
     int id = Integer.parseInt(strId);
     deleteById(id);
-
-  };
+  }
 
   public T getById(String strId){
     int id = Integer.parseInt(strId);
     return getById(id);
-  };
+  }
 
   public ResultSet executeQuery(String query){
-
     Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
@@ -35,7 +33,6 @@ public abstract class AbstractDaoImpl <T> implements AbstractDao <T>{
   }
 
   public int executeUpdate(String query){
-
     Connection connection = ConnectionFactory.getConnection();
     int rs;
     try {
@@ -46,5 +43,4 @@ public abstract class AbstractDaoImpl <T> implements AbstractDao <T>{
     }
     return rs;
   }
-
 }

@@ -1,15 +1,13 @@
 package ua.goit.kickstarter.dao;
 
 public interface DaoFactory {
+  CategoryDao getCategoryDao();
 
+  ProjectDao getProjectDao();
 
-  public CategoryDao getCategoryDao();
+  CommentDao getCommentDao();
 
-  public ProjectDao getProjectDao();
+  BlogPostDao getBlogPostDao();
 
-  public CommentDao getCommentDao();
-
-  public BlogPostDao getBlogpostDao();
-
-  public UserDao getUserDao();
+  UserDao getUserDao();
 }

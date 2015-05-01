@@ -3,15 +3,17 @@ package ua.goit.kickstarter.dao;
  import java.util.List;
 
 public interface AbstractDao <T>{
+  T getById(Integer id);
 
-  public T getById(Integer id);
-  public T getById(String strId);
+  T getById(String strId);
 
-  public List<T> getAll();
-  public T add(T element);
+  List<T> getAll();
 
-  public void deleteById(Integer id);
-  public void deleteById(String strId);
+  T add(T element);
+
+  void deleteById(Integer id);
+
+  void deleteById(String strId);
 
   T update(T element);
 }
