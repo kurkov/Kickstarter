@@ -19,18 +19,22 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     Project project;
     ProjectDao projectDao = new ProjectDaoImpl();
     String sqlSelect = "SELECT * FROM blogs WHERE id = " + id + ";";
-    Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
       rs = executeQuery(sqlSelect);
-      String title = rs.getString("title");
-      String text = rs.getString("text");
-      long date = rs.getLong("dateOfCreation");
-      DateTime dateOfCreation = new DateTime(date);
-      Integer id_project = rs.getInt("id_project");
-      project = projectDao.getById(id_project);
-      blogPost = new BlogPost(id, title, text, dateOfCreation,
-              project);
+      if (rs.next()) {
+        String title = rs.getString("title");
+        String text = rs.getString("text");
+        long date = rs.getLong("dateOfCreation");
+        DateTime dateOfCreation = new DateTime(date);
+        Integer id_project = rs.getInt("id_project");
+        project = projectDao.getById(id_project);
+        blogPost = new BlogPost(id, title, text, dateOfCreation,
+            project);
+      } else {
+        blogPost = null;
+      }
+
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

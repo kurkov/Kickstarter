@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.controller;
 
+import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.util.Operation;
 import ua.goit.kickstarter.util.OperationType;
@@ -22,10 +23,11 @@ public class BlogPostControllerImpl implements BlogPostController {
     String page;
     Operation operation = new UrlParser().parse(url);
     Integer projectId = 0;
+    Integer blogPostId = 0;
     try {
       projectId = Integer.parseInt(req.getParameter("projectId"));
     } catch (NumberFormatException e) {
-      resp.sendRedirect("/project");
+      throw new RuntimeException("Incorrect projectId");
     }
     ProjectService projectService = new ProjectServiceImpl();
     Project project = projectService.getProjectById(projectId);
@@ -34,7 +36,15 @@ public class BlogPostControllerImpl implements BlogPostController {
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       page = "/WEB-INF/jsp/blogPostAdd.jsp";
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
+      try {
+        blogPostId = Integer.parseInt(req.getParameter("blogPostId"));
+      } catch (NumberFormatException e) {
+        throw new RuntimeException("Incorrect blogPostId");
+      }
       page = "/WEB-INF/jsp/blogPostEdit.jsp";
+      BlogPostService blogPostService = new BlogPostServiceImpl();
+      BlogPost blogPost = blogPostService.getBlogPostById(blogPostId);
+      req.setAttribute("blogPost", blogPost);
     } else {
       page = "/WEB-INF/jsp/projectItem.jsp";
     }
