@@ -157,8 +157,8 @@ public class CommentDaoImpl extends AbstractDaoImpl<Comment>
 
   @Override
   public void deleteById(Integer id) {
-    String query = "DELETE * FROM comments WHERE id = " + id;
-    executeQuery(query);
+    String query = "DELETE FROM comments WHERE id = " + id;
+    executeUpdate(query);
   }
 
   @Override

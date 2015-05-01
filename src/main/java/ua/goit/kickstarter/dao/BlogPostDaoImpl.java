@@ -162,8 +162,8 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
 
   @Override
   public void deleteById(Integer id) {
-    String query = "DELETE * FROM blogs WHERE id = " + id + ";";
-    executeQuery(query);
+    String query = "DELETE FROM blogs WHERE id = " + id + ";";
+    executeUpdate(query);
   }
 
   @Override
