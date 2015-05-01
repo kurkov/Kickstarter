@@ -12,7 +12,7 @@ import java.util.List;
 public class BlogPostServiceImpl implements BlogPostService {
 
   private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-  private final BlogPostDao blogPostDao = daoFactory.getBlogpostDao();
+  private final BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
 
   @Override
   public List<BlogPost> getAll() {

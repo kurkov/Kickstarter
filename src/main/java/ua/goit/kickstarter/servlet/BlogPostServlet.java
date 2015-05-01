@@ -20,9 +20,13 @@ public class BlogPostServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+    Connection con = ConnectionFactory.getConnection();
+
     ControllerFactory factory = new ControllerFactoryImpl();
     BlogPostController blogPostController = factory.getBlogPostController();
     blogPostController.proceedRequest(req, resp);
+
+    ConnectionFactory.closeConnection(con);
   }
 
   @Override

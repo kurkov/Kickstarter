@@ -38,7 +38,7 @@ public class BlogPostDaoTest {
   public void add_New_Blogpost() throws SQLException {
     DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
     ProjectDao projectDao = daoFactory.getProjectDao();
-    BlogPostDao blogPostDao = daoFactory.getBlogpostDao();
+    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
     Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
 
@@ -65,7 +65,7 @@ public class BlogPostDaoTest {
     Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
     DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogpostDao();
+    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
     blogPostDao.add("Test1", "Test2", 1);
     BlogPost blogPost = blogPostDao.getById(1);
     assertNotNull(blogPost);
@@ -78,7 +78,7 @@ public class BlogPostDaoTest {
     Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
     DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogpostDao();
+    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
     blogPostDao.add("Test1", "Test2", 1);
     List<BlogPost> blogPosts = blogPostDao.getByProjectId(1);
     Logger logger = Logger.getLogger(this.getClass());
@@ -97,7 +97,7 @@ public class BlogPostDaoTest {
     Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
     DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogpostDao();
+    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
     ProjectDao projectDao = daoFactory.getProjectDao();
     Project project = projectDao.add("Test project1", "1", "Test description");
     BlogPost blogPost = blogPostDao.add("Test blog post1", "Test2",
@@ -116,7 +116,7 @@ public class BlogPostDaoTest {
     Connection connection = ConnectionFactory.getConnection();
     connection.setAutoCommit(false);
     DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogpostDao();
+    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
     ProjectDao projectDao = daoFactory.getProjectDao();
     Project project = projectDao.add("Test project1", "1", "Test description");
     BlogPost blogPost = blogPostDao.add("Test blog post1", "Test2",

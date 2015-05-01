@@ -100,7 +100,6 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     ProjectDao projectDao = new ProjectDaoImpl();
     List<BlogPost> blogPostList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM blogs;";
-    Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
       rs = executeQuery(sqlQuery);
@@ -123,14 +122,12 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
 
   @Override
   public BlogPost add(String title, String text, Integer projectID) {
-    BlogPost blogPost;
     String sqlInsert = "INSERT INTO blogs (title, text, " +
             "dateOfCreation, id_project) VALUES ( ?,?,?,? );";
-    String sqlSelect = "SELECT * FROM blogs WHERE title = " + title + " " +
-            "AND text = " + text + " AND " + "id_project = " + projectID + ";";
     Integer id;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl();
+    DaoFactory daoFactory = new DaoFactoryImpl();
+    ProjectDao projectDao = daoFactory.getProjectDao();
     Connection con = ConnectionFactory.getConnection();
     DateTime dateOfCreation = new DateTime();
     try {
@@ -154,21 +151,19 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    blogPost = new BlogPost(id, title, text, dateOfCreation, project);
-    return blogPost;
-
+    return new BlogPost(id, title, text, dateOfCreation, project);
   }
 
   @Override
   public BlogPost add(BlogPost element) {
-    return add(element.getTitle(), element.getText(), element.getProject()
-            .getId());
+    return add(element.getTitle(), element.getText(),
+        element.getProject().getId());
   }
 
   @Override
   public void deleteById(Integer id) {
-    String query = "DELETE * FROM blogs WHERE id = " + id + ";";
-    executeQuery(query);
+    String query = "DELETE FROM blogs WHERE id = " + id + ";";
+    executeUpdate(query);
   }
 
   @Override

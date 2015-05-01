@@ -12,6 +12,7 @@ public class CategoryServiceImpl implements CategoryService {
   private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
   private final CategoryDao categoryDao = daoFactory.getCategoryDao();
 
+  @Override
   public List<Category> getAll() {
     return categoryDao.getAll();
   }
@@ -32,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public void editCategory(Category category) {
-    categoryDao.update(category);
+  public Category editCategory(Category category) {
+    return categoryDao.update(category);
   }
 }

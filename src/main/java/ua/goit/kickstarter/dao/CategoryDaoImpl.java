@@ -59,7 +59,6 @@ public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements Catego
     String query = "DELETE FROM categories WHERE id = " +
         id + ";";
     executeUpdate(query);
-
   }
 
   @Override
@@ -100,6 +99,4 @@ public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements Catego
     }
     return category;
   }
-
-
 }

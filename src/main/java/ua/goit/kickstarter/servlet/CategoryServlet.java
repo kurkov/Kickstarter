@@ -18,23 +18,24 @@ public class CategoryServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-
-
     Connection con = ConnectionFactory.getConnection();
+
     ControllerFactory factory = new ControllerFactoryImpl();
     CategoryController categoryController = factory.getCategoryController();
     categoryController.proceedRequest(req, resp);
+
     ConnectionFactory.closeConnection(con);
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-
     Connection con = ConnectionFactory.getConnection();
+
     ControllerFactory factory = new ControllerFactoryImpl();
     CategoryController categoryController = factory.getCategoryController();
     categoryController.proceedPost(req, resp);
+
     ConnectionFactory.closeConnection(con);
   }
 }

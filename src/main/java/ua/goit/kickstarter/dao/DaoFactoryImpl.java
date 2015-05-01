@@ -1,21 +1,23 @@
 package ua.goit.kickstarter.dao;
 
 public class DaoFactoryImpl implements DaoFactory {
-  public DaoFactoryImpl(){};
-
+  @Override
   public CategoryDao getCategoryDao(){
     return new CategoryDaoImpl();
   }
 
+  @Override
   public ProjectDao getProjectDao(){
     return new ProjectDaoImpl();
   }
 
+  @Override
   public CommentDao getCommentDao(){
     return new CommentDaoImpl();
   }
 
-  public BlogPostDao getBlogpostDao(){
+  @Override
+  public BlogPostDao getBlogPostDao(){
     return new BlogPostDaoImpl();
   }
 
