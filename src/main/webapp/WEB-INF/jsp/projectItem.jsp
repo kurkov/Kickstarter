@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" import="ua.goit.kickstarter.model.Comment"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+
 
 <html>
 <head>
@@ -73,12 +75,16 @@
                 <c:forEach var="c" items="${commentList}">
                 <div class="input-group">
                 <form action = "/comment/delete" method="post">
-                  <li>(<fmt:formatDate type="both"
+                  <li>
+                    (<joda:format value="${c.dateOfCreation}" style="SM" />)
+
+                    <%--(<fmt:formatDate type="both"
                     dateStyle="medium" timeStyle="short"
-                    value="${c.dateOfCreation}"/>) <c:out value="${c.text}"/>
-                      <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
-                      <input type="hidden" name="commentId" value="<c:out value="${c.id}"/>">
-                      <button class="btn btn-default" type="submit">X</button>
+                    value="${c.dateOfCreation}"/>)--%>
+                    <c:out value="${c.text}"/>
+                    <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
+                    <input type="hidden" name="commentId" value="<c:out value="${c.id}"/>">
+                    <button class="btn btn-default" type="submit">X</button>
                   </li>
                   </form>
                 </div>
@@ -105,8 +111,10 @@
 
                     <form action="/blogpost/delete" method="post">
 
-                      <li> (<fmt:formatDate type="both" dateStyle="medium" timeStyle="short"
-                                     value="${c.dateOfCreation}"/>)
+                      <li>
+                        <%--(<fmt:formatDate type="both" dateStyle="medium" timeStyle="short"
+                                     value="${c.dateOfCreation}"/>)--%>
+                        (<joda:format value="${c.dateOfCreation}" style="SM" />)
                         <button class="btn btn-default" type="submit">X</button>
                         <a href="/blogpost/edit?projectId=<c:out value="${project.id}"/>" class="glyphicon glyphicon-pencil"></a>
                         <br>
