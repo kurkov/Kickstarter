@@ -71,18 +71,23 @@ public class CategoryControllerImpl implements CategoryController {
         req.setAttribute("categories", categories);
         RequestDispatcher dispatcher = req.getRequestDispatcher(page);
         dispatcher.forward(req, resp);
-
       }
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
       categoryService.deleteItem(operation.getObjectId());
-      page = "/category/";
-      resp.sendRedirect(page);
+      resp.sendRedirect("/category");
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
+      if (categoryName.equals("")) {
+        page = "WEB-INF/jsp/categoryItemEdit.jsp";
+        req.setAttribute("ErrorMessage", "Field 'name' must be filled");
+        RequestDispatcher dispatcher = req.getRequestDispatcher(page);
+        dispatcher.forward(req, resp);
+      }
       categoryService.editCategory(new Category(operation.getObjectId(), categoryName));
-      page = "/category/";
-      resp.sendRedirect(page);
+      List<Category> categories = categoryService.getAll();
+      req.setAttribute("categories", categories);
+      RequestDispatcher dispatcher = req.getRequestDispatcher(page);
+      dispatcher.forward(req, resp);
     }
-
   }
 }
 
