@@ -88,7 +88,12 @@ public class ProjectControllerImpl implements ProjectController {
       projectService.editProject(operation.getObjectId().toString(), projectName, projectDescription);
     }
 
-    page = "/category/" + categoryId;
+
+      page = "/category/" + categoryId;
+
+
+
+
     resp.sendRedirect(page);
   }
 }

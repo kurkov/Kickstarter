@@ -28,8 +28,8 @@
 
   <br>
   <div class="jumbotron">
-
-    <p><c:out value="${project.description}"/></p>
+      <h2><c:out value="${project.name}"/></h2>
+    <h4><c:out value="${project.description}"/></h4>
     <p><a class="btn btn-primary btn-lg" href="http://google.com" target="_blank" role="button">Learn more</a></p>
   </div>
   <br>
