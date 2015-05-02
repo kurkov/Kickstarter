@@ -22,22 +22,25 @@ public class ProjectServlet extends HttpServlet {
     logger.info("ProjectServlet GET:" + req.getPathInfo());
 
     Connection con = ConnectionFactory.getConnection();
+
     ControllerFactory factory = new ControllerFactoryImpl();
     ProjectController projectController = factory.getProjectController();
     projectController.proceedRequest(req, resp);
+
     ConnectionFactory.closeConnection(con);
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+    Connection con = ConnectionFactory.getConnection();
+
     ControllerFactory factory = new ControllerFactoryImpl();
     Logger logger = Logger.getLogger(this.getClass());
     logger.info("ProjectServlet POST:" + req.getPathInfo());
     ProjectController projectController = factory.getProjectController();
     projectController.proceedPost(req, resp);
 
-    Connection con = ConnectionFactory.getConnection();
     ConnectionFactory.closeConnection(con);
   }
 }

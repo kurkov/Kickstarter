@@ -15,7 +15,7 @@
       </div>
       <br><br>
 
-      <form action="/blogpost/edit?projectId=<c:out value="${project.id}"/>" method="POST">
+      <form action="/blogpost/edit" method="POST">
         <c:if test="${ErrorMessage != null && ErrorMessage != ''}">
           <div class="alert alert-danger" role="alert">
             <c:out value="${ErrorMessage}"/>
@@ -26,12 +26,11 @@
                value="<c:out value="${blogPost.title}"/>"
                placeholder="Blog post title" aria-describedby="basic-addon1"><br><br>
 
-        <input type="text" name="blogPostText" class="form-control"
-               value="<c:out value="${blogPost.text}"/>"
-               placeholder="Blog post text" aria-describedby="basic-addon1"><br><br>
+        <textarea name="blogPostText" class="form-control">
+          <c:out value="${blogPost.text}"/>
+        </textarea><br><br>
 
         <input class="btn btn-default" type="submit" value="Submit">
-
         <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
       </form>
 

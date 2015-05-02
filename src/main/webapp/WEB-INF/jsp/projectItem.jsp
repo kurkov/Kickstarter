@@ -112,7 +112,13 @@
                           (<joda:format value="${c.dateOfCreation}" style="SM" />)
 --%>
                         <button class="btn btn-default" type="submit">X</button>
-                        <a href="/blogpost/edit?projectId=<c:out value="${project.id}"/>" class="glyphicon glyphicon-pencil"></a>
+
+                        <button class="btn btn-xs btn-primary" formmethod="get"
+                                formaction="/blogpost/edit"
+                                type="submit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+
                         <br>
                         <b><c:out value="${c.title}"/></b><br>
                         <c:out value="${c.text}"/>

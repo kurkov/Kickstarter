@@ -29,7 +29,6 @@ public class ProjectControllerImpl implements ProjectController {
     BlogPostService blogPostService = new BlogPostServiceImpl();
     String categoryId = req.getParameter("categoryId");
 
-
     if (operation.getOperationType() == OperationType.VIEW_ITEM) {
       page = "/WEB-INF/jsp/projectItem.jsp";
       Project project = projectService.getProjectById(operation.getObjectId());
@@ -88,7 +87,6 @@ public class ProjectControllerImpl implements ProjectController {
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       projectService.editProject(operation.getObjectId().toString(), projectName, projectDescription);
     }
-
 
     page = "/category/" + categoryId;
     resp.sendRedirect(page);
