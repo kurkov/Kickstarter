@@ -16,6 +16,7 @@
       <th>Project</th>
       <th>Category</th>
       <th></th>
+    </tr>
     <tr>
       <c:forEach var="c" items="${projects}">
       <form>
@@ -44,8 +45,14 @@
       </form>
     </tr>
     </c:forEach>
-    </tr>
   </table>
+</div>
+<div>
+  <button class="btn btn-xs btn-primary"
+          onclick="window.location.href='/project/add'">
+    <span class="glyphicon glyphicon-plus-sign"></span>
+    Add new project
+  </button>
 </div>
 
 </body>
