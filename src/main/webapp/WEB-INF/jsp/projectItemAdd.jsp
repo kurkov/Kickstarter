@@ -12,15 +12,14 @@
   <div class="row">
 
     <div>
-      <b>Edit project:</b>
-
+      <b>Add new project:</b>
     </div>
-    <br><br>
+    <br>
 
     <form action="/project/add" method="POST">
       <c:if test="${ErrorMessage != null &&ErrorMessage != ''}">
         <div class="alert alert-danger" role="alert"><c:out
-          value="${ErrorMessage}"/></div>
+                value="${ErrorMessage}"/></div>
       </c:if>
       <input type="text" name="projectName" class="form-control"
              value="<c:out value="${projectItem.name}"/>"
@@ -28,13 +27,14 @@
       <br>
 
       <textarea class="form-control" name="projectDescription" rows="3"> <c:out
-        value="${projectItem.description}"/> </textarea>
-      <input type="hidden" name="projectId" value="<c:out value="${projectItem.id}"/>">
-      <input type="hidden" name="categoryId" value="<c:out value="${categoryId}"/>">
+              value="${projectItem.description}"/> </textarea>
+      <input type="hidden" name="projectId"
+             value="<c:out value="${projectItem.id}"/>">
+      <input type="hidden" name="categoryId"
+             value="<c:out value="${categoryId}"/>">
 
       <input class="btn btn-default" type="submit" value="Submit">
     </form>
-
 
     <button class="btn btn-xs btn-primary"
             onclick="window.location.href='/category/<c:out value="${categoryId}"/>'">

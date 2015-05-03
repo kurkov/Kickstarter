@@ -13,9 +13,8 @@
 
     <div>
       <b>Edit project:</b>
-
     </div>
-    <br><br>
+    <br>
 
     <form action="/project/<c:out value="${projectItem.id}"/>/edit"
           method="POST">
