@@ -10,16 +10,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
   <!-- Latest compiled and minified JavaScript-->
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script>$(document).ready(function() {
+  <script>$(document).ready(function() {
         /* Automagically jump on good tab based on anchor; for page reloads or links */
         if(location.hash) {
             $('a[href=' + location.hash + ']').tab('show');
         }})
-    </script>
+
+
+  </script>
   <title></title>
 </head>
 <body>
@@ -27,21 +30,27 @@
 <div class="container" role="navigation">
 
   <br>
+
   <div class="jumbotron">
-      <h2><c:out value="${project.name}"/></h2>
+    <h2><c:out value="${project.name}"/></h2>
     <h4><c:out value="${project.description}"/></h4>
-    <p><a class="btn btn-primary btn-lg" href="http://google.com" target="_blank" role="button">Learn more</a></p>
+
+    <p><a class="btn btn-primary btn-lg" href="http://google.com"
+          target="_blank" role="button">Learn more</a></p>
   </div>
   <br>
 
   <div role="tabpanel">
     <ul class="nav nav-tabs" role="tablist" id="tabs">
-      <li role="presentation" class="active"><a href="#profile" aria-controls="profile"
+      <li role="presentation" class="active"><a href="#profile"
+                                                aria-controls="profile"
                                                 role="tab" data-toggle="tab">Profile</a>
       </li>
-      <li role="presentation"><a href="#comments" aria-controls="comments" role="tab"
+      <li role="presentation"><a href="#comments" aria-controls="comments"
+                                 role="tab"
                                  data-toggle="tab">Comments</a></li>
-      <li role="presentation"><a href="#blogposts" aria-controls="blogposts" role="tab"
+      <li role="presentation"><a href="#blogposts" aria-controls="blogposts"
+                                 role="tab"
                                  data-toggle="tab">Blog Posts</a></li>
     </ul>
 
@@ -54,16 +63,25 @@
             <c:out value="${project.description}"/>
           </div>
         </div>
+        <button class="btn btn-xs btn-primary" formmethod="post"
+                formaction='/project/<c:out
+                value="${project.id}"/>/delete' type="submit">
+          <span class="glyphicon glyphicon-minus-sign"></span>
+          Delete project
+        </button>
       </div>
 
       <div role="tabpanel" class="tab-pane " id="comments">
         <br>
+
         <div class="row">
           <div class="col-lg-6">
-            <form action = "/comment/add" method="post">
+            <form action="/comment/add" method="post">
               <div class="input-group">
-                <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
-                <input type="text" class="form-control" name="newComment" placeholder="Add comment">
+                <input type="hidden" name="projectId"
+                       value="<c:out value="${project.id}"/>">
+                <input type="text" class="form-control" name="newComment"
+                       placeholder="Add comment">
                 <span class="input-group-btn">
                   <button class="btn btn-default" type="submit">Add</button>
                 </span>
@@ -73,17 +91,19 @@
             <div class="list-group">
               <ul>
                 <c:forEach var="com" items="${commentList}">
-                <div class="input-group">
-                <form action = "/comment/delete" method="post">
-                  <li>
-                    <%--(<joda:format value="${com.dateOfCreation}" style="SM" pattern="dd-MM-yyyy HH:mm"/>)--%>
-                    <c:out value="${com.text}"/>
-                    <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
-                    <input type="hidden" name="commentId" value="<c:out value="${com.id}"/>">
-                    <button class="btn btn-default" type="submit">X</button>
-                  </li>
-                  </form>
-                </div>
+                  <div class="input-group">
+                    <form action="/comment/delete" method="post">
+                      <li>
+                          <%--(<joda:format value="${com.dateOfCreation}" style="SM" pattern="dd-MM-yyyy HH:mm"/>)--%>
+                        <c:out value="${com.text}"/>
+                        <input type="hidden" name="projectId"
+                               value="<c:out value="${project.id}"/>">
+                        <input type="hidden" name="commentId"
+                               value="<c:out value="${com.id}"/>">
+                        <button class="btn btn-default" type="submit">X</button>
+                      </li>
+                    </form>
+                  </div>
                 </c:forEach>
               </ul>
             </div>
@@ -94,12 +114,13 @@
       <div role="tabpanel" class="tab-pane" id="blogposts">
         <div class="row">
           <div class="col-lg-6">
-            <a href="/blogpost/add?projectId=<c:out value='${project.id}'/>" class="glyphicon glyphicon-plus">
+            <a href="/blogpost/add?projectId=<c:out value='${project.id}'/>"
+               class="glyphicon glyphicon-plus">
               Add new post
             </a>
             <br><br>
 
-            <fmt:setLocale value="en_US" />
+            <fmt:setLocale value="en_US"/>
             <div class="list-group">
               <ul>
                 <c:forEach var="c" items="${blogPostList}">
@@ -108,22 +129,24 @@
                     <form action="/blogpost/delete" method="post">
 
                       <li>
-<%--
-                          (<joda:format value="${c.dateOfCreation}" style="SM" />)
---%>
+                          <%--
+                                                    (<joda:format value="${c.dateOfCreation}" style="SM" />)
+                          --%>
                         <button class="btn btn-default" type="submit">X</button>
 
                         <button class="btn btn-xs btn-primary" formmethod="get"
                                 formaction="/blogpost/edit"
                                 type="submit">
-                            <span class="glyphicon glyphicon-pencil"></span>
+                          <span class="glyphicon glyphicon-pencil"></span>
                         </button>
 
                         <br>
                         <b><c:out value="${c.title}"/></b><br>
                         <c:out value="${c.text}"/>
-                        <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
-                        <input type="hidden" name="blogPostId" value="<c:out value="${c.id}"/>">
+                        <input type="hidden" name="projectId"
+                               value="<c:out value="${project.id}"/>">
+                        <input type="hidden" name="blogPostId"
+                               value="<c:out value="${c.id}"/>">
                       </li>
                     </form>
                   </div>
