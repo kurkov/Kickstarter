@@ -5,89 +5,92 @@ import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.service.CategoryServiceImpl;
 import ua.goit.kickstarter.service.ProjectServiceImpl;
+import ua.goit.kickstarter.servlet.Request;
 import ua.goit.kickstarter.util.Operation;
 import ua.goit.kickstarter.util.OperationType;
 import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.service.ProjectService;
+import ua.goit.kickstarter.view.ViewModel;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class CategoryControllerImpl implements CategoryController {
+public class CategoryControllerImpl implements CategoryController, Controller {
   @Override
-  public void proceedRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String url = req.getPathInfo();
-    String page;
-    Operation operation = new UrlParser().parse(url);
+  public ViewModel process(Request request) throws ServletException, IOException {
+    ViewModel viewModel = null;
+    if ("GET".equals(request.getMethod())) {
+      viewModel = proceedRequest(request);
+    } else if ("POST".equals(request.getMethod())) {
+      viewModel = proceedPost(request);
+    }
+    return viewModel;
+  }
 
+  @Override
+  public ViewModel proceedRequest(Request req) throws ServletException, IOException {
+    String url = req.getUrl();
+    Operation operation = new UrlParser().parse(url);
+    ViewModel viewModel;
     CategoryService categoryService = new CategoryServiceImpl();
+
     if (operation.getOperationType() == OperationType.VIEW_ITEM) {
-      page = "/WEB-INF/jsp/categoryItem.jsp";
+      viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
       Category category = categoryService.getById(operation.getObjectId());
       List<Project> projects = null;
       if (category != null) {
         ProjectService projectService = new ProjectServiceImpl();
         projects = projectService.getByCategory(category);
       }
-      req.setAttribute("projects", projects);
-      req.setAttribute("categoryItem", category);
+      viewModel.addAttributes("projects", projects);
+      viewModel.addAttributes("categoryItem", category);
     } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      page = "/WEB-INF/jsp/categoryItemAdd.jsp";
+      viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       Category category = categoryService.getById(operation.getObjectId());
-      req.setAttribute("categoryItem", category);
-      page = "/WEB-INF/jsp/categoryItemEdit.jsp";
+      viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
+      viewModel.addAttributes("categoryItem", category);
     } else {
-      page = "/WEB-INF/jsp/categories.jsp";
+      viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
       List<Category> categories = categoryService.getAll();
-      req.setAttribute("categories", categories);
+      viewModel.addAttributes("categories", categories);
     }
 
-    RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-    dispatcher.forward(req, resp);
+    return viewModel;
   }
 
   @Override
-  public void proceedPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String url = req.getPathInfo();
+  public ViewModel proceedPost(Request req) throws ServletException, IOException {
+    String url = req.getUrl();
     Operation operation = new UrlParser().parse(url);
-    String categoryName = req.getParameter("categoryName");
-    String page = "/WEB-INF/jsp/categories.jsp";
     CategoryService categoryService = new CategoryServiceImpl();
+
+    String categoryName = req.getParameter("categoryName");
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       if (categoryName.equals("")) {
-        page = "/WEB-INF/jsp/categoryItemAdd.jsp";
-        req.setAttribute("ErrorMessage", "Field 'name' must be filled");
-        RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-        dispatcher.forward(req, resp);
+        viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
+        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
       } else {
         categoryService.addNewCategory(categoryName);
         List<Category> categories = categoryService.getAll();
-        req.setAttribute("categories", categories);
-        RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-        dispatcher.forward(req, resp);
+        viewModel.addAttributes("categories", categories);
       }
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
       categoryService.deleteItem(operation.getObjectId());
-      resp.sendRedirect("/category");
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       if (categoryName.equals("")) {
-        page = "WEB-INF/jsp/categoryItemEdit.jsp";
-        req.setAttribute("ErrorMessage", "Field 'name' must be filled");
-        RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-        dispatcher.forward(req, resp);
+        viewModel = new ViewModel("WEB-INF/jsp/categoryItemEdit.jsp");
+        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
       }
       categoryService.editCategory(new Category(operation.getObjectId(), categoryName));
       List<Category> categories = categoryService.getAll();
-      req.setAttribute("categories", categories);
-      RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-      dispatcher.forward(req, resp);
+      viewModel.addAttributes("categories", categories);
     }
+
+    return viewModel;
   }
 }
 

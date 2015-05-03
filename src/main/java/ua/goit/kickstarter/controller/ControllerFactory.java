@@ -2,11 +2,11 @@ package ua.goit.kickstarter.controller;
 
 public interface ControllerFactory {
 
-  public ProjectController getProjectController();
+  ProjectController getProjectController();
 
-  public CategoryController getCategoryController();
+  Controller getCategoryController();
 
-  public CommentController getCommentController();
+  CommentController getCommentController();
 
-  public BlogPostController getBlogPostController();
+  BlogPostController getBlogPostController();
 }

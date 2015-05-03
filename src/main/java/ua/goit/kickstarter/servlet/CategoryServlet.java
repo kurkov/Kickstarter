@@ -1,7 +1,7 @@
 package ua.goit.kickstarter.servlet;
 
 
-import ua.goit.kickstarter.controller.CategoryController;
+import ua.goit.kickstarter.controller.Controller;
 import ua.goit.kickstarter.controller.ControllerFactory;
 import ua.goit.kickstarter.controller.ControllerFactoryImpl;
 import ua.goit.kickstarter.factory.ConnectionFactory;
@@ -21,8 +21,9 @@ public class CategoryServlet extends HttpServlet {
     Connection con = ConnectionFactory.getConnection();
 
     ControllerFactory factory = new ControllerFactoryImpl();
-    CategoryController categoryController = factory.getCategoryController();
-    categoryController.proceedRequest(req, resp);
+    Controller categoryController = factory.getCategoryController();
+    categoryController.process(new Request(req.getParameterMap(), req.getMethod(),
+        req.getRequestURI()));
 
     ConnectionFactory.closeConnection(con);
   }
@@ -33,8 +34,9 @@ public class CategoryServlet extends HttpServlet {
     Connection con = ConnectionFactory.getConnection();
 
     ControllerFactory factory = new ControllerFactoryImpl();
-    CategoryController categoryController = factory.getCategoryController();
-    categoryController.proceedPost(req, resp);
+    Controller categoryController = factory.getCategoryController();
+    categoryController.process(new Request(req.getParameterMap(), req.getMethod(),
+                              req.getRequestURI()));
 
     ConnectionFactory.closeConnection(con);
   }
