@@ -46,13 +46,6 @@
     </c:forEach>
     </tr>
   </table>
-  <!--
-    <div class="list-group">
-        <c:forEach var="c" items="${projects}">
-        <a href="/project/<c:out value="${c.id}"/>"class="list-group-item"><c:out value="${c.name}"/></a>
-        </c:forEach>
-    </div>
-    -->
 </div>
 
 </body>
