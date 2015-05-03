@@ -28,8 +28,6 @@ public class UrlParser {
           }
         }
 
-
-
         if (urlParts.length >= 3) {
           if (urlParts[2].equals("edit")){
             result.setOperationType(OperationType.EDIT_ITEM);

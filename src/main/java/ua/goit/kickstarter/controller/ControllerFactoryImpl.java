@@ -8,7 +8,7 @@ public class ControllerFactoryImpl implements ControllerFactory {
   }
 
   @Override
-  public CategoryController getCategoryController() {
+  public Controller getCategoryController() {
     return new CategoryControllerImpl();
   }
 
