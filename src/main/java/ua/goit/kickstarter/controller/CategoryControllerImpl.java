@@ -52,9 +52,7 @@ public class CategoryControllerImpl implements CategoryController, Controller {
       viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
       viewModel.addAttributes("categoryItem", category);
     } else {
-      viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
-      List<Category> categories = categoryService.getAll();
-      viewModel.addAttributes("categories", categories);
+      viewModel = getViewModelForAllCategories(categoryService);
     }
 
     return viewModel;
@@ -67,7 +65,7 @@ public class CategoryControllerImpl implements CategoryController, Controller {
     CategoryService categoryService = new CategoryServiceImpl();
 
     String categoryName = req.getParameter("categoryName");
-    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
+    ViewModel viewModel = null;
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       if (categoryName.equals("")) {
@@ -75,21 +73,28 @@ public class CategoryControllerImpl implements CategoryController, Controller {
         viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
       } else {
         categoryService.addNewCategory(categoryName);
-        List<Category> categories = categoryService.getAll();
-        viewModel.addAttributes("categories", categories);
+        viewModel = getViewModelForAllCategories(categoryService);
       }
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
       categoryService.deleteItem(operation.getObjectId());
+      viewModel = getViewModelForAllCategories(categoryService);
+
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       if (categoryName.equals("")) {
         viewModel = new ViewModel("WEB-INF/jsp/categoryItemEdit.jsp");
         viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
       }
       categoryService.editCategory(new Category(operation.getObjectId(), categoryName));
-      List<Category> categories = categoryService.getAll();
-      viewModel.addAttributes("categories", categories);
+      viewModel = getViewModelForAllCategories(categoryService);
     }
 
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForAllCategories(CategoryService categoryService) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
+    List<Category> categories = categoryService.getAll();
+    viewModel.addAttributes("categories", categories);
     return viewModel;
   }
 }

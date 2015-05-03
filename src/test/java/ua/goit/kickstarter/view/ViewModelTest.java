@@ -20,10 +20,10 @@ public class ViewModelTest {
     String expected = "/WEB-INF/jsp/categories.jsp";
 
     Map<String, String[]> parameters = new HashMap<String, String[]>(){{
-      put("name", new String[]{"Music"});
+      put("categoryName", new String[]{"Music"});
     }};
     String method = "POST";
-    String url = "/category/add";
+    String url = "/add";
     Request request = new Request(parameters, method, url);
     ControllerFactory controllerFactory = new ControllerFactoryImpl();
     Controller controller = controllerFactory.getCategoryController();
