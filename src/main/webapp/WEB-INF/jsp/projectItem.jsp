@@ -63,10 +63,18 @@
             <c:out value="${project.description}"/>
           </div>
         </div>
+
         <button class="btn btn-xs btn-primary" formmethod="post"
                 formaction='/project/<c:out
+                value="${project.id}"/>/edit' type="submit">
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit project
+        </button>
+
+        <button class="btn btn-xs btn-danger" formmethod="post"
+                formaction='/project/<c:out
                 value="${project.id}"/>/delete' type="submit">
-          <span class="glyphicon glyphicon-minus-sign"></span>
+          <span class="glyphicon glyphicon-trash"></span>
           Delete project
         </button>
       </div>
