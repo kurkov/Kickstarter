@@ -1,14 +1,37 @@
 package ua.goit.kickstarter.controller;
 
+import ua.goit.kickstarter.model.Category;
+import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.servlet.Request;
 import ua.goit.kickstarter.view.ViewModel;
 
-import javax.servlet.ServletException;
-import java.io.IOException;
+import java.util.List;
 
-public interface CategoryController {
+public class CategoryController implements Controller {
 
-  ViewModel proceedRequest(Request req) throws ServletException, IOException;
+  private final CategoryService service;
 
-  ViewModel proceedPost(Request req) throws ServletException, IOException;
+  public CategoryController(CategoryService service) {
+    this.service = service;
+  }
+
+  @Override
+  public ViewModel process(Request request) {
+
+    ViewModel vm = new ViewModel("/WEB-INF/jsp/categories.jsp");
+    String categoryName = request.getParameter("categoryName");
+
+    if (categoryName == null) {
+      throw new RuntimeException("Category Name is Null");
+    }
+
+    service.addNewCategory(new Category(categoryName));
+
+    List<Category> categories = service.getAll();
+    return vm.withAttribute("categories", categories);
+  }
 }
+
+
+
+

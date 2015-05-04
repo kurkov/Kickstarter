@@ -23,8 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Category addNewCategory(String name) {
-    return categoryDao.add(name);
+  public Category addNewCategory(Category categoryName) {
+    return categoryDao.add(categoryName);
   }
 
   @Override

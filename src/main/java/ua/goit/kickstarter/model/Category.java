@@ -9,6 +9,10 @@ public class Category extends AbstractModel {
     this.name = name;
   }
 
+  public Category(String categoryName) {
+    this.name = categoryName;
+  }
+
   @Override
   public String toString() {
     return "Category{" +
