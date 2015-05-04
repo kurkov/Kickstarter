@@ -9,8 +9,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDaoImpl extends AbstractDaoImpl<Project>
+public class ProjectDaoImpl extends AbstractDao<Project>
         implements ProjectDao {
+
+  protected ProjectDaoImpl(Connection connection) {
+    super(connection);
+  }
 
   @Override
   public Project add(Project newProject) {
@@ -61,7 +65,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
   public Project getById(Integer id) {
     Project project;
     Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl();
+    CategoryDao categoryDao = new CategoryDaoImpl(connection);
     String sqlQuery = "SELECT * FROM projects WHERE id = " + id + ";";
     Connection connection = ConnectionFactory.getConnection();
     try {
@@ -82,7 +86,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
   public List<Project> getByCategoryId(Integer categoryId) {
     List<Project> projectList = new ArrayList<>();
     Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl();
+    CategoryDao categoryDao = new CategoryDaoImpl(connection);
     Project project;
     String sqlQuery = "SELECT * FROM projects WHERE id_category = " +
             categoryId;
@@ -113,20 +117,19 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
 
   @Override
   public List<Project> getAll() {
-    Project project;
-    Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl();
     List<Project> projectList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM projects";
-    ResultSet rs;
+    Project project;
+    CategoryDao categoryDao = new CategoryDaoImpl(connection);
     try {
-      rs = executeQuery(sqlQuery);
+      Statement statement = connection.createStatement();
+      ResultSet rs = statement.executeQuery(sqlQuery);
       while (rs.next()) {
-        int id = rs.getInt("id");
+        Integer id = rs.getInt("id");
         String name = rs.getString("name");
         String description = rs.getString("description");
         Integer id_category = rs.getInt("id_category");
-        category = categoryDao.getById(id_category);
+        Category category = categoryDao.getById(id_category);
         project = new Project(id, name, category, description);
         projectList.add(project);
       }

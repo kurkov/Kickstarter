@@ -9,7 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserDaoImpl extends AbstractDaoImpl<User> implements UserDao {
+public class UserDaoImpl extends AbstractDao<User> implements UserDao {
+
+  protected UserDaoImpl(Connection connection) {
+    super(connection);
+  }
+
   @Override
   public User getById(Integer id) {
     User user;

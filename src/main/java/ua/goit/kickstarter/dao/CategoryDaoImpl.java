@@ -10,7 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements CategoryDao {
+public class CategoryDaoImpl extends AbstractDao<Category>
+        implements CategoryDao {
+
+  public CategoryDaoImpl(Connection connection) {
+    super(connection);
+  }
 
   @Override
   public Category getById(Integer id) {
@@ -57,15 +62,15 @@ public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements Catego
   @Override
   public void deleteById(Integer id) {
     String query = "DELETE FROM categories WHERE id = " +
-        id + ";";
+            id + ";";
     executeUpdate(query);
   }
 
   @Override
   public Category update(Category element) {
     String query = "UPDATE categories " +
-        " SET name = '" + element.getName() + "'" +
-        " WHERE id = " + element.getId() + ";";
+            " SET name = '" + element.getName() + "'" +
+            " WHERE id = " + element.getId() + ";";
     executeUpdate(query);
     return element;
   }

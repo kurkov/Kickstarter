@@ -5,7 +5,7 @@ import ua.goit.kickstarter.model.Project;
 
 import java.util.List;
 
-public interface CommentDao  extends AbstractDao<Comment>{
+public interface CommentDao  extends GenericDao<Comment> {
   Comment add(String text, Integer projectId);
   List<Comment> getByProjectId(Integer id);
   List<Comment> getByProject(Project project);

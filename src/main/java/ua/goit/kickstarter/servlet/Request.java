@@ -39,4 +39,8 @@ public class Request {
   public String getParameter(String param) {
     return parameters.get(param);
   }
+
+  public static Request create(String method, String url) {
+    return new Request(null, method, url);
+  }
 }

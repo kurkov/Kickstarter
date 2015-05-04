@@ -7,17 +7,20 @@ import ua.goit.kickstarter.model.Project;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
-public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
+public class BlogPostDaoImpl extends AbstractDao<BlogPost>
         implements BlogPostDao {
+
+  protected BlogPostDaoImpl(Connection connection) {
+    super(connection);
+  }
 
   @Override
   public BlogPost getById(Integer id) {
     BlogPost blogPost;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl();
+    ProjectDao projectDao = new ProjectDaoImpl(connection);
     String sqlSelect = "SELECT * FROM blogs WHERE id = " + id + ";";
     ResultSet rs;
     try {
@@ -30,7 +33,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
         blogPost = new BlogPost(id, title, text, dateOfCreation,
-            project);
+                project);
       } else {
         blogPost = null;
       }
@@ -46,7 +49,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     List<BlogPost> blogPostList = new ArrayList<>();
     BlogPost blogPost;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl();
+    ProjectDao projectDao = new ProjectDaoImpl(connection);
     String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
             projectID + ";";
     try {
@@ -72,7 +75,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
   public List<BlogPost> getByProject(Project project) {
     List<BlogPost> blogPostList = new ArrayList<>();
     BlogPost blogPost;
-    ProjectDao projectDao = new ProjectDaoImpl();
+    ProjectDao projectDao = new ProjectDaoImpl(connection);
     Integer projectID = project.getId();
     String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
             projectID + ";";
@@ -101,7 +104,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
   public List<BlogPost> getAll() {
     Project project;
     BlogPost blogPost;
-    ProjectDao projectDao = new ProjectDaoImpl();
+    ProjectDao projectDao = new ProjectDaoImpl(connection);
     List<BlogPost> blogPostList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM blogs;";
     ResultSet rs;
@@ -161,7 +164,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
   @Override
   public BlogPost add(BlogPost element) {
     return add(element.getTitle(), element.getText(),
-        element.getProject().getId());
+            element.getProject().getId());
   }
 
   @Override
