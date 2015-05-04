@@ -23,4 +23,13 @@ public class ViewModel {
   public Map<String, Object> getAttributes() {
     return attributes;
   }
+
+  public Object getAttribute(String attr) {
+    return attributes.get(attr);
+  }
+
+  public ViewModel withAttribute(String attr, Object value) {
+    attributes.put(attr, value);
+    return this;
+  }
 }

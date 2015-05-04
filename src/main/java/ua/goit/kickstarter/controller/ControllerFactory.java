@@ -9,4 +9,6 @@ public interface ControllerFactory {
   CommentController getCommentController();
 
   BlogPostController getBlogPostController();
+
+  ErrorControllerImpl getErrorController();
 }

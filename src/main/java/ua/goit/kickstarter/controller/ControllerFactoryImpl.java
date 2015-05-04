@@ -21,4 +21,9 @@ public class ControllerFactoryImpl implements ControllerFactory {
   public BlogPostController getBlogPostController() {
     return new BlogPostControllerImpl();
   }
+
+  @Override
+  public ErrorControllerImpl getErrorController() {
+    return new ErrorControllerImpl();
+  }
 }

@@ -67,6 +67,7 @@ public class ProjectServiceImpl implements ProjectService {
       projectDao.deleteById(projectId);
     } catch (NumberFormatException e) {
       //NE
+      return;
     }
   }
 }

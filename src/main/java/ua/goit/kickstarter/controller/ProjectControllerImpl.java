@@ -20,7 +20,7 @@ import java.util.List;
 public class ProjectControllerImpl implements ProjectController {
   @Override
   public void proceedRequest(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     String url = req.getPathInfo();
     String page;
     Operation operation = new UrlParser().parse(url);
@@ -62,7 +62,7 @@ public class ProjectControllerImpl implements ProjectController {
 
   @Override
   public void proceedPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     String url = req.getPathInfo();
     String page;
     Operation operation = new UrlParser().parse(url);
@@ -88,11 +88,13 @@ public class ProjectControllerImpl implements ProjectController {
       projectService.editProject(operation.getObjectId().toString(), projectName, projectDescription);
     }
 
-
+    //TODO make correct redirect
+    String urlObject = url.trim();
+    if (urlObject.equals("project")) {
       page = "/category/" + categoryId;
-
-
-
+    } else {
+      page = "/WEB-INF/jsp/error.jsp";
+    }
 
     resp.sendRedirect(page);
   }
