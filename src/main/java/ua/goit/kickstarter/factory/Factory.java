@@ -53,6 +53,20 @@ public class Factory {
     return controller;
   }
 
+  public static Controller createBlogPostController(Class<? extends
+          Controller> clazz, Connection connection) {
+    Controller controller = null;
+    try {
+      Constructor<? extends Controller> constructor =
+              clazz.getConstructor(BlogPostService.class);
+      BlogPostService service = getBlogPostService(getBlogPostDao(connection));
+      controller = constructor.newInstance(service);
+    } catch (Throwable t) {
+      throw new RuntimeException(t);
+    }
+    return controller;
+  }
+
   protected static CategoryDao getCategoryDao(Connection connection) {
     return new CategoryDaoImpl(getConnection());
   }
