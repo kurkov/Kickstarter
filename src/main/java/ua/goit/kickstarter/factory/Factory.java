@@ -13,9 +13,7 @@ public class Factory {
 
   public static Controller createCategoryController(Class<? extends
           Controller> clazz, Connection connection) {
-
     Controller controller = null;
-
     try {
       Constructor<? extends Controller> constructor =
               clazz.getConstructor(CategoryService.class);
@@ -24,7 +22,20 @@ public class Factory {
     } catch (Throwable t) {
       throw new RuntimeException(t);
     }
+    return controller;
+  }
 
+  public static Controller createProjectController(Class<? extends
+          Controller> clazz, Connection connection) {
+    Controller controller = null;
+    try {
+      Constructor<? extends Controller> constructor =
+              clazz.getConstructor(ProjectService.class);
+      ProjectService service = getProjectService(getProjectDao(connection));
+      controller = constructor.newInstance(service);
+    } catch (Throwable t) {
+      throw new RuntimeException(t);
+    }
     return controller;
   }
 
@@ -32,15 +43,15 @@ public class Factory {
     return new CategoryDaoImpl(getConnection());
   }
 
-  protected static ProjectDao getProjectDao(Connection connection){
+  protected static ProjectDao getProjectDao(Connection connection) {
     return new ProjectDaoImpl(getConnection());
   }
 
-  protected static CommentDao getCommentDao(Connection connection){
+  protected static CommentDao getCommentDao(Connection connection) {
     return new CommentDaoImpl(getConnection());
   }
 
-  protected static BlogPostDao getBlogPostDao(Connection connection){
+  protected static BlogPostDao getBlogPostDao(Connection connection) {
     return new BlogPostDaoImpl(getConnection());
   }
 
