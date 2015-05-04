@@ -1,10 +1,8 @@
 package ua.goit.kickstarter.factory;
 
 import ua.goit.kickstarter.controller.Controller;
-import ua.goit.kickstarter.dao.CategoryDao;
-import ua.goit.kickstarter.dao.CategoryDaoImpl;
-import ua.goit.kickstarter.service.CategoryService;
-import ua.goit.kickstarter.service.CategoryServiceImpl;
+import ua.goit.kickstarter.dao.*;
+import ua.goit.kickstarter.service.*;
 
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
@@ -30,12 +28,40 @@ public class Factory {
     return controller;
   }
 
+  protected static CategoryDao getCategoryDao(Connection connection) {
+    return new CategoryDaoImpl(getConnection());
+  }
+
+  protected static ProjectDao getProjectDao(Connection connection){
+    return new ProjectDaoImpl(getConnection());
+  }
+
+  protected static CommentDao getCommentDao(Connection connection){
+    return new CommentDaoImpl(getConnection());
+  }
+
+  protected static BlogPostDao getBlogPostDao(Connection connection){
+    return new BlogPostDaoImpl(getConnection());
+  }
+
+  protected static UserDao getUserDao(Connection connection) {
+    return new UserDaoImpl(getConnection());
+  }
+
   protected static CategoryService getCategoryService(CategoryDao dao) {
     return new CategoryServiceImpl(dao);
   }
 
-  protected static CategoryDao getCategoryDao(Connection connection) {
-    return new CategoryDaoImpl(getConnection());
+  protected static ProjectService getProjectService(ProjectDao dao) {
+    return new ProjectServiceImpl(dao);
+  }
+
+  protected static CommentService getCommentService(CommentDao dao) {
+    return new CommentServiceImpl(dao);
+  }
+
+  protected static BlogPostService getBlogPostService(BlogPostDao dao) {
+    return new BlogPostServiceImpl(dao);
   }
 
   public static Connection getConnection() {
@@ -49,4 +75,5 @@ public class Factory {
     }
     return connection;
   }
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
-  protected UserDaoImpl(Connection connection) {
+  public UserDaoImpl(Connection connection) {
     super(connection);
   }
 

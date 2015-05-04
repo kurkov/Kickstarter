@@ -12,7 +12,7 @@ import java.util.List;
 public class ProjectDaoImpl extends AbstractDao<Project>
         implements ProjectDao {
 
-  protected ProjectDaoImpl(Connection connection) {
+  public ProjectDaoImpl(Connection connection) {
     super(connection);
   }
 

@@ -12,7 +12,7 @@ import java.util.List;
 public class BlogPostDaoImpl extends AbstractDao<BlogPost>
         implements BlogPostDao {
 
-  protected BlogPostDaoImpl(Connection connection) {
+  public BlogPostDaoImpl(Connection connection) {
     super(connection);
   }
 

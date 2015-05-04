@@ -13,9 +13,12 @@ import java.util.List;
 
 public class ProjectServiceImpl implements ProjectService {
 
-  private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-  private final ProjectDao projectDao = daoFactory.getProjectDao();
-  private final CategoryDao categoryDao = daoFactory.getCategoryDao();
+  private final ProjectDao projectDao;
+  private final CategoryDao categoryDao;
+
+  public ProjectServiceImpl(ProjectDao projectDao) {
+    this.projectDao = projectDao;
+  }
 
   public List<Project> getAll() {
     return projectDao.getAll();

@@ -15,7 +15,7 @@ import java.util.List;
 public class CommentDaoImpl extends AbstractDao<Comment>
         implements CommentDao {
 
-  protected CommentDaoImpl(Connection connection) {
+  public CommentDaoImpl(Connection connection) {
     super(connection);
   }
 
