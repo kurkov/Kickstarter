@@ -5,15 +5,11 @@ package ua.goit.kickstarter.dao;
 public interface GenericDao<T>{
   T getById(Integer id);
 
-  T getById(String strId);
-
   List<T> getAll();
 
   T add(T element);
 
   void deleteById(Integer id);
-
-  void deleteById(String strId);
 
   T update(T element);
 }

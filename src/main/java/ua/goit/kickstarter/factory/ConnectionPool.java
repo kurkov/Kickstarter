@@ -1,6 +1,7 @@
 package ua.goit.kickstarter.factory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,4 +24,11 @@ public class ConnectionPool {
 
   }
 
+  public static void close(Connection con) {
+    try {
+      con.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 }

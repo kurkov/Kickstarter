@@ -1,9 +1,9 @@
 package ua.goit.kickstarter.servlet;
 
 import org.apache.log4j.Logger;
+import ua.goit.kickstarter.controller.CategoryController;
 import ua.goit.kickstarter.controller.Controller;
 import ua.goit.kickstarter.controller.ErrorController;
-import ua.goit.kickstarter.controller.GetAllCategoriesController;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.view.ViewModel;
@@ -25,20 +25,15 @@ public class FrontServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     super.init();
-    Controller getAllCategoriesCtrl =
-            Factory.createCategoryController(GetAllCategoriesController.class,
+
+    Controller categoryController =
+            Factory.createCategoryController(CategoryController.class,
                     ConnectionPool.getConnection());
 
-    Controller createCategoryCtrl =
-            Factory.createCategoryController(GetAllCategoriesController.class,
-                    ConnectionPool.getConnection());
-
-    controllerMap.put(Request.create("GET", "/servlet/categories"),
-            getAllCategoriesCtrl);
-    controllerMap.put(Request.create("GET", "/servlet/"),
-            getAllCategoriesCtrl);
-    controllerMap.put(Request.create("POST", "/servlet/categories"),
-            createCategoryCtrl);
+    controllerMap.put(Request.create("GET", "/category"),
+            categoryController);
+    controllerMap.put(Request.create("POST", "/category"),
+        categoryController);
   }
 
   @Override
@@ -61,11 +56,16 @@ public class FrontServlet extends HttpServlet {
         throw new RuntimeException("Can not handle " + request);
       }
       ViewModel vm = controller.process(request);
-      forward(req, resp, vm);
+      if ("GET".equals(request.getMethod())) {
+        forward(req, resp, vm);
+      }else if ("POST".equals(request.getMethod())) {
+        resp.sendRedirect(vm.getUrlForRedirect());
+      }
     } catch (Throwable t) {
       logger.error("error", t);
       ViewModel vm = new ErrorController().process(request);
-      vm.withAttribute("error", t.getClass() + " " + t.getMessage());
+      vm.addAttributes("error", t.getClass() + " " + t.getMessage());
+
       forward(req, resp, vm);
     }
 

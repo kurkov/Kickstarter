@@ -6,6 +6,7 @@ import java.util.Map;
 public class ViewModel {
   private final String view;
   private final Map<String, Object> attributes = new HashMap<>();
+  private String urlForRedirect;
 
   public ViewModel(String view) {
     this.view = view;
@@ -28,8 +29,11 @@ public class ViewModel {
     return attributes.get(attr);
   }
 
-  public ViewModel withAttribute(String attr, Object value) {
-    attributes.put(attr, value);
-    return this;
+  public void setUrlForRedirect(String urlForRedirect) {
+    this.urlForRedirect = urlForRedirect;
+  }
+
+  public String getUrlForRedirect() {
+    return urlForRedirect;
   }
 }

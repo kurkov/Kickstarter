@@ -1,8 +1,5 @@
 package ua.goit.kickstarter.dao;
 
-
-import ua.goit.kickstarter.factory.ConnectionFactory;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,18 +13,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     this.connection = connection;
   }
 
-  public void deleteById(String strId){
-    int id = Integer.parseInt(strId);
-    deleteById(id);
-  }
-
-  public T getById(String strId){
-    int id = Integer.parseInt(strId);
-    return getById(id);
-  }
-
   public ResultSet executeQuery(String query){
-    Connection connection = ConnectionFactory.getConnection();
     ResultSet rs;
     try {
       Statement statement = connection.createStatement();
@@ -39,7 +25,6 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
   }
 
   public int executeUpdate(String query){
-    Connection connection = ConnectionFactory.getConnection();
     int rs;
     try {
       Statement statement = connection.createStatement();

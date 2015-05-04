@@ -1,6 +1,5 @@
 package ua.goit.kickstarter.dao;
 
-import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 
 import java.sql.Connection;

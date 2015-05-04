@@ -104,15 +104,15 @@ public class Factory {
   }
 
   public static Connection getConnection() {
+    Connection connection;
+    ProjectProperties prop = new ProjectProperties();
+    String database = prop.getDatabase();
 
-    Connection connection = null;
     try {
-      Class.forName("org.sqlite.JDBC");
-      connection = DriverManager.getConnection("jdbc:sqlite:kickstarter.db");
-    } catch (SQLException | ClassNotFoundException e) {
+      connection = DriverManager.getConnection(database);
+    } catch (SQLException e) {
       throw new RuntimeException(e);
     }
     return connection;
   }
-
 }
