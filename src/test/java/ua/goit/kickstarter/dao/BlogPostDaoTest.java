@@ -98,7 +98,7 @@ public class BlogPostDaoTest {
 
     BlogPostDao blogPostDao = Factory.getBlogPostDao(connection);
     ProjectDao projectDao = Factory.getProjectDao(connection);
-    Project project = projectDao.add("Test project1", "1", "Test description");
+    Project project = projectDao.add("Test project1", 1, "Test description");
     BlogPost blogPost = blogPostDao.add("Test blog post1", "Test2",
             project.getId());
     List<BlogPost> blogPosts = blogPostDao.getByProject(project);
@@ -117,7 +117,7 @@ public class BlogPostDaoTest {
 
     BlogPostDao blogPostDao = Factory.getBlogPostDao(connection);
     ProjectDao projectDao = Factory.getProjectDao(connection);
-    Project project = projectDao.add("Test project1", "1", "Test description");
+    Project project = projectDao.add("Test project1", 1, "Test description");
     BlogPost blogPost = blogPostDao.add("Test blog post1", "Test2",
             project.getId());
     List<BlogPost> blogPosts = blogPostDao.getAll();

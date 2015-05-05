@@ -1,7 +1,6 @@
 package ua.goit.kickstarter.model;
 
-public class User {
-  private Integer id;
+public class User extends AbstractModel {
   private String login;
   private String email;
   private String firstName;
