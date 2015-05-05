@@ -2,7 +2,8 @@ package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
+import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
@@ -10,17 +11,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import static junit.framework.Assert.*;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class ProjectDaoTest {
-
-
-  private Integer getExistingCategoryId() {
-
+  private Integer getExistingCategoryId(Connection connection) {
     Integer res = null;
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     List<Category> categoryList = categoryDao.getAll();
 
     for (Category category : categoryList) {
@@ -35,59 +31,49 @@ public class ProjectDaoTest {
   }
 
   @Test
-  public void add_New_Project() throws SQLException {
-
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-    ProjectDao projectDao = daoFactory.getProjectDao();
-    Connection connection = ConnectionFactory.getConnection();
+  public void addNewProject() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
-
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = new Project();
     project.setName("New project test");
     project.setDescription("Some new project");
-
-    int idCategory = getExistingCategoryId();
+    int idCategory = getExistingCategoryId(connection);
     Category category = categoryDao.getById(idCategory);
     project.setCategory(category);
-
     Project addedProject = projectDao.add(project);
 
     assertEquals(addedProject.getName(), project.getName());
     assertEquals(addedProject.getDescription(), project.getDescription());
     assertEquals(addedProject.getCategory(), project.getCategory());
+
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
 
   @Test
-  public void getProject__byId() throws SQLException {
-
-    Connection connection = ConnectionFactory.getConnection();
-
+  public void getProjectById() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-    ProjectDao projectDao = daoFactory.getProjectDao();
-
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = projectDao.getById(1);
+
     assertNotNull(project);
+
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
   @Test
-  public void getProjects__byCategoryId() throws SQLException {
-    Connection connection = ConnectionFactory.getConnection();
+  public void getProjectsByCategoryId() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-    ProjectDao projectDao = daoFactory.getProjectDao();
-
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     List<Project> projects = projectDao.getByCategoryId(1);
 
     Logger logger = Logger.getLogger(this.getClass());
@@ -98,46 +84,39 @@ public class ProjectDaoTest {
     assertTrue(projects.size() > 0);
 
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
 
   @Test
-  public void getProjects__byCategory() throws SQLException {
-
-
-    Connection connection = ConnectionFactory.getConnection();
-
+  public void getProjectsByCategory() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-    ProjectDao projectDao = daoFactory.getProjectDao();
-
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     Category category = categoryDao.getById(1);
-
     List<Project> projects = projectDao.getByCategory(category);
+
     assertNotNull(projects);
     assertTrue(projects.size() > 0);
 
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
   @Test
-  public void getProjects__all() throws SQLException {
-
-    Connection connection = ConnectionFactory.getConnection();
+  public void getAllProjects() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-    ProjectDao projectDao = daoFactory.getProjectDao();
+
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     List<Project> projects = projectDao.getAll();
+
     assertNotNull(projects);
     assertTrue(projects.size() > 0);
+
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
-
-
 }

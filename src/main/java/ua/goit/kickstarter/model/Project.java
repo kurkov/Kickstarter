@@ -1,10 +1,9 @@
 package ua.goit.kickstarter.model;
 
 public class Project extends AbstractModel {
-
-  String name;
-  String description;
-  Category category;
+  private String name;
+  private String description;
+  private Category category;
 
   public Project() {
   }
@@ -15,7 +14,6 @@ public class Project extends AbstractModel {
     this.category = category;
     this.description = description;
     this.description = description;
-
   }
 
   @Override
@@ -58,10 +56,6 @@ public class Project extends AbstractModel {
     result = 31 * result + (getCategory() != null ? getCategory().hashCode()
             : 0);
     return result;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
   }
 
   public String getName() {

@@ -20,8 +20,6 @@
         if(location.hash) {
             $('a[href=' + location.hash + ']').tab('show');
         }})
-
-
   </script>
   <title></title>
 </head>

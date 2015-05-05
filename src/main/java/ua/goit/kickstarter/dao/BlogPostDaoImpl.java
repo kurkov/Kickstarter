@@ -1,7 +1,8 @@
 package ua.goit.kickstarter.dao;
 
 import org.joda.time.DateTime;
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
+import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 
@@ -79,7 +80,7 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
     Integer projectID = project.getId();
     String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
             projectID + ";";
-    Connection connection = ConnectionFactory.getConnection();
+    Connection connection = ConnectionPool.getConnection();
     try {
       Statement statement = connection.createStatement();
       ResultSet rs = statement.executeQuery(sqlSelect);
@@ -133,9 +134,8 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
             "dateOfCreation, id_project) VALUES ( ?,?,?,? );";
     Integer id;
     Project project;
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    ProjectDao projectDao = daoFactory.getProjectDao();
-    Connection con = ConnectionFactory.getConnection();
+    Connection con = ConnectionPool.getConnection();
+    ProjectDao projectDao = Factory.getProjectDao(con);
     DateTime dateOfCreation = new DateTime();
     try {
       PreparedStatement statement = con.prepareStatement(sqlInsert);

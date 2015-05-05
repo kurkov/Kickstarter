@@ -5,29 +5,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 
 public class DBHelper {
   public static final String CREATE_TABLES_FILENAME = "/sql/createTables.sql";
   public static final String DROP_TABLES_FILENAME = "/sql/dropTables.sql";
   public static final String INSERT_DATA_FILENAME = "/sql/insertData.sql";
 
-
   public static void main(String[] args) {
     DBHelper dbHelper = new DBHelper();
     dbHelper.initDatabase();
-
   }
 
   public void initDatabase() {
-
     executeQueryFromFile(DROP_TABLES_FILENAME);
     executeQueryFromFile(CREATE_TABLES_FILENAME);
     executeQueryFromFile(INSERT_DATA_FILENAME);
-
   }
 
   private void executeQueryFromFile(String filename) {
@@ -42,22 +36,17 @@ public class DBHelper {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
 
   private static String getStringFromInputStream(InputStream is) {
-
     BufferedReader br = null;
     StringBuilder sb = new StringBuilder();
-
     String line;
     try {
-
       br = new BufferedReader(new InputStreamReader(is));
       while ((line = br.readLine()) != null) {
         sb.append(line);
       }
-
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
@@ -69,27 +58,11 @@ public class DBHelper {
         }
       }
     }
-
     return sb.toString();
-
   }
 
-  public ResultSet executeQuery(String query) {
-
-    Connection connection = ConnectionFactory.getConnection();
-    ResultSet rs;
-    try {
-      Statement statement = connection.createStatement();
-      rs = statement.executeQuery(query);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return rs;
-  }
-
-  public int executeUpdate(String query) {
-
-    Connection connection = ConnectionFactory.getConnection();
+  private int executeUpdate(String query) {
+    Connection connection = ConnectionPool.getConnection();
     int rs;
     try {
       Statement statement = connection.createStatement();
@@ -99,5 +72,4 @@ public class DBHelper {
     }
     return rs;
   }
-
 }

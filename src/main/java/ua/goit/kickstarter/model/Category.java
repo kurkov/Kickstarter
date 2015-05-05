@@ -1,8 +1,7 @@
 package ua.goit.kickstarter.model;
 
 public class Category extends AbstractModel {
-
-  String name;
+  private String name;
 
   public Category(Integer id, String name) {
     this.id = id;
@@ -40,10 +39,6 @@ public class Category extends AbstractModel {
     int result = (int) (id ^ (id >>> 32));
     result = 31 * result + (name != null ? name.hashCode() : 0);
     return result;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
   }
 
   public String getName() {

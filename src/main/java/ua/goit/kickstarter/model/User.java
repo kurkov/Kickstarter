@@ -20,7 +20,6 @@ public class User {
     this.password = password;
   }
 
-
   @Override
   public String toString() {
     return "User{" +
@@ -31,14 +30,6 @@ public class User {
         ", lastName='" + lastName + '\'' +
         ", password='" + password + '\'' +
         '}';
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
   }
 
   public String getLogin() {

@@ -3,12 +3,12 @@ package ua.goit.kickstarter.dao;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Test;
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
+import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,11 +16,9 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class BlogPostDaoTest {
-  private Integer getExistingProjectId() {
-
+  private Integer getExistingProjectId(Connection connection) {
     Integer res = null;
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    ProjectDao projectDao = daoFactory.getProjectDao();
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     List<Project> projectList = projectDao.getAll();
 
     for (Project project : projectList) {
@@ -35,52 +33,53 @@ public class BlogPostDaoTest {
   }
 
   @Test
-  public void add_New_Blogpost() throws SQLException {
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    ProjectDao projectDao = daoFactory.getProjectDao();
-    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
-    Connection connection = ConnectionFactory.getConnection();
+  public void addNewBlogPost() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
-    BlogPost createdBlogpost = new BlogPost();
-    createdBlogpost.setTitle("New blogpost test");
-    createdBlogpost.setText("This is a new blogpost");
+    ProjectDao projectDao = Factory.getProjectDao(connection);
+    BlogPostDao blogPostDao = Factory.getBlogPostDao(connection);
+    BlogPost createdBlogPost = new BlogPost();
+    createdBlogPost.setTitle("New blogpost test");
+    createdBlogPost.setText("This is a new blogpost");
     DateTime currentDate = new DateTime();
-    createdBlogpost.setDateOfCreation(currentDate);
-    Integer projectId = 1;
+    createdBlogPost.setDateOfCreation(currentDate);
+    Integer projectId = getExistingProjectId(connection);
     Project project = projectDao.getById(projectId);
-    createdBlogpost.setProject(project);
-    BlogPost addedBlogPost = blogPostDao.add(createdBlogpost);
+    createdBlogPost.setProject(project);
+    BlogPost addedBlogPost = blogPostDao.add(createdBlogPost);
 
-    assertEquals(createdBlogpost.getTitle(), addedBlogPost.getTitle());
-    assertEquals(createdBlogpost.getText(), addedBlogPost.getText());
+    assertEquals(createdBlogPost.getTitle(), addedBlogPost.getTitle());
+    assertEquals(createdBlogPost.getText(), addedBlogPost.getText());
 
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
-
   @Test
-  public void getBlogPost__byId() throws SQLException {
-    Connection connection = ConnectionFactory.getConnection();
+  public void getBlogPostById() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
+
+    BlogPostDao blogPostDao = Factory.getBlogPostDao(connection);
     blogPostDao.add("Test1", "Test2", 1);
     BlogPost blogPost = blogPostDao.getById(1);
+
     assertNotNull(blogPost);
+
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
   @Test
-  public void getBlogPosts__byProjectId() throws SQLException {
-    Connection connection = ConnectionFactory.getConnection();
+  public void getBlogPostsByProjectId() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
+
+    BlogPostDao blogPostDao = Factory.getBlogPostDao(connection);
     blogPostDao.add("Test1", "Test2", 1);
     List<BlogPost> blogPosts = blogPostDao.getByProjectId(1);
+
     Logger logger = Logger.getLogger(this.getClass());
     logger.info(blogPosts);
     logger.info("blogPosts.size()" + blogPosts.size());
@@ -89,16 +88,16 @@ public class BlogPostDaoTest {
     assertTrue(blogPosts.size() > 0);
 
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
   @Test
-  public void getBlogPosts__byProject() throws SQLException {
-    Connection connection = ConnectionFactory.getConnection();
+  public void getBlogPostsByProject() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
-    ProjectDao projectDao = daoFactory.getProjectDao();
+
+    BlogPostDao blogPostDao = Factory.getBlogPostDao(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = projectDao.add("Test project1", "1", "Test description");
     BlogPost blogPost = blogPostDao.add("Test blog post1", "Test2",
             project.getId());
@@ -108,16 +107,16 @@ public class BlogPostDaoTest {
     assertTrue(blogPosts.size() > 0);
 
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
   @Test
-  public void getBlogPosts__all() throws SQLException {
-    Connection connection = ConnectionFactory.getConnection();
+  public void getAllBlogPosts() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
-    DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-    BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
-    ProjectDao projectDao = daoFactory.getProjectDao();
+
+    BlogPostDao blogPostDao = Factory.getBlogPostDao(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = projectDao.add("Test project1", "1", "Test description");
     BlogPost blogPost = blogPostDao.add("Test blog post1", "Test2",
             project.getId());
@@ -127,6 +126,6 @@ public class BlogPostDaoTest {
     assertTrue(blogPosts.size() > 0);
 
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 }

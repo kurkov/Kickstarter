@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionPool {
-
+//TODO Constructor, release
   private static List<Connection> connections = new ArrayList<>();
 
   public ConnectionPool(int size) {

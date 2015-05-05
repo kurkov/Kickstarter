@@ -12,7 +12,7 @@ public interface ProjectDao extends GenericDao<Project> {
 
   List<Project> getByCategory(Category category);
 
-  Project add(String name, String category, String description);
+  Project add(String name, Integer category, String description);
 
   Project update(Project project);
 

@@ -39,7 +39,7 @@ public class CategoryController implements Controller {
   private ViewModel proceedRequest(Request req)
       throws ServletException, IOException {
     String url = req.getUrl();
-    Operation operation = new UrlParser().parse(url);
+    Operation operation = UrlParser.parse(url);
     ViewModel viewModel;
 
     if (operation.getOperationType() == OperationType.VIEW_ITEM) {
@@ -50,13 +50,13 @@ public class CategoryController implements Controller {
         projects = projectService.getByCategory(category);
       }
       viewModel.addAttributes("projects", projects);
-      viewModel.addAttributes("categoryItem", category);
+      viewModel.addAttributes("category", category);
     } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
       viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       Category category = categoryService.getById(operation.getObjectId());
       viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
-      viewModel.addAttributes("categoryItem", category);
+      viewModel.addAttributes("category", category);
     } else {
       viewModel = getViewModelForAllCategories(categoryService);
     }
@@ -67,7 +67,7 @@ public class CategoryController implements Controller {
   private ViewModel proceedPost(Request req)
       throws ServletException, IOException {
     String url = req.getUrl();
-    Operation operation = new UrlParser().parse(url);
+    Operation operation = UrlParser.parse(url);
 
     String categoryName = req.getParameter("categoryName");
     ViewModel viewModel = null;
@@ -101,6 +101,7 @@ public class CategoryController implements Controller {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
+    viewModel.setUrlForRedirect("/category");
     return viewModel;
   }
 }

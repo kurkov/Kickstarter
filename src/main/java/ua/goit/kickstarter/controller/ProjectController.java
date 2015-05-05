@@ -2,100 +2,157 @@ package ua.goit.kickstarter.controller;
 
 import org.apache.log4j.Logger;
 import ua.goit.kickstarter.model.BlogPost;
+import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Comment;
 import ua.goit.kickstarter.model.Project;
+import ua.goit.kickstarter.servlet.Request;
 import ua.goit.kickstarter.util.Operation;
 import ua.goit.kickstarter.util.OperationType;
 import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.service.*;
+import ua.goit.kickstarter.view.ViewModel;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-public class ProjectController implements ProjectController {
-  @Override
-  public void proceedRequest(HttpServletRequest req, HttpServletResponse resp)
-          throws ServletException, IOException {
-    String url = req.getPathInfo();
-    String page;
-    Operation operation = new UrlParser().parse(url);
-    ProjectService projectService = new ProjectServiceImpl();
-    CommentService commentService = new CommentServiceImpl();
-    BlogPostService blogPostService = new BlogPostServiceImpl();
-    String categoryId = req.getParameter("categoryId");
+public class ProjectController implements Controller {
+  private final CategoryService categoryService;
+  private final ProjectService projectService;
+  private final CommentService commentService;
+  private final BlogPostService blogPostService;
 
-    if (operation.getOperationType() == OperationType.VIEW_ITEM) {
-      page = "/WEB-INF/jsp/projectItem.jsp";
-      Project project = projectService.getProjectById(operation.getObjectId());
-      List<Comment> commentList = commentService.getByProject(project);
-      if (commentList.size() > 0) {
-        Collections.sort(commentList);
-      }
-
-      req.setAttribute("commentList", commentList);
-      List<BlogPost> blogPostList = blogPostService.getByProject(project);
-      req.setAttribute("blogPostList", blogPostList);
-      req.setAttribute("project", project);
-
-    } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      page = "/WEB-INF/jsp/projectItemAdd.jsp";
-      req.setAttribute("categoryId", categoryId);
-
-    } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      page = "/WEB-INF/jsp/projectItemEdit.jsp";
-      Project project = projectService.getProjectById(operation.getObjectId());
-      req.setAttribute("category", project.getCategory());
-      req.setAttribute("projectItem", project);
-    } else {
-      page = "/WEB-INF/jsp/projects.jsp";
-      List<Project> projects = projectService.getAll();
-      req.setAttribute("projects", projects);
-    }
-    RequestDispatcher dispatcher = req.getRequestDispatcher(page);
-    dispatcher.forward(req, resp);
+  public ProjectController(CategoryService categoryService,
+                           ProjectService projectService,
+                           CommentService commentService,
+                           BlogPostService blogPostService) {
+    this.categoryService = categoryService;
+    this.projectService = projectService;
+    this.commentService = commentService;
+    this.blogPostService = blogPostService;
   }
 
   @Override
-  public void proceedPost(HttpServletRequest req, HttpServletResponse resp)
+  public ViewModel process(Request request)
+      throws ServletException, IOException {
+    ViewModel viewModel = null;
+    if ("GET".equals(request.getMethod())) {
+      viewModel = proceedRequest(request);
+    } else if ("POST".equals(request.getMethod())) {
+      viewModel = proceedPost(request);
+    }
+    return viewModel;
+  }
+
+  private ViewModel proceedRequest(Request request)
           throws ServletException, IOException {
-    String url = req.getPathInfo();
-    String page;
-    Operation operation = new UrlParser().parse(url);
-    ProjectService projectService = new ProjectServiceImpl();
+    String url = request.getUrl();
+    Operation operation = UrlParser.parse(url);
+    ViewModel viewModel;
+    String categoryIdStr = request.getParameter("categoryId");
+    Integer categoryId = getIdInteger(categoryIdStr);
+
+    if (operation.getOperationType() == OperationType.VIEW_ITEM) {
+      Project project = projectService.getProjectById(operation.getObjectId());
+      viewModel = getViewModelForProjectView(project);
+    } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
+      viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
+      viewModel.addAttributes("categoryId", categoryId);
+    } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
+      viewModel = new ViewModel("/WEB-INF/jsp/projectItemEdit.jsp");
+      Project project = projectService.getProjectById(operation.getObjectId());
+      viewModel.addAttributes("categoryId", categoryId);
+      viewModel.addAttributes("project", project);
+    } else {
+      viewModel = new ViewModel("/WEB-INF/jsp/projects.jsp");
+      List<Project> projects = projectService.getAll();
+      viewModel.addAttributes("projects", projects);
+    }
+
+    return viewModel;
+  }
+
+  private Integer getIdInteger(String idStr) {
+    Integer id = null;
+    try {
+      id = Integer.parseInt(idStr);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+    }
+    return id;
+  }
+
+  private ViewModel proceedPost(Request request)
+      throws ServletException, IOException {
+    String url = request.getUrl();
+    Operation operation = UrlParser.parse(url);
+    ViewModel viewModel = null;
 
     Logger logger = Logger.getLogger(this.getClass());
     logger.info(operation);
 
-    String categoryId = req.getParameter("categoryId");
-    String projectId = req.getParameter("projectId");
-    String projectName = req.getParameter("projectName");
-    String projectDescription = req.getParameter("projectDescription");
+    String categoryIdStr = request.getParameter("categoryId");
+    Integer categoryId = getIdInteger(categoryIdStr);
+    String projectIdStr = request.getParameter("projectId");
+    Integer projectId = getIdInteger(projectIdStr);
+    String projectName = request.getParameter("projectName");
+    String projectDescription = request.getParameter("projectDescription");
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
+      viewModel = new ViewModel("WEB-INF/jsp/projectItemAdd.jsp");
       if (projectName.equals("")) {
-        req.setAttribute("ErrorMessage", "Field 'name' must be filled");
+        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+      } else if (projectDescription.equals("")) {
+        viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
+            "filled");
       } else {
-        projectService.addNewProject(projectName, projectDescription, categoryId);
+        Project project = projectService.addNewProject(projectName,
+            projectDescription, categoryId);
+        viewModel = getViewModelForProjectView(project);
       }
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
-      projectService.deleteProject(operation.getObjectId().toString());
+      projectService.deleteProject(operation.getObjectId());
+      viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
+      Category category= categoryService.getById(categoryId);
+      List<Project> projects = null;
+      if (category != null) {
+        projects = projectService.getByCategory(category);
+      }
+      viewModel.addAttributes("projects", projects);
+      viewModel.addAttributes("category", category);
+      viewModel.setUrlForRedirect("/category/" + categoryId);
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      projectService.editProject(operation.getObjectId().toString(), projectName, projectDescription);
+      viewModel = new ViewModel("WEB-INF/jsp/projectItemEdit.jsp");
+      if (projectName.equals("")) {
+        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+      } else if (projectDescription.equals("")) {
+        viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
+            "filled");
+      } else {
+        projectService.editProject(operation.getObjectId(), projectName,
+            projectDescription);
+        Project project = projectService.getProjectById(projectId);
+        viewModel = getViewModelForProjectView(project);
+      }
     }
+    return viewModel;
+  }
 
-    //TODO make correct redirect
-    String urlObject = url.trim();
-    if (urlObject.equals("project")) {
-      page = "/category/" + categoryId;
-    } else {
-      page = "/WEB-INF/jsp/error.jsp";
+  private ViewModel getViewModelForProjectView(Project project) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItem.jsp");
+    viewModel.addAttributes("project", project);
+    List<Comment> commentList = commentService.getByProject(project);
+    if (commentList.size() > 0) {
+      Collections.sort(commentList);
     }
+    viewModel.addAttributes("commentList", commentList);
+    List<BlogPost> blogPostList = blogPostService.getByProject(project);
+    if (blogPostList.size() > 0) {
+      Collections.sort(commentList);
+    }
+    viewModel.addAttributes("blogPostList", blogPostList);
 
-    resp.sendRedirect(page);
+    return viewModel;
   }
 }

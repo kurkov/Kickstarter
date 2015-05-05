@@ -22,14 +22,14 @@
                 value="${ErrorMessage}"/></div>
       </c:if>
       <input type="text" name="projectName" class="form-control"
-             value="<c:out value="${projectItem.name}"/>"
+             value="<c:out value="${project.name}"/>"
              placeholder="Project name" aria-describedby="basic-addon1">
       <br>
 
       <textarea class="form-control" name="projectDescription" rows="3"> <c:out
-              value="${projectItem.description}"/> </textarea>
+              value="${project.description}"/> </textarea>
       <input type="hidden" name="projectId"
-             value="<c:out value="${projectItem.id}"/>">
+             value="<c:out value="${project.id}"/>">
       <input type="hidden" name="categoryId"
              value="<c:out value="${categoryId}"/>">
 

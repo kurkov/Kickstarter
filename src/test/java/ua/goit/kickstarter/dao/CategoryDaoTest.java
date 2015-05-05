@@ -1,9 +1,9 @@
 package ua.goit.kickstarter.dao;
 
-
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
+import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 
 import java.sql.Connection;
@@ -13,12 +13,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class CategoryDaoTest {
-
-  private Integer getExistingCategoryId() {
-
+  private Integer getExistingCategoryId(Connection connection) {
     Integer res = null;
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     List<Category> categoryList = categoryDao.getAll();
     for (Category category : categoryList) {
       res = category.getId();
@@ -30,96 +27,95 @@ public class CategoryDaoTest {
     return res;
   }
 
-
   @Test
-  public void add_New_Category() throws SQLException {
-    Connection connection = ConnectionFactory.getConnection();
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
+  public void addNewCategory() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
+    connection.setAutoCommit(false);
 
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category actual = categoryDao.add("New category2");
+
     assertNotNull(actual);
-    ConnectionFactory.closeConnection(connection);
+
+    connection.rollback();
+    connection.close();
   }
 
 
   @Test
-  public void get_By_id() throws SQLException {
-    Connection connection = ConnectionFactory.getConnection();
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
+  public void getById() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
+    connection.setAutoCommit(false);
 
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     List<Category> categoryList = categoryDao.getAll();
-    Integer id = getExistingCategoryId();
-
-
+    Integer id = getExistingCategoryId(connection);
     for (Category category : categoryList) {
       id = category.getId();
     }
     Category actual = categoryDao.getById(id);
 
     assertNotNull(actual);
-    ConnectionFactory.closeConnection(connection);
+
+    connection.rollback();
+    connection.close();
   }
 
   @Test
-  public void delete_By_id() throws SQLException {
-
-
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-    Connection connection = ConnectionFactory.getConnection();
-
+  public void deleteById() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category newElement = categoryDao.add("New category2");
-    int idNewElemet = newElement.getId();
-    Category newElementFromDB = categoryDao.getById(idNewElemet);
+    int idNewElement = newElement.getId();
+    Category newElementFromDB = categoryDao.getById(idNewElement);
+
     assertNotNull(newElementFromDB);
-    categoryDao.deleteById(idNewElemet);
-    newElementFromDB = categoryDao.getById(idNewElemet);
+
+    categoryDao.deleteById(idNewElement);
+    newElementFromDB = categoryDao.getById(idNewElement);
+
     assertNull(newElementFromDB);
 
     connection.rollback();
-    ConnectionFactory.closeConnection(connection);
+    connection.close();
   }
 
   @Test
-  public void update_By_id() throws SQLException {
-
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-
-    Connection connection = ConnectionFactory.getConnection();
-
+  public void updateById() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
-    int id = getExistingCategoryId();
-
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
+    int id = getExistingCategoryId(connection);
     Category element = categoryDao.getById(id);
     element.setName("updated element");
     categoryDao.update(element);
     Category elementAfterUpdate = categoryDao.getById(id);
-    assertEquals("updated element", elementAfterUpdate.getName());
-    connection.rollback();
 
-    ConnectionFactory.closeConnection(connection);
+    assertEquals("updated element", elementAfterUpdate.getName());
+
+    connection.rollback();
+    connection.close();
   }
 
-
   @Test
-  public void getAll_test() throws SQLException {
-
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    CategoryDao categoryDao = daoFactory.getCategoryDao();
-
-    Connection connection = ConnectionFactory.getConnection();
+  public void getAll() throws SQLException {
+    Connection connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
 
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
+
     Logger logger = Logger.getLogger(this.getClass());
+
     List<Category> categoryList = categoryDao.getAll();
+
     logger.info(categoryList);
+
     assertNotNull(categoryList);
-    ConnectionFactory.closeConnection(connection);
+
+    connection.rollback();
+    connection.close();
   }
 }

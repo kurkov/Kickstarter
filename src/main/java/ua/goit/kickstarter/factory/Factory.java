@@ -67,39 +67,39 @@ public class Factory {
     return controller;
   }
 
-  protected static CategoryDao getCategoryDao(Connection connection) {
+  public static CategoryDao getCategoryDao(Connection connection) {
     return new CategoryDaoImpl(getConnection());
   }
 
-  protected static ProjectDao getProjectDao(Connection connection) {
+  public static ProjectDao getProjectDao(Connection connection) {
     return new ProjectDaoImpl(getConnection());
   }
 
-  protected static CommentDao getCommentDao(Connection connection) {
+  public static CommentDao getCommentDao(Connection connection) {
     return new CommentDaoImpl(getConnection());
   }
 
-  protected static BlogPostDao getBlogPostDao(Connection connection) {
+  public static BlogPostDao getBlogPostDao(Connection connection) {
     return new BlogPostDaoImpl(getConnection());
   }
 
-  protected static UserDao getUserDao(Connection connection) {
+  public static UserDao getUserDao(Connection connection) {
     return new UserDaoImpl(getConnection());
   }
 
-  protected static CategoryService getCategoryService(CategoryDao dao) {
+  public static CategoryService getCategoryService(CategoryDao dao) {
     return new CategoryServiceImpl(dao);
   }
 
-  protected static ProjectService getProjectService(ProjectDao dao) {
+  public static ProjectService getProjectService(ProjectDao dao) {
     return new ProjectServiceImpl(dao);
   }
 
-  protected static CommentService getCommentService(CommentDao dao) {
+  public static CommentService getCommentService(CommentDao dao) {
     return new CommentServiceImpl(dao);
   }
 
-  protected static BlogPostService getBlogPostService(BlogPostDao dao) {
+  public static BlogPostService getBlogPostService(BlogPostDao dao) {
     return new BlogPostServiceImpl(dao);
   }
 

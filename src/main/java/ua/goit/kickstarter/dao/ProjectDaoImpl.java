@@ -1,7 +1,8 @@
 package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
+import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
@@ -21,7 +22,7 @@ public class ProjectDaoImpl extends AbstractDao<Project>
 
     String sqlInsert = "INSERT INTO projects (name,description, id_category) " +
             "VALUES ( ?, ?, ? );";
-    Connection connection = ConnectionFactory.getConnection();
+    Connection connection = ConnectionPool.getConnection();
     try {
       PreparedStatement statement = connection.prepareStatement(sqlInsert);
       statement.setString(1, newProject.getName());
@@ -48,10 +49,10 @@ public class ProjectDaoImpl extends AbstractDao<Project>
   }
 
   @Override
-  public Project add(String name, String categoryId, String
+  public Project add(String name, Integer categoryId, String
       description) {
 
-    CategoryDao categoryDao = new DaoFactoryImpl().getCategoryDao();
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category category = categoryDao.getById(categoryId);
 
     if (category == null) {
@@ -67,7 +68,7 @@ public class ProjectDaoImpl extends AbstractDao<Project>
     Category category;
     CategoryDao categoryDao = new CategoryDaoImpl(connection);
     String sqlQuery = "SELECT * FROM projects WHERE id = " + id + ";";
-    Connection connection = ConnectionFactory.getConnection();
+    Connection connection = ConnectionPool.getConnection();
     try {
       Statement statement = connection.createStatement();
       ResultSet rs = statement.executeQuery(sqlQuery);

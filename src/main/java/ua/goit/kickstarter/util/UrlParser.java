@@ -2,9 +2,7 @@ package ua.goit.kickstarter.util;
 
 
 public class UrlParser {
-
-  public  Operation parse(String url){
-
+  public static Operation parse(String url){
     Operation result = new Operation();
     result.setOperationType(OperationType.LIST_ALL);
 

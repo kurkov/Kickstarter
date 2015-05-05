@@ -18,10 +18,11 @@ import java.util.Map;
 
 public class ViewModelTest {
   @Test
-  public void givenRequest_WhenInvokeProcessOfCategoryController_ThenWouldReturnExpectedStringOfViewModel()
+  public void givenRequest_WhenInvokeProcessOfCategoryController_ThenReturnExpectedStringOfViewModel()
       throws ServletException, IOException, SQLException {
     String expected = "/WEB-INF/jsp/categories.jsp";
     Connection connection = ConnectionPool.getConnection();
+    connection.setAutoCommit(false);
 
     Map<String, String[]> parameters = new HashMap<String, String[]>(){{
       put("categoryName", new String[]{"Music"});
@@ -35,6 +36,7 @@ public class ViewModelTest {
     String actual = viewModel.getView();
 
     assertEquals(expected, actual);
+
     connection.rollback();
     connection.close();
   }

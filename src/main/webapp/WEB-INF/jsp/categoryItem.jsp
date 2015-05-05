@@ -14,7 +14,7 @@
     <div>
 
       <b>Category:</b>
-      <c:out value="${categoryItem.name}"/>
+      <c:out value="${category.name}"/>
     </div>
     <br><br>
   </div>
@@ -51,7 +51,7 @@
 
           </td>
           <input type="hidden" name="categoryId"
-                 value="<c:out value="${categoryItem.id}"/>">
+                 value="<c:out value="${category.id}"/>">
         </form>
         </tr>
       </c:forEach>
@@ -63,7 +63,7 @@
         <td class="text-right text-nowrap">
           <button class="btn btn-xs btn-primary"
                   onclick="window.location.href='/project/add?categoryId=<c:out
-                    value="${categoryItem.id}"/>'">
+                    value="${category.id}"/>'">
             <span class="glyphicon glyphicon-plus-sign"></span>
             Add
           </button>

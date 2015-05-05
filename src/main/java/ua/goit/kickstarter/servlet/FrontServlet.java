@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.goit.kickstarter.controller.CategoryController;
 import ua.goit.kickstarter.controller.Controller;
 import ua.goit.kickstarter.controller.ErrorController;
+import ua.goit.kickstarter.controller.ProjectController;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.view.ViewModel;
@@ -26,14 +27,16 @@ public class FrontServlet extends HttpServlet {
   public void init() throws ServletException {
     super.init();
 
-    Controller categoryController =
-            Factory.createCategoryController(CategoryController.class,
-                    ConnectionPool.getConnection());
+    Controller categoryController = Factory.createCategoryController
+        (CategoryController.class, ConnectionPool.getConnection());
+    controllerMap.put(Request.create("GET", "/category"), categoryController);
+    controllerMap.put(Request.create("POST", "/category"), categoryController);
 
-    controllerMap.put(Request.create("GET", "/category"),
-            categoryController);
-    controllerMap.put(Request.create("POST", "/category"),
-        categoryController);
+    Controller projectController = Factory.createProjectController
+        (ProjectController.class, ConnectionPool.getConnection());
+    controllerMap.put(Request.create("GET", "/project"), projectController);
+    controllerMap.put(Request.create("POST", "/project"), projectController);
+
   }
 
   @Override

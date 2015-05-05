@@ -12,18 +12,13 @@ public class ProjectPropertiesTest {
   @Test
   public void getDatabaseProperty(){
     ProjectProperties projectProperties = new ProjectProperties();
-
-  //  InputStream in  = this.getClass().getResourceAsStream("config.properties");
     String str = projectProperties.getDatabase();
     assertTrue(!str.isEmpty());
-
-
   }
+
   @Test
   public void getProperty(){
-
     InputStream in = this.getClass().getResourceAsStream("/config.properties");
-    //InputStream in = null;
 
     if (in == null){
       System.out.println("null");
@@ -36,7 +31,5 @@ public class ProjectPropertiesTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-
   }
 }

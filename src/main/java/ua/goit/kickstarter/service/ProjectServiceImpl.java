@@ -1,25 +1,22 @@
 package ua.goit.kickstarter.service;
 
-
 import ua.goit.kickstarter.dao.CategoryDao;
-import ua.goit.kickstarter.dao.DaoFactory;
 import ua.goit.kickstarter.dao.ProjectDao;
-import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
 import java.util.List;
 
-
 public class ProjectServiceImpl implements ProjectService {
-
   private final ProjectDao projectDao;
   private final CategoryDao categoryDao;
 
-  public ProjectServiceImpl(ProjectDao projectDao) {
+  public ProjectServiceImpl(ProjectDao projectDao, CategoryDao categoryDao) {
     this.projectDao = projectDao;
+    this.categoryDao = categoryDao;
   }
 
+  @Override
   public List<Project> getAll() {
     return projectDao.getAll();
   }
@@ -36,7 +33,7 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public Project addNewProject(String name, String description,
-                               String categoryId) {
+                               Integer categoryId) {
     Project newProject = new Project();
     newProject.setName(name);
     newProject.setDescription(description);
@@ -47,16 +44,9 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public void editProject(String id, String projectName, String projectDescription) {
-    int idProject;
-    try {
-      idProject = Integer.parseInt(id);
-    } catch (NumberFormatException e) {
-      /*NE*/
-      return;
-    }
-
-    Project project = projectDao.getById(idProject);
+  public void editProject(Integer id, String projectName,
+                          String projectDescription) {
+    Project project = projectDao.getById(id);
     if (project == null) return;
 
     project.setName(projectName);
@@ -65,7 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public void deleteProject(String projectId) {
+  public void deleteProject(Integer projectId) {
     try {
       projectDao.deleteById(projectId);
     } catch (NumberFormatException e) {
