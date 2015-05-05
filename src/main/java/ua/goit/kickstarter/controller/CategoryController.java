@@ -43,24 +43,44 @@ public class CategoryController implements Controller {
     ViewModel viewModel;
 
     if (operation.getOperationType() == OperationType.VIEW_ITEM) {
-      viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
-      Category category = categoryService.getById(operation.getObjectId());
-      List<Project> projects = null;
-      if (category != null) {
-        projects = projectService.getByCategory(category);
-      }
-      viewModel.addAttributes("projects", projects);
-      viewModel.addAttributes("category", category);
+      viewModel = getViewModelForCategoryView(operation);
     } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
+      viewModel = getViewModelForCategoryAdd();
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      Category category = categoryService.getById(operation.getObjectId());
-      viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
-      viewModel.addAttributes("category", category);
+      viewModel = getViewModelForCategoryEdit(operation, null);
     } else {
       viewModel = getViewModelForAllCategories(categoryService);
     }
 
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForCategoryEdit(Operation operation,
+                                                String categoryName) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
+    Category category = categoryService.getById(operation.getObjectId());
+    viewModel.addAttributes("category", category);
+    if (categoryName.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    }
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForCategoryAdd() {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
+    viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForCategoryView(Operation operation) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
+    Category category = categoryService.getById(operation.getObjectId());
+    List<Project> projects = null;
+    if (category != null) {
+      projects = projectService.getByCategory(category);
+    }
+    viewModel.addAttributes("projects", projects);
+    viewModel.addAttributes("category", category);
     return viewModel;
   }
 
@@ -74,8 +94,7 @@ public class CategoryController implements Controller {
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       if (categoryName.equals("")) {
-        viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
-        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+        viewModel = getViewModelForCategoryAdd();
       } else {
         categoryService.addNewCategory(new Category(categoryName));
         viewModel = getViewModelForAllCategories(categoryService);
@@ -86,12 +105,12 @@ public class CategoryController implements Controller {
 
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       if (categoryName.equals("")) {
-        viewModel = new ViewModel("WEB-INF/jsp/categoryItemEdit.jsp");
-        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+        viewModel = getViewModelForCategoryEdit(operation, categoryName);
+      } else {
+        categoryService.editCategory(new Category(operation.getObjectId(),
+            categoryName));
+        viewModel = getViewModelForAllCategories(categoryService);
       }
-      categoryService.editCategory(new Category(operation.getObjectId(),
-          categoryName));
-      viewModel = getViewModelForAllCategories(categoryService);
     }
 
     return viewModel;

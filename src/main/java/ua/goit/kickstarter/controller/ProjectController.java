@@ -57,19 +57,43 @@ public class ProjectController implements Controller {
       Project project = projectService.getProjectById(operation.getObjectId());
       viewModel = getViewModelForProjectView(project);
     } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
-      viewModel.addAttributes("categoryId", categoryId);
+      viewModel = getViewModelForProjectAdd(categoryId, null, null);
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      viewModel = new ViewModel("/WEB-INF/jsp/projectItemEdit.jsp");
-      Project project = projectService.getProjectById(operation.getObjectId());
-      viewModel.addAttributes("categoryId", categoryId);
-      viewModel.addAttributes("project", project);
+      viewModel = getViewModelForProjectEdit(operation, categoryId, null, null);
     } else {
       viewModel = new ViewModel("/WEB-INF/jsp/projects.jsp");
       List<Project> projects = projectService.getAll();
       viewModel.addAttributes("projects", projects);
     }
 
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForProjectEdit(Operation operation,
+           Integer categoryId, String projectName, String projectDescription) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemEdit.jsp");
+    Project project = projectService.getProjectById(operation.getObjectId());
+    viewModel.addAttributes("categoryId", categoryId);
+    viewModel.addAttributes("project", project);
+    if (projectName.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    } else if (projectDescription.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
+          "filled");
+    }
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForProjectAdd(Integer categoryId, String
+      projectName, String projectDescription) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
+    viewModel.addAttributes("categoryId", categoryId);
+    if (projectName.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    } else if (projectDescription.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
+          "filled");
+    }
     return viewModel;
   }
 
@@ -94,18 +118,13 @@ public class ProjectController implements Controller {
 
     String categoryIdStr = request.getParameter("categoryId");
     Integer categoryId = getIdInteger(categoryIdStr);
-    String projectIdStr = request.getParameter("projectId");
-    Integer projectId = getIdInteger(projectIdStr);
     String projectName = request.getParameter("projectName");
     String projectDescription = request.getParameter("projectDescription");
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      viewModel = new ViewModel("WEB-INF/jsp/projectItemAdd.jsp");
-      if (projectName.equals("")) {
-        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
-      } else if (projectDescription.equals("")) {
-        viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
-            "filled");
+      if (projectName.equals("") || projectDescription.equals("")) {
+        viewModel = getViewModelForProjectAdd(categoryId, projectName,
+            projectDescription);
       } else {
         Project project = projectService.addNewProject(projectName,
             projectDescription, categoryId);
@@ -113,29 +132,31 @@ public class ProjectController implements Controller {
       }
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
       projectService.deleteProject(operation.getObjectId());
-      viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
-      Category category= categoryService.getById(categoryId);
-      List<Project> projects = null;
-      if (category != null) {
-        projects = projectService.getByCategory(category);
-      }
-      viewModel.addAttributes("projects", projects);
-      viewModel.addAttributes("category", category);
-      viewModel.setUrlForRedirect("/category/" + categoryId);
+      viewModel = getViewModelForProjectsViewInCategory(categoryId);
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      viewModel = new ViewModel("WEB-INF/jsp/projectItemEdit.jsp");
-      if (projectName.equals("")) {
-        viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
-      } else if (projectDescription.equals("")) {
-        viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
-            "filled");
+      if (projectName.equals("") || projectDescription.equals("")) {
+        viewModel = getViewModelForProjectEdit(operation, categoryId,
+            projectName, projectDescription);
       } else {
         projectService.editProject(operation.getObjectId(), projectName,
             projectDescription);
-        Project project = projectService.getProjectById(projectId);
-        viewModel = getViewModelForProjectView(project);
+        viewModel = getViewModelForProjectsViewInCategory(categoryId);
       }
     }
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForProjectsViewInCategory(Integer categoryId) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
+    Category category= categoryService.getById(categoryId);
+    List<Project> projects = null;
+    if (category != null) {
+      projects = projectService.getByCategory(category);
+    }
+    viewModel.addAttributes("projects", projects);
+    viewModel.addAttributes("category", category);
+    viewModel.setUrlForRedirect("/category/" + categoryId);
+
     return viewModel;
   }
 

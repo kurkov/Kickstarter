@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CommentController implements CommentController {
+public class CommentController implements Controller {
+
   @Override
   public void proceedRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     //TODO
