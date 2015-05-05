@@ -49,8 +49,7 @@ public class ProjectDaoImpl extends AbstractDao<Project>
   }
 
   @Override
-  public Project add(String name, Integer categoryId, String
-      description) {
+  public Project add(String name, String description, Integer categoryId) {
 
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category category = categoryDao.getById(categoryId);

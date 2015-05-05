@@ -2,56 +2,72 @@ package ua.goit.kickstarter.controller;
 
 import ua.goit.kickstarter.model.Comment;
 import ua.goit.kickstarter.service.CommentService;
-import ua.goit.kickstarter.service.CommentServiceImpl;
+import ua.goit.kickstarter.servlet.Request;
+import ua.goit.kickstarter.util.Operation;
+import ua.goit.kickstarter.util.OperationType;
+import ua.goit.kickstarter.util.UrlParser;
+import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CommentController implements Controller {
+  private final CommentService commentService;
+
+  public CommentController(CommentService commentService) {
+    this.commentService = commentService;
+  }
 
   @Override
-  public void proceedRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    //TODO
+  public ViewModel process(Request request) throws ServletException,
+      IOException {
+
+    return proceedPost(request);
   }
-  @Override
-  public void addNewComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Integer projectId = 0;
-    try {
-      String newComment = req.getParameter("newComment");
-      projectId = Integer.parseInt(req.getParameter("projectId"));
-      if (!newComment.equals("")) {
+
+  private ViewModel proceedPost(Request request) throws ServletException,
+      IOException {
+    Operation operation = UrlParser.parse(request.getUrl());
+    String newComment = request.getParameter("newComment");
+    String commentIdStr = request.getParameter("commentId");
+    Integer commentId = getIdInteger(commentIdStr);
+    String projectIdStr = request.getParameter("projectId");
+    Integer projectId = getIdInteger(projectIdStr);
+    ViewModel viewModel;
+
+    if (operation.getOperationType() == OperationType.ADD_ITEM) {
+      if (! newComment.equals("")) {
         if (projectId > 0) {
-          CommentService commentService = new CommentServiceImpl();
           Comment comment = commentService.addNewComment(newComment, projectId);
         }
-      } else {
-        req.setAttribute("errorMessage", "Cant add empty comment!!!");
       }
-    } catch (NumberFormatException e) {
-      resp.sendRedirect("/project");
-    }
-
-    resp.sendRedirect("/project/" + projectId + "#comments");
-  }
-
-  @Override
-  public void deleteComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Integer commentId = 0;
-    Integer projectId = 0;
-    try {
-      commentId = Integer.parseInt(req.getParameter("commentId"));
-      projectId = Integer.parseInt(req.getParameter("projectId"));
+    } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
       if (commentId > 0) {
-        CommentService commentService = new CommentServiceImpl();
         commentService.deleteCommentById(commentId);
       }
-    } catch (NumberFormatException e) {
-      resp.sendRedirect("/project");
     }
+    viewModel = getViewModelForComment(newComment, projectId);
 
-    resp.sendRedirect("/project/" + projectId + "#comments");
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForComment(String newComment, Integer projectId) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItem.jsp");
+    if (newComment.equals("")) {
+      viewModel.addAttributes("errorMessage", "Cant add empty comment!!!");
+      viewModel.setUrlForRedirect("/project" + projectId + "#comments");
+    }
+    return viewModel;
+  }
+
+  private Integer getIdInteger(String IdStr) {
+    Integer id = null;
+    try {
+      id = Integer.parseInt(IdStr);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+    }
+    return id;
   }
 }
 

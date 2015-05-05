@@ -24,8 +24,8 @@ public class CommentDaoTest {
     CategoryDao categoryDao = Factory.getCategoryDao(con);
     Category category = categoryDao.add("New category 88");
     ProjectDao projectDao = Factory.getProjectDao(con);
-    Project project = projectDao.add("New project 11", category.getId(),
-        "Something new invented");
+    Project project = projectDao.add("New project 11", "Something new invented",
+        category.getId());
     CommentDao commentDao = Factory.getCommentDao(con);
     Comment newComment = new Comment(2, "New Comment", new DateTime(), project);
     Comment actual = commentDao.add(newComment);
@@ -44,8 +44,8 @@ public class CommentDaoTest {
     CategoryDao categoryDao = Factory.getCategoryDao(con);
     Category category = categoryDao.add("New category 88");
     ProjectDao projectDao = Factory.getProjectDao(con);
-    Project project = projectDao.add("New project 11", category.getId(),
-        "Something new invented");
+    Project project = projectDao.add("New project 11", "Something new invented",
+        category.getId());
     CommentDao commentDao = Factory.getCommentDao(con);
     Comment newComment = new Comment("New Comment", new DateTime(), project);
     Comment comment = commentDao.add(newComment);

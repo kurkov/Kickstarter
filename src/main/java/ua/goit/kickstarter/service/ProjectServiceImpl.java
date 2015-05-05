@@ -9,11 +9,9 @@ import java.util.List;
 
 public class ProjectServiceImpl implements ProjectService {
   private final ProjectDao projectDao;
-  private final CategoryDao categoryDao;
 
-  public ProjectServiceImpl(ProjectDao projectDao, CategoryDao categoryDao) {
+  public ProjectServiceImpl(ProjectDao projectDao) {
     this.projectDao = projectDao;
-    this.categoryDao = categoryDao;
   }
 
   @Override
@@ -34,13 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
   @Override
   public Project addNewProject(String name, String description,
                                Integer categoryId) {
-    Project newProject = new Project();
-    newProject.setName(name);
-    newProject.setDescription(description);
-    Category category = categoryDao.getById(categoryId);
-    newProject.setCategory(category);
-
-    return projectDao.add(newProject);
+    return projectDao.add(name, description, categoryId);
   }
 
   @Override

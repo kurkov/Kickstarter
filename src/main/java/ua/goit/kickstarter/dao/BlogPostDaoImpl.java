@@ -175,6 +175,11 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
 
   @Override
   public BlogPost update(BlogPost element) {
-    return null;
+    String query = "UPDATE blogposts " +
+        " SET title = '" + element.getTitle() + "'," +
+        " text = '" + element.getText() + "'" +
+        " WHERE id = " + element.getId() + ";";
+    executeUpdate(query);
+    return element;
   }
 }

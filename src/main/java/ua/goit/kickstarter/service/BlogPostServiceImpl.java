@@ -44,4 +44,17 @@ public class BlogPostServiceImpl implements BlogPostService {
   public void deleteBlogPostById(Integer blogPostId) {
     blogPostDao.deleteById(blogPostId);
   }
+
+  @Override
+  public void editBlogPost(Integer blogPostId, String title, String text) {
+    BlogPost blogPost = blogPostDao.getById(blogPostId);
+
+    if (blogPost == null) {
+      return;
+    }
+
+    blogPost.setTitle(title);
+    blogPost.setText(text);
+    blogPostDao.update(blogPost);
+  }
 }

@@ -1,12 +1,10 @@
 package ua.goit.kickstarter.servlet;
 
 import org.apache.log4j.Logger;
-import ua.goit.kickstarter.controller.CategoryController;
-import ua.goit.kickstarter.controller.Controller;
-import ua.goit.kickstarter.controller.ErrorController;
-import ua.goit.kickstarter.controller.ProjectController;
+import ua.goit.kickstarter.controller.*;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
+import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.RequestDispatcher;
@@ -37,6 +35,14 @@ public class FrontServlet extends HttpServlet {
     controllerMap.put(Request.create("GET", "/project"), projectController);
     controllerMap.put(Request.create("POST", "/project"), projectController);
 
+    Controller commentController = Factory.createCommentController
+        (CommentController.class, ConnectionPool.getConnection());
+    controllerMap.put(Request.create("POST", "/comment"), commentController);
+
+    Controller blogPostController = Factory.createBlogPostController
+        (BlogPostController.class, ConnectionPool.getConnection());
+    controllerMap.put(Request.create("GET", "/blogpost"), blogPostController);
+    controllerMap.put(Request.create("POST", "/blogpost"), blogPostController);
   }
 
   @Override
