@@ -29,7 +29,6 @@ public class CategoryDaoImpl extends AbstractDao<Category>
       } else {
         category = null;
       }
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

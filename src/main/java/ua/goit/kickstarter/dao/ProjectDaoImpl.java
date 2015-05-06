@@ -64,17 +64,20 @@ public class ProjectDaoImpl extends AbstractDao<Project>
   public Project getById(Integer id) {
     Project project;
     Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl(connection);
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     String sqlQuery = "SELECT * FROM projects WHERE id = " + id + ";";
-    Connection connection = ConnectionPool.getConnection();
     try {
       Statement statement = connection.createStatement();
       ResultSet rs = statement.executeQuery(sqlQuery);
-      String name = rs.getString("name");
-      String description = rs.getString("description");
-      Integer id_category = rs.getInt("id_category");
-      category = categoryDao.getById(id_category);
-      project = new Project(id, name, category, description);
+      if (rs.next()) {
+        String name = rs.getString("name");
+        String description = rs.getString("description");
+        Integer id_category = rs.getInt("id_category");
+        category = categoryDao.getById(id_category);
+        project = new Project(id, name, category, description);
+      } else {
+        project = null;
+      }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

@@ -21,7 +21,7 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
   public BlogPost getById(Integer id) {
     BlogPost blogPost;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     String sqlSelect = "SELECT * FROM blogs WHERE id = " + id + ";";
     ResultSet rs;
     try {
@@ -33,12 +33,10 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
         DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
-        blogPost = new BlogPost(id, title, text, dateOfCreation,
-                project);
+        blogPost = new BlogPost(id, title, text, dateOfCreation, project);
       } else {
         blogPost = null;
       }
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -50,9 +48,9 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
     List<BlogPost> blogPostList = new ArrayList<>();
     BlogPost blogPost;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
-    String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
-            projectID + ";";
+    ProjectDao projectDao = Factory.getProjectDao(connection);
+    String sqlSelect = "SELECT * FROM blogs WHERE id_project = "
+        + projectID + ";";
     try {
       ResultSet rs = executeQuery(sqlSelect);
       while (rs.next()) {
@@ -74,38 +72,15 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
 
   @Override
   public List<BlogPost> getByProject(Project project) {
-    List<BlogPost> blogPostList = new ArrayList<>();
-    BlogPost blogPost;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
     Integer projectID = project.getId();
-    String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
-            projectID + ";";
-    Connection connection = ConnectionPool.getConnection();
-    try {
-      Statement statement = connection.createStatement();
-      ResultSet rs = statement.executeQuery(sqlSelect);
-      while (rs.next()) {
-        Integer id = rs.getInt("id");
-        String title = rs.getString("title");
-        String text = rs.getString("text");
-        Long date = rs.getLong("dateOfCreation");
-        DateTime dateOfCreation = new DateTime(date);
-        Integer id_project = rs.getInt("id_project");
-        project = projectDao.getById(id_project);
-        blogPost = new BlogPost(id, title, text, dateOfCreation, project);
-        blogPostList.add(blogPost);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return blogPostList;
+    return getByProjectId(projectID);
   }
 
   @Override
   public List<BlogPost> getAll() {
     Project project;
     BlogPost blogPost;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     List<BlogPost> blogPostList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM blogs;";
     ResultSet rs;
@@ -134,11 +109,10 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
             "dateOfCreation, id_project) VALUES ( ?,?,?,? );";
     Integer id;
     Project project;
-    Connection con = ConnectionPool.getConnection();
-    ProjectDao projectDao = Factory.getProjectDao(con);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     DateTime dateOfCreation = new DateTime();
     try {
-      PreparedStatement statement = con.prepareStatement(sqlInsert);
+      PreparedStatement statement = connection.prepareStatement(sqlInsert);
       statement.setString(1, title);
       statement.setString(2, text);
       statement.setLong(3, dateOfCreation.getMillis());
@@ -174,12 +148,12 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
   }
 
   @Override
-  public BlogPost update(BlogPost element) {
-    String query = "UPDATE blogposts " +
-        " SET title = '" + element.getTitle() + "'," +
-        " text = '" + element.getText() + "'" +
-        " WHERE id = " + element.getId() + ";";
+  public BlogPost update(BlogPost blogPost) {
+    String query = "UPDATE blogs " +
+        " SET title = '" + blogPost.getTitle() + "'," +
+        " text = '" + blogPost.getText() + "'" +
+        " WHERE id = " + blogPost.getId() + ";";
     executeUpdate(query);
-    return element;
+    return blogPost;
   }
 }

@@ -10,14 +10,9 @@ public class Comment extends AbstractModel implements Comparable {
   private DateTime dateOfCreation;
   private Project project;
 
-  public Comment(Integer id, String text, DateTime dateOfCreation, Project project) {
-      this.id = id;
-      this.text = text;
-      this.dateOfCreation = dateOfCreation;
-      this.project = project;
-  }
-
-  public Comment(String text, DateTime dateOfCreation, Project project) {
+  public Comment(Integer id, String text, DateTime dateOfCreation, Project
+      project) {
+    this.id = id;
     this.text = text;
     this.dateOfCreation = dateOfCreation;
     this.project = project;

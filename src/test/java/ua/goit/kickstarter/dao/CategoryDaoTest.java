@@ -16,16 +16,17 @@ import static org.junit.Assert.*;
 
 public class CategoryDaoTest {
   private static Connection connection;
+  private static CategoryDao categoryDao;
 
   @BeforeClass
-  public static void createConnection() throws SQLException {
+  public static void init() throws SQLException {
     connection = ConnectionPool.getConnection();
     connection.setAutoCommit(false);
+    categoryDao = Factory.getCategoryDao(connection);
   }
 
-  private Integer getExistingCategoryId(Connection connection) {
+  private Integer getExistingCategoryId() {
     Integer res = null;
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     List<Category> categoryList = categoryDao.getAll();
     for (Category category : categoryList) {
       res = category.getId();
@@ -39,7 +40,6 @@ public class CategoryDaoTest {
 
   @Test
   public void addNewCategory() throws SQLException {
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category actual = categoryDao.add("New category2");
 
     assertNotNull(actual);
@@ -49,9 +49,8 @@ public class CategoryDaoTest {
 
   @Test
   public void getById() throws SQLException {
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     List<Category> categoryList = categoryDao.getAll();
-    Integer id = getExistingCategoryId(connection);
+    Integer id = getExistingCategoryId();
     for (Category category : categoryList) {
       id = category.getId();
     }
@@ -64,7 +63,6 @@ public class CategoryDaoTest {
 
   @Test
   public void deleteById() throws SQLException {
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category newElement = categoryDao.add("New category2");
     int idNewElement = newElement.getId();
     Category newElementFromDB = categoryDao.getById(idNewElement);
@@ -81,8 +79,7 @@ public class CategoryDaoTest {
 
   @Test
   public void updateById() throws SQLException {
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
-    int id = getExistingCategoryId(connection);
+    int id = getExistingCategoryId();
     Category element = categoryDao.getById(id);
     element.setName("updated element");
     categoryDao.update(element);
@@ -95,8 +92,6 @@ public class CategoryDaoTest {
 
   @Test
   public void getAll() throws SQLException {
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
-
     Logger logger = Logger.getLogger(this.getClass());
 
     List<Category> categoryList = categoryDao.getAll();

@@ -25,7 +25,7 @@ public class CommentDaoImpl extends AbstractDao<Comment>
     Comment comment = null;
     ResultSet rs = null;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     String sqlSelect = "SELECT * FROM comments WHERE id = " + id;
     try {
       rs = executeQuery(sqlSelect);
@@ -56,7 +56,7 @@ public class CommentDaoImpl extends AbstractDao<Comment>
     List<Comment> commentList = new ArrayList<>();
     Comment comment;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     String sqlSelect = "SELECT * FROM comments WHERE id_project = " +
             projectID;
     try {
@@ -79,35 +79,15 @@ public class CommentDaoImpl extends AbstractDao<Comment>
 
   @Override
   public List<Comment> getByProject(Project project) {
-    List<Comment> commentList = new ArrayList<>();
-    Comment comment;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
     Integer projectID = project.getId();
-    String sqlSelect = "SELECT * FROM comments WHERE id_project = " +
-            projectID;
-    try {
-      ResultSet rs = executeQuery(sqlSelect);
-      while (rs.next()) {
-        Integer id = rs.getInt("id");
-        String text = rs.getString("text");
-        Long date = rs.getLong("dateOfCreation");
-        DateTime dateOfCreation = new DateTime(date);
-        Integer id_project = rs.getInt("id_project");
-        project = projectDao.getById(id_project);
-        comment = new Comment(id, text, dateOfCreation, project);
-        commentList.add(comment);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return commentList;
+    return getByProjectId(projectID);
   }
 
   @Override
   public List<Comment> getAll() {
     Project project;
     Comment comment;
-    ProjectDao projectDao = new ProjectDaoImpl(connection);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     List<Comment> commentList = new ArrayList<>();
     String sqlSelect = "SELECT * FROM comments";
     try {
@@ -129,16 +109,15 @@ public class CommentDaoImpl extends AbstractDao<Comment>
   }
 
   @Override
-  public Comment add(Comment element) {
+  public Comment add(Comment comment) {
     String query = "INSERT INTO comments (text, dateOfCreation, id_project) VALUES (?, ?, ?);";
 
-    Connection con = ConnectionPool.getConnection();
     try {
-      PreparedStatement statement = con.prepareStatement(query);
-      statement.setString(1, element.getText());
-      DateTime dateOfCreation = element.getDateOfCreation();
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setString(1, comment.getText());
+      DateTime dateOfCreation = comment.getDateOfCreation();
       statement.setLong(2, dateOfCreation.getMillis());
-      statement.setString(3, element.getProject().getId().toString());
+      statement.setInt(3, comment.getProject().getId());
 
       int affectedRows = statement.executeUpdate();
       if (affectedRows == 0) {
@@ -147,14 +126,14 @@ public class CommentDaoImpl extends AbstractDao<Comment>
 
       ResultSet generatedKeys = statement.getGeneratedKeys();
       if (generatedKeys.next()) {
-        element.setId(generatedKeys.getInt(1));
+        comment.setId(generatedKeys.getInt(1));
       } else {
         throw new SQLException("Creating project failed, no ID obtained.");
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return element;
+    return comment;
   }
 
   @Override
