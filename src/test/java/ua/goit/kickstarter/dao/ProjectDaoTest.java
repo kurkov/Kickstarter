@@ -1,6 +1,8 @@
 package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
@@ -14,6 +16,14 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ProjectDaoTest {
+  private static Connection connection;
+
+  @BeforeClass
+  public static void createConnection() throws SQLException {
+    connection = ConnectionPool.getConnection();
+    connection.setAutoCommit(false);
+  }
+
   private Integer getExistingCategoryId(Connection connection) {
     Integer res = null;
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
@@ -32,9 +42,6 @@ public class ProjectDaoTest {
 
   @Test
   public void addNewProject() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
     ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = new Project();
@@ -50,29 +57,20 @@ public class ProjectDaoTest {
     assertEquals(addedProject.getCategory(), project.getCategory());
 
     connection.rollback();
-    connection.close();
   }
-
 
   @Test
   public void getProjectById() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = projectDao.getById(1);
 
     assertNotNull(project);
 
     connection.rollback();
-    connection.close();
   }
 
   @Test
   public void getProjectsByCategoryId() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     ProjectDao projectDao = Factory.getProjectDao(connection);
     List<Project> projects = projectDao.getByCategoryId(1);
 
@@ -84,15 +82,10 @@ public class ProjectDaoTest {
     assertTrue(projects.size() > 0);
 
     connection.rollback();
-    connection.close();
   }
-
 
   @Test
   public void getProjectsByCategory() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
     ProjectDao projectDao = Factory.getProjectDao(connection);
     Category category = categoryDao.getById(1);
@@ -102,14 +95,10 @@ public class ProjectDaoTest {
     assertTrue(projects.size() > 0);
 
     connection.rollback();
-    connection.close();
   }
 
   @Test
   public void getAllProjects() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     ProjectDao projectDao = Factory.getProjectDao(connection);
     List<Project> projects = projectDao.getAll();
 
@@ -117,6 +106,10 @@ public class ProjectDaoTest {
     assertTrue(projects.size() > 0);
 
     connection.rollback();
+  }
+
+  @AfterClass
+  public static void closeConnection() throws SQLException {
     connection.close();
   }
 }

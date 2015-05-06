@@ -1,6 +1,8 @@
 package ua.goit.kickstarter.dao;
 
 import org.joda.time.DateTime;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
@@ -16,37 +18,38 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class CommentDaoTest {
+  private static Connection connection;
+
+  @BeforeClass
+  public static void createConnection() throws SQLException {
+    connection = ConnectionPool.getConnection();
+    connection.setAutoCommit(false);
+  }
+
   @Test
   public void addNewComment() throws SQLException {
-    Connection con = ConnectionPool.getConnection();
-    con.setAutoCommit(false);
-
-    CategoryDao categoryDao = Factory.getCategoryDao(con);
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category category = categoryDao.add("New category 88");
-    ProjectDao projectDao = Factory.getProjectDao(con);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = projectDao.add("New project 11", "Something new invented",
         category.getId());
-    CommentDao commentDao = Factory.getCommentDao(con);
+    CommentDao commentDao = Factory.getCommentDao(connection);
     Comment newComment = new Comment(2, "New Comment", new DateTime(), project);
     Comment actual = commentDao.add(newComment);
 
     assertNotNull(actual);
 
-    con.rollback();
-    con.close();
+    connection.rollback();
   }
 
   @Test
   public void getById() throws SQLException {
-    Connection con = ConnectionPool.getConnection();
-    con.setAutoCommit(false);
-
-    CategoryDao categoryDao = Factory.getCategoryDao(con);
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category category = categoryDao.add("New category 88");
-    ProjectDao projectDao = Factory.getProjectDao(con);
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     Project project = projectDao.add("New project 11", "Something new invented",
         category.getId());
-    CommentDao commentDao = Factory.getCommentDao(con);
+    CommentDao commentDao = Factory.getCommentDao(connection);
     Comment newComment = new Comment("New Comment", new DateTime(), project);
     Comment comment = commentDao.add(newComment);
     List<Comment> commentList = commentDao.getAll();
@@ -58,7 +61,11 @@ public class CommentDaoTest {
 
     assertEquals(comment, actual);
 
-    con.rollback();
-    con.close();
+    connection.rollback();
+  }
+
+  @AfterClass
+  public static void closeConnection() throws SQLException {
+    connection.close();
   }
 }

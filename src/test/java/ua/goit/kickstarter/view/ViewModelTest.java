@@ -1,5 +1,7 @@
 package ua.goit.kickstarter.view;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,18 +19,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViewModelTest {
+  private static Connection connection;
+
+  @BeforeClass
+  public static void createConnection() throws SQLException {
+    connection = ConnectionPool.getConnection();
+    connection.setAutoCommit(false);
+  }
+
   @Test
   public void givenRequest_WhenInvokeProcessOfCategoryController_ThenReturnExpectedStringOfViewModel()
       throws ServletException, IOException, SQLException {
     String expected = "/WEB-INF/jsp/categories.jsp";
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     Map<String, String[]> parameters = new HashMap<String, String[]>(){{
       put("categoryName", new String[]{"Music"});
     }};
     String method = "POST";
-    String url = "/add";
+    String url = "/category/add";
     Request request = new Request(parameters, method, url);
     Controller controller = Factory.createCategoryController
         (CategoryController.class, connection);
@@ -38,6 +45,10 @@ public class ViewModelTest {
     assertEquals(expected, actual);
 
     connection.rollback();
+  }
+
+  @AfterClass
+  public static void closeConnection() throws SQLException {
     connection.close();
   }
 }

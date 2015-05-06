@@ -60,7 +60,6 @@ public class ProjectDaoImpl extends AbstractDao<Project>
     return add(new Project(0, name, category, description));
   }
 
-
   @Override
   public Project getById(Integer id) {
     Project project;
@@ -108,12 +107,10 @@ public class ProjectDaoImpl extends AbstractDao<Project>
     return projectList;
   }
 
-
   @Override
   public List<Project> getByCategory(Category category) {
     return getByCategoryId(category.getId());
   }
-
 
   @Override
   public List<Project> getAll() {
@@ -139,7 +136,6 @@ public class ProjectDaoImpl extends AbstractDao<Project>
     return projectList;
   }
 
-
   @Override
   public Project update(Project project) {
     String query = "UPDATE projects " +
@@ -155,8 +151,6 @@ public class ProjectDaoImpl extends AbstractDao<Project>
     deleteById(project.getId());
   }
 
-
-
   @Override
   public void deleteById(Integer id) {
     Logger logger = Logger.getLogger(this.getClass());
@@ -165,6 +159,4 @@ public class ProjectDaoImpl extends AbstractDao<Project>
         " WHERE id = " + id + ";";
     executeUpdate(query);
   }
-
-
 }

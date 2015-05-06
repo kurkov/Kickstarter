@@ -1,6 +1,8 @@
 package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
@@ -13,6 +15,14 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class CategoryDaoTest {
+  private static Connection connection;
+
+  @BeforeClass
+  public static void createConnection() throws SQLException {
+    connection = ConnectionPool.getConnection();
+    connection.setAutoCommit(false);
+  }
+
   private Integer getExistingCategoryId(Connection connection) {
     Integer res = null;
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
@@ -29,24 +39,16 @@ public class CategoryDaoTest {
 
   @Test
   public void addNewCategory() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category actual = categoryDao.add("New category2");
 
     assertNotNull(actual);
 
     connection.rollback();
-    connection.close();
   }
-
 
   @Test
   public void getById() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
     List<Category> categoryList = categoryDao.getAll();
     Integer id = getExistingCategoryId(connection);
@@ -58,14 +60,10 @@ public class CategoryDaoTest {
     assertNotNull(actual);
 
     connection.rollback();
-    connection.close();
   }
 
   @Test
   public void deleteById() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category newElement = categoryDao.add("New category2");
     int idNewElement = newElement.getId();
@@ -79,14 +77,10 @@ public class CategoryDaoTest {
     assertNull(newElementFromDB);
 
     connection.rollback();
-    connection.close();
   }
 
   @Test
   public void updateById() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
     int id = getExistingCategoryId(connection);
     Category element = categoryDao.getById(id);
@@ -97,14 +91,10 @@ public class CategoryDaoTest {
     assertEquals("updated element", elementAfterUpdate.getName());
 
     connection.rollback();
-    connection.close();
   }
 
   @Test
   public void getAll() throws SQLException {
-    Connection connection = ConnectionPool.getConnection();
-    connection.setAutoCommit(false);
-
     CategoryDao categoryDao = Factory.getCategoryDao(connection);
 
     Logger logger = Logger.getLogger(this.getClass());
@@ -116,6 +106,10 @@ public class CategoryDaoTest {
     assertNotNull(categoryList);
 
     connection.rollback();
+  }
+
+  @AfterClass
+  public static void closeConnection() throws SQLException {
     connection.close();
   }
 }
