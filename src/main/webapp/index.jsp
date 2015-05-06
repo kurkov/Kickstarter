@@ -7,14 +7,14 @@
 <body>
 <br><br>
 <div class="jumbotron">
-  <p><a href="/category"><h2 align="center">Categories</h2></a></p>
+  <p><a href="/servlet/category"><h2 align="center">Categories</h2></a></p>
 
 </div>
 
 
 <div class="jumbotron">
 
-  <p><a href="/project"><h2 align="center">Projects</h2></a></p>
+  <p><a href="/servlet/project"><h2 align="center">Projects</h2></a></p>
 </div>
 
 

@@ -15,8 +15,9 @@
       <c:forEach var="c" items="${categories}">
         <tr>
           <form>
-            <td onclick="window.location.href='/category/<c:out value="${c.id}"/>'">
-              <a href="/category/<c:out value="${c.id}"/>">
+            <td onclick="window.location.href='/servlet/category/<c:out
+                    value="${c.id}"/>'">
+              <a href="/servlet/category/<c:out value="${c.id}"/>">
                 <c:out value="${c.name}"/>
               </a>
             </td>
@@ -25,14 +26,14 @@
 
 
               <button class="btn btn-xs btn-primary" formmethod="get"
-                      formaction='/category/<c:out
+                      formaction='/servlet/category/<c:out
                       value="${c.id}"/>/edit' type="submit">
                 <span class="glyphicon glyphicon-pencil"></span>
               </button>
 
 
               <button class="btn btn-xs btn-danger" formmethod="post"
-                      formaction='/category/<c:out
+                      formaction='/servlet/category/<c:out
                       value="${c.id}"/>/delete' type="submit">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
@@ -48,7 +49,7 @@
         </td>
         <td class="text-right text-nowrap">
           <button class="btn btn-xs btn-primary"
-                  onclick="window.location.href='/category/add'">
+                  onclick="window.location.href='/servlet/category/add'">
             <span class="glyphicon glyphicon-plus-sign"></span>
             Add
           </button>

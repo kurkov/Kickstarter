@@ -2,6 +2,8 @@ package ua.goit.kickstarter.factory;
 
 import ua.goit.kickstarter.controller.Controller;
 import ua.goit.kickstarter.dao.*;
+import ua.goit.kickstarter.model.BlogPost;
+import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.*;
 
 import java.lang.reflect.Constructor;
@@ -13,12 +15,13 @@ public class Factory {
 
   public static Controller createCategoryController(Class<? extends
           Controller> clazz, Connection connection) {
-    Controller controller = null;
+    Controller controller;
     try {
       Constructor<? extends Controller> constructor =
-              clazz.getConstructor(CategoryService.class);
-      CategoryService service = getCategoryService(getCategoryDao(connection));
-      controller = constructor.newInstance(service);
+              clazz.getConstructor(CategoryService.class, ProjectService.class);
+      CategoryService categoryService = getCategoryService(getCategoryDao(connection));
+      ProjectService projectService = getProjectService(getProjectDao(connection));
+      controller = constructor.newInstance(categoryService, projectService);
     } catch (Throwable t) {
       throw new RuntimeException(t);
     }
@@ -27,12 +30,20 @@ public class Factory {
 
   public static Controller createProjectController(Class<? extends
           Controller> clazz, Connection connection) {
-    Controller controller = null;
+    Controller controller;
     try {
       Constructor<? extends Controller> constructor =
-              clazz.getConstructor(ProjectService.class);
-      ProjectService service = getProjectService(getProjectDao(connection));
-      controller = constructor.newInstance(service);
+              clazz.getConstructor(CategoryService.class, ProjectService.class,
+                  CommentService.class, BlogPostService.class);
+      ProjectService projectService = getProjectService(getProjectDao(connection));
+      CategoryService categoryService = getCategoryService(getCategoryDao
+          (connection));
+      CommentService commentService = getCommentService(getCommentDao
+          (connection));
+      BlogPostService blogPostService = getBlogPostService(getBlogPostDao
+          (connection));
+      controller = constructor.newInstance(categoryService,projectService,
+          commentService, blogPostService);
     } catch (Throwable t) {
       throw new RuntimeException(t);
     }
@@ -41,7 +52,7 @@ public class Factory {
 
   public static Controller createCommentController(Class<? extends
           Controller> clazz, Connection connection) {
-    Controller controller = null;
+    Controller controller;
     try {
       Constructor<? extends Controller> constructor =
               clazz.getConstructor(CommentService.class);
@@ -55,12 +66,14 @@ public class Factory {
 
   public static Controller createBlogPostController(Class<? extends
           Controller> clazz, Connection connection) {
-    Controller controller = null;
+    Controller controller;
     try {
       Constructor<? extends Controller> constructor =
-              clazz.getConstructor(BlogPostService.class);
-      BlogPostService service = getBlogPostService(getBlogPostDao(connection));
-      controller = constructor.newInstance(service);
+              clazz.getConstructor(ProjectService.class, BlogPostService.class);
+      ProjectService projectService = getProjectService(getProjectDao
+          (connection));
+      BlogPostService blogPostService = getBlogPostService(getBlogPostDao(connection));
+      controller = constructor.newInstance(projectService, blogPostService);
     } catch (Throwable t) {
       throw new RuntimeException(t);
     }
@@ -68,23 +81,23 @@ public class Factory {
   }
 
   public static CategoryDao getCategoryDao(Connection connection) {
-    return new CategoryDaoImpl(getConnection());
+    return new CategoryDaoImpl(connection);
   }
 
   public static ProjectDao getProjectDao(Connection connection) {
-    return new ProjectDaoImpl(getConnection());
+    return new ProjectDaoImpl(connection);
   }
 
   public static CommentDao getCommentDao(Connection connection) {
-    return new CommentDaoImpl(getConnection());
+    return new CommentDaoImpl(connection);
   }
 
   public static BlogPostDao getBlogPostDao(Connection connection) {
-    return new BlogPostDaoImpl(getConnection());
+    return new BlogPostDaoImpl(connection);
   }
 
   public static UserDao getUserDao(Connection connection) {
-    return new UserDaoImpl(getConnection());
+    return new UserDaoImpl(connection);
   }
 
   public static CategoryService getCategoryService(CategoryDao dao) {

@@ -27,22 +27,29 @@ public class FrontServlet extends HttpServlet {
 
     Controller categoryController = Factory.createCategoryController
         (CategoryController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("GET", "/category"), categoryController);
-    controllerMap.put(Request.create("POST", "/category"), categoryController);
+    controllerMap.put(Request.create("GET", "/servlet/category"),
+        categoryController);
+    controllerMap.put(Request.create("POST", "/servlet/category"),
+        categoryController);
 
     Controller projectController = Factory.createProjectController
         (ProjectController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("GET", "/project"), projectController);
-    controllerMap.put(Request.create("POST", "/project"), projectController);
+    controllerMap.put(Request.create("GET", "/servlet/project"),
+        projectController);
+    controllerMap.put(Request.create("POST", "/servlet/project"),
+        projectController);
 
     Controller commentController = Factory.createCommentController
         (CommentController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("POST", "/comment"), commentController);
+    controllerMap.put(Request.create("POST", "/servlet/comment"),
+        commentController);
 
     Controller blogPostController = Factory.createBlogPostController
         (BlogPostController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("GET", "/blogpost"), blogPostController);
-    controllerMap.put(Request.create("POST", "/blogpost"), blogPostController);
+    controllerMap.put(Request.create("GET", "/servlet/blogpost"),
+        blogPostController);
+    controllerMap.put(Request.create("POST", "/servlet/blogpost"),
+        blogPostController);
   }
 
   @Override
