@@ -12,7 +12,7 @@
   <div class="row">
     <br>
     <div class="input-group">
-      <form action="/blogpost/add?projectId=<c:out value="${project.id}"/> " method="POST">
+      <form action="/servlet/blogpost/add?projectId=<c:out value="${project.id}"/> " method="POST">
         <c:if test="${ErrorMessage != null && ErrorMessage != ''}">
           <div class="alert alert-danger" role="alert">
             <c:out value="${ErrorMessage}"/>

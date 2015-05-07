@@ -16,7 +16,7 @@
     </div>
     <br>
 
-    <form action="/project/add" method="POST">
+    <form action="/servlet/project/add" method="POST">
       <c:if test="${ErrorMessage != null &&ErrorMessage != ''}">
         <div class="alert alert-danger" role="alert"><c:out
                 value="${ErrorMessage}"/></div>
@@ -37,7 +37,7 @@
     </form>
 
     <button class="btn btn-xs btn-primary"
-            onclick="window.location.href='/category/<c:out value="${categoryId}"/>'">
+            onclick="window.location.href='/servlet/category/<c:out value="${categoryId}"/>'">
       <span class="glyphicon glyphicon-backward"></span>
       Back
     </button>

@@ -11,7 +11,7 @@
   <div class="row">
 
     <div class="input-group">
-      <form action="/category/add" method="POST">
+      <form action="/servlet/category/add" method="POST">
         <c:if test="${ErrorMessage != null &&ErrorMessage != ''}">
           <div class="alert alert-danger" role="alert"><c:out
             value="${ErrorMessage}"/></div>

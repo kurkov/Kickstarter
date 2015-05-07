@@ -55,7 +55,7 @@ public class CommentController implements Controller {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItem.jsp");
     if (newComment.equals("")) {
       viewModel.addAttributes("errorMessage", "Cant add empty comment!!!");
-      viewModel.setUrlForRedirect("/project" + projectId + "#comments");
+      viewModel.setUrlForRedirect("/servlet/project" + projectId + "#comments");
     }
     return viewModel;
   }

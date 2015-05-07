@@ -155,7 +155,7 @@ public class ProjectController implements Controller {
     }
     viewModel.addAttributes("projects", projects);
     viewModel.addAttributes("category", category);
-    viewModel.setUrlForRedirect("/category/" + categoryId);
+    viewModel.setUrlForRedirect("/servlet/category/" + categoryId);
 
     return viewModel;
   }

@@ -63,14 +63,14 @@
         </div>
 
         <button class="btn btn-xs btn-primary" formmethod="post"
-                formaction='/project/<c:out
+                formaction='/servlet/project/<c:out
                 value="${project.id}"/>/edit' type="submit">
           <span class="glyphicon glyphicon-pencil"></span>
           Edit project
         </button>
 
         <button class="btn btn-xs btn-danger" formmethod="post"
-                formaction='/project/<c:out
+                formaction='/servlet/project/<c:out
                 value="${project.id}"/>/delete' type="submit">
           <span class="glyphicon glyphicon-trash"></span>
           Delete project
@@ -82,7 +82,7 @@
 
         <div class="row">
           <div class="col-lg-6">
-            <form action="/comment/add" method="post">
+            <form action="/servlet/comment/add" method="post">
               <div class="input-group">
                 <input type="hidden" name="projectId"
                        value="<c:out value="${project.id}"/>">
@@ -98,7 +98,7 @@
               <ul>
                 <c:forEach var="com" items="${commentList}">
                   <div class="input-group">
-                    <form action="/comment/delete" method="post">
+                    <form action="/servlet/comment/delete" method="post">
                       <li>
                           <%--(<joda:format value="${com.dateOfCreation}" style="SM" pattern="dd-MM-yyyy HH:mm"/>)--%>
                         <c:out value="${com.text}"/>
@@ -120,7 +120,7 @@
       <div role="tabpanel" class="tab-pane" id="blogposts">
         <div class="row">
           <div class="col-lg-6">
-            <a href="/blogpost/add?projectId=<c:out value='${project.id}'/>"
+            <a href="/servlet/blogpost/add?projectId=<c:out value='${project.id}'/>"
                class="glyphicon glyphicon-plus">
               Add new post
             </a>
@@ -132,7 +132,7 @@
                 <c:forEach var="c" items="${blogPostList}">
                   <div class="input-group">
 
-                    <form action="/blogpost/delete" method="post">
+                    <form action="/servlet/blogpost/delete" method="post">
 
                       <li>
                           <%--
@@ -141,7 +141,7 @@
                         <button class="btn btn-default" type="submit">X</button>
 
                         <button class="btn btn-xs btn-primary" formmethod="get"
-                                formaction="/blogpost/edit"
+                                formaction="/servlet/blogpost/edit"
                                 type="submit">
                           <span class="glyphicon glyphicon-pencil"></span>
                         </button>

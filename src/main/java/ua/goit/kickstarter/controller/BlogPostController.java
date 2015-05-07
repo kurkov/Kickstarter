@@ -58,7 +58,7 @@ public class BlogPostController implements Controller {
 
   private ViewModel getViewModelForProject(Integer projectId) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItem.jsp");
-    viewModel.setUrlForRedirect("/project/" + projectId + "#blogposts");
+    viewModel.setUrlForRedirect("/servlet/project/" + projectId + "#blogposts");
 
     return viewModel;
   }

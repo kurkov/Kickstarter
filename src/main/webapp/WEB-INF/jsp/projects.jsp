@@ -20,24 +20,24 @@
     <tr>
       <c:forEach var="c" items="${projects}">
       <form>
-        <td onclick="window.location.href='/project/<c:out value="${c.id}"/>'">
-          <a href="/project/<c:out value="${c.id}"/>">
+        <td onclick="window.location.href='/servlet/project/<c:out value="${c.id}"/>'">
+          <a href="/servlet/project/<c:out value="${c.id}"/>">
             <c:out value="${c.name}"/>
           </a>
         </td>
-        <td onclick="window.location.href='/project/<c:out value="${c.id}"/>'">
-          <a href="/project/<c:out value="${c.id}"/>">
+        <td onclick="window.location.href='/servlet/project/<c:out value="${c.id}"/>'">
+          <a href="/servlet/project/<c:out value="${c.id}"/>">
             <c:out value="${c.category.name}"/>
           </a>
         </td>
         <td class="text-right text-nowrap">
           <button class="btn btn-xs btn-primary" formmethod="get"
-                  formaction='/project/<c:out
+                  formaction='/servlet/project/<c:out
                       value="${c.id}"/>/edit' type="submit">
             <span class="glyphicon glyphicon-pencil"></span>
           </button>
           <button class="btn btn-xs btn-danger" formmethod="post"
-                  formaction='/project/<c:out
+                  formaction='/servlet/project/<c:out
                       value="${c.id}"/>/delete' type="submit">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
@@ -49,7 +49,7 @@
 </div>
 <div>
   <button class="btn btn-xs btn-primary"
-          onclick="window.location.href='/project/add'">
+          onclick="window.location.href='/servlet/project/add'">
     <span class="glyphicon glyphicon-plus-sign"></span>
     Add new project
   </button>

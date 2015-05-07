@@ -15,7 +15,7 @@
       </div>
       <br><br>
 
-      <form action="/blogpost/edit" method="POST">
+      <form action="/servlet/blogpost/edit" method="POST">
         <c:if test="${ErrorMessage != null && ErrorMessage != ''}">
           <div class="alert alert-danger" role="alert">
             <c:out value="${ErrorMessage}"/>

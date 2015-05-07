@@ -8,17 +8,17 @@ public class UrlParser {
 
     if (url != null) {
       String[] urlParts = url.split("/");
-      if (urlParts.length >= 2) {
+      if (urlParts.length > 3) {
 
-        if (urlParts[2].equals("add")) {
+        if (urlParts[3].equals("add")) {
           result.setOperationType(OperationType.ADD_ITEM);
-        } else if (urlParts[2].equals("delete")) {
+        } else if (urlParts[3].equals("delete")) {
           result.setOperationType(OperationType.DELETE_ITEM);
-        } else if (urlParts[2].equals("edit")) {
+        } else if (urlParts[3].equals("edit")) {
           result.setOperationType(OperationType.EDIT_ITEM);
         } else {
           try {
-            Integer id = Integer.parseInt(urlParts[2]);
+            Integer id = Integer.parseInt(urlParts[3]);
             result.setObjectId(id);
             result.setOperationType(OperationType.VIEW_ITEM);
           } catch (NumberFormatException e) {
@@ -26,13 +26,26 @@ public class UrlParser {
           }
         }
 
-        if (urlParts.length >= 4) {
-          if (urlParts[3].equals("edit")){
+        if (urlParts.length >= 5) {
+          if (urlParts[4].equals("edit")){
             result.setOperationType(OperationType.EDIT_ITEM);
-          }else if (urlParts[3].equals("delete")){
+          }else if (urlParts[4].equals("delete")){
             result.setOperationType(OperationType.DELETE_ITEM);
           }
         }
+      }
+    }
+    return result;
+  }
+
+  public static String simplifyUrl(String url) {
+    String result = null;
+    if (url != null) {
+      String[] urlParts = url.split("/");
+      if (urlParts.length >= 2) {
+        result = "/" + urlParts[2];
+      } else {
+        result = url;
       }
     }
     return result;

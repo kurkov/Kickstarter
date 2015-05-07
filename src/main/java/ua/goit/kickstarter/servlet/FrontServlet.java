@@ -5,6 +5,7 @@ import ua.goit.kickstarter.controller.*;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.BlogPost;
+import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.RequestDispatcher;
@@ -27,28 +28,28 @@ public class FrontServlet extends HttpServlet {
 
     Controller categoryController = Factory.createCategoryController
         (CategoryController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("GET", "/servlet/category"),
+    controllerMap.put(Request.create("GET", "/category"),
         categoryController);
-    controllerMap.put(Request.create("POST", "/servlet/category"),
+    controllerMap.put(Request.create("POST", "/category"),
         categoryController);
 
     Controller projectController = Factory.createProjectController
         (ProjectController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("GET", "/servlet/project"),
+    controllerMap.put(Request.create("GET", "/project"),
         projectController);
-    controllerMap.put(Request.create("POST", "/servlet/project"),
+    controllerMap.put(Request.create("POST", "/project"),
         projectController);
 
     Controller commentController = Factory.createCommentController
         (CommentController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("POST", "/servlet/comment"),
+    controllerMap.put(Request.create("POST", "/comment"),
         commentController);
 
     Controller blogPostController = Factory.createBlogPostController
         (BlogPostController.class, ConnectionPool.getConnection());
-    controllerMap.put(Request.create("GET", "/servlet/blogpost"),
+    controllerMap.put(Request.create("GET", "/blogpost"),
         blogPostController);
-    controllerMap.put(Request.create("POST", "/servlet/blogpost"),
+    controllerMap.put(Request.create("POST", "/blogpost"),
         blogPostController);
   }
 
@@ -60,11 +61,10 @@ public class FrontServlet extends HttpServlet {
 
   private void handle(HttpServletRequest req, HttpServletResponse resp)
           throws ServletException, IOException {
-    // TODO: implement connection provider
-    // Connection connection = ConnectionPool.getConnection();
 
+    String simpleUrl = UrlParser.simplifyUrl(req.getRequestURI());
     Request request = new Request(req.getParameterMap(), req.getMethod(),
-            req.getRequestURI());
+            req.getRequestURI(), simpleUrl);
 
     try {
       Controller controller = controllerMap.get(request);
@@ -84,8 +84,6 @@ public class FrontServlet extends HttpServlet {
 
       forward(req, resp, vm);
     }
-
-    // ConnectionPool.release(connection);
   }
 
   private void forward(HttpServletRequest req, HttpServletResponse resp,

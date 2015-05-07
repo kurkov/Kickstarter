@@ -7,10 +7,13 @@ public class Request {
   private final Map<String, String> parameters = new HashMap<>();
   private final String method;
   private final String url;
+  private final String simpleUrl;
 
-  public Request(Map<String, String> parameters, String method, String url) {
+  public Request(Map<String, String[]> parameters, String method, String url,
+                 String simpleUrl) {
     this.method = method.toUpperCase();
     this.url = url;
+    this.simpleUrl = simpleUrl;
 
     if (parameters != null) {
       for (String param : parameters.keySet()) {
@@ -36,12 +39,16 @@ public class Request {
     return url;
   }
 
+  public String getSimpleUrl() {
+    return simpleUrl;
+  }
+
   public String getParameter(String param) {
     return parameters.get(param);
   }
 
-  public static Request create(String method, String url) {
-    return new Request(null, method, url);
+  public static Request create(String method, String simpleUrl) {
+    return new Request(null, method, null, simpleUrl);
   }
 
   @Override
@@ -53,14 +60,14 @@ public class Request {
 
     if (method != null ? !method.equals(request.method) : request.method != null)
       return false;
-    return !(url != null ? !url.equals(request.url) : request.url != null);
+    return !(simpleUrl != null ? !simpleUrl.equals(request.simpleUrl) : request.simpleUrl != null);
 
   }
 
   @Override
   public int hashCode() {
     int result = method != null ? method.hashCode() : 0;
-    result = 31 * result + (url != null ? url.hashCode() : 0);
+    result = 31 * result + (simpleUrl != null ? simpleUrl.hashCode() : 0);
     return result;
   }
 
@@ -69,6 +76,7 @@ public class Request {
     return "Request{" +
         "method='" + method + '\'' +
         ", url='" + url + '\'' +
+        ", simpleUrl='" + simpleUrl + '\'' +
         '}';
   }
 }

@@ -36,7 +36,8 @@ public class ViewModelTest {
     }};
     String method = "POST";
     String url = "/category/add";
-    Request request = new Request(parameters, method, url);
+    String simpleUrl = "/category";
+    Request request = new Request(parameters, method, url, simpleUrl);
     Controller controller = Factory.createCategoryController
         (CategoryController.class, connection);
     ViewModel viewModel =  controller.process(request);
