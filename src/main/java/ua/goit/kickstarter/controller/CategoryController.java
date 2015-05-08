@@ -45,9 +45,11 @@ public class CategoryController implements Controller {
     if (operation.getOperationType() == OperationType.VIEW_ITEM) {
       viewModel = getViewModelForCategoryView(operation);
     } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      viewModel = getViewModelForCategoryAdd();
+      viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      viewModel = getViewModelForCategoryEdit(operation, null);
+      viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
+      Category category = categoryService.getById(operation.getObjectId());
+      viewModel.addAttributes("category", category);
     } else {
       viewModel = getViewModelForAllCategories(categoryService);
     }
@@ -62,6 +64,8 @@ public class CategoryController implements Controller {
     viewModel.addAttributes("category", category);
     if (categoryName.equals("")) {
       viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+      viewModel.setUrlForRedirect("/servlet/category/" + category.getId() +
+          "/edit");
     }
     return viewModel;
   }
@@ -69,6 +73,7 @@ public class CategoryController implements Controller {
   private ViewModel getViewModelForCategoryAdd() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
     viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    viewModel.setUrlForRedirect("/servlet/category/add");
     return viewModel;
   }
 
