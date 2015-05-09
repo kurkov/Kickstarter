@@ -44,7 +44,7 @@ public class BlogPostController implements Controller {
     Integer blogPostId = getInteger(blogPostIdStr);
     ViewModel viewModel;
 
-    Project project = projectService.getProjectById(projectId);
+    Project project = projectService.getById(projectId);
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       viewModel = getViewModelForBlogPostAdd(project, null, null);
@@ -113,7 +113,7 @@ public class BlogPostController implements Controller {
     String blogPostIdStr = request.getParameter("blogPostId");
     Integer blogPostId = getInteger(blogPostIdStr);
     ViewModel viewModel = null;
-    Project project = projectService.getProjectById(projectId);
+    Project project = projectService.getById(projectId);
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       if (blogPostTitle.equals("") || blogPostText.equals("")) {

@@ -43,18 +43,14 @@
         </tr>
       </c:forEach>
       <tr>
-        <td class="text-right text-nowrap">
-
-
-        </td>
-        <td class="text-right text-nowrap">
+        <td class="text-left text-nowrap">
           <button class="btn btn-xs btn-primary"
                   onclick="window.location.href='/servlet/category/add'">
             <span class="glyphicon glyphicon-plus-sign"></span>
-            Add
+            Add new category
           </button>
         </td>
-
+        <td></td>
       </tr>
       </tbody>
     </table>

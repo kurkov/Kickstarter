@@ -20,7 +20,7 @@ public class ProjectDaoImpl extends AbstractDao<Project>
   @Override
   public Project add(Project newProject) {
 
-    String sqlInsert = "INSERT INTO projects (name,description, id_category) " +
+    String sqlInsert = "INSERT INTO projects (name, description, id_category) " +
             "VALUES ( ?, ?, ? );";
     Connection connection = ConnectionPool.getConnection();
     try {

@@ -1,6 +1,5 @@
 package ua.goit.kickstarter.service;
 
-import ua.goit.kickstarter.dao.CategoryDao;
 import ua.goit.kickstarter.dao.ProjectDao;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
@@ -25,15 +24,20 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public Project getProjectById(Integer id) {
+  public Project getById(Integer id) {
     return projectDao.getById(id);
   }
 
   @Override
+  public Project addNewProject(Project project) {
+    return projectDao.add(project);
+  }
+
+  /*@Override
   public Project addNewProject(String name, String description,
                                Integer categoryId) {
     return projectDao.add(name, description, categoryId);
-  }
+  }*/
 
   @Override
   public void editProject(Integer id, String projectName,

@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import ua.goit.kickstarter.controller.*;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
-import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.view.ViewModel;
 
@@ -59,6 +58,15 @@ public class FrontServlet extends HttpServlet {
     handle(req, resp);
   }
 
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+          throws ServletException, IOException {
+    handle(req, resp);
+  }
+
+  @Override
+  public void destroy() {}
+
   private void handle(HttpServletRequest req, HttpServletResponse resp)
           throws ServletException, IOException {
 
@@ -103,11 +111,5 @@ public class FrontServlet extends HttpServlet {
 
   private String getView(HttpServletRequest req, ViewModel vm) {
     return req.getContextPath() + vm.getView();
-  }
-
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-          throws ServletException, IOException {
-    handle(req, resp);
   }
 }

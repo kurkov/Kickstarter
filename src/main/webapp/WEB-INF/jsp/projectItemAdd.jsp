@@ -37,7 +37,7 @@
     </form>
 
     <button class="btn btn-xs btn-primary"
-            onclick="window.location.href='/servlet/category/<c:out value="${categoryId}"/>'">
+            onclick="window.location.href='/servlet/project/'">
       <span class="glyphicon glyphicon-backward"></span>
       Back
     </button>

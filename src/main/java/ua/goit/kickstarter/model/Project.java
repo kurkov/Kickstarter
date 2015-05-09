@@ -5,14 +5,19 @@ public class Project extends AbstractModel {
   private String description;
   private Category category;
 
-  public Project() {
+  public Project(){
+
   }
 
-  public Project(int id, String name, Category category, String description) {
+  public Project(String projectName, String description) {
+    this.name = projectName;
+    this.description = description;
+  }
+
+  public Project(Integer id, String name, Category category, String description) {
     this.id = id;
     this.name = name;
     this.category = category;
-    this.description = description;
     this.description = description;
   }
 
