@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <html>
 <head>
   <link rel="stylesheet"
@@ -6,8 +6,7 @@
   <title></title>
 </head>
 <body>
-<br><br>
-
+<%@include file="/WEB-INF/jsp/header.jsp"%>
 <div class="jumbotron">
   <p><a href="<c:url value="/servlet/category"/>"><h2 align="center">
     Categories</h2></a></p>

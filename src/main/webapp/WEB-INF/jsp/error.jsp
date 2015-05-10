@@ -7,6 +7,7 @@
         href="../../bootstrap/css/bootstrap.min.css">
 </head>
 <body>
+<%@include file="/WEB-INF/jsp/header.jsp"%>
 <div class="container">
   <div class="panel panel-danger">
     <div class="panel-heading">Error</div>

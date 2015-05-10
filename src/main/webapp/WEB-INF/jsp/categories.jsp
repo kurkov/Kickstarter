@@ -7,7 +7,7 @@
   <title></title>
 </head>
 <body>
-
+<%@include file="/WEB-INF/jsp/header.jsp"%>
 <div class="container">
   <div class="panel panel-default">
     <table class="table table-hover">

@@ -7,7 +7,7 @@
   <title>Add new project:</title>
 </head>
 <body>
-
+<%@include file="/WEB-INF/jsp/header.jsp"%>
 <div class="container">
   <h1>Add new project:</h1>
 

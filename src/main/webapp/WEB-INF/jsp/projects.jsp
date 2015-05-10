@@ -7,8 +7,7 @@
   <title></title>
 </head>
 <body>
-<br>
-
+<%@include file="/WEB-INF/jsp/header.jsp"%>
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-heading"><b>Full list of projects</b></div>

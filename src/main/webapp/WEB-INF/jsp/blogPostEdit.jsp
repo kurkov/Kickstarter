@@ -7,6 +7,7 @@
         href="../../bootstrap/css/bootstrap.min.css">
   <title></title>
 </head>
+<%@include file="/WEB-INF/jsp/header.jsp"%>
 <body>
   <div class="container">
     <div class="row">
