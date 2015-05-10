@@ -10,9 +10,10 @@
 
 <div class="container">
   <h1>Add new project:</h1>
+
   <div class="row">
     <form action="/servlet/project/add" method="POST">
-      <c:if test="${ErrorMessage != null &&ErrorMessage != ''}">
+      <c:if test="${ErrorMessage != null && ErrorMessage != ''}">
         <div class="alert alert-danger" role="alert"><c:out
                 value="${ErrorMessage}"/></div>
       </c:if>
@@ -21,13 +22,12 @@
              placeholder="Project name" aria-describedby="basic-addon1">
       <br>
 
-      <select name="categoryId" title="Select category" class="form-control">
-        <option disabled selected value="">Select category</option>
+      <select name="categoryId" title="categoryId" class="form-control">
+        <option value="">Select category</option>
         <c:forEach var="c" items="${categories}">
-          <option
-                  value="<c:out value="${c.id}"/>"><c:out
-                  value="${c.name}"/>
-          </option>
+          <option value="<c:out value="${c.id}"/>"<c:if
+                  test="${c.id == categoryId}"> selected</c:if>><c:out
+                  value="${c.name}"/></option>
         </c:forEach>
       </select>
       <br>

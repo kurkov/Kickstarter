@@ -35,7 +35,7 @@ public class ProjectController implements Controller {
 
   @Override
   public ViewModel process(Request request)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     ViewModel viewModel = null;
     if ("GET".equals(request.getMethod())) {
       viewModel = proceedRequest(request);
@@ -57,7 +57,11 @@ public class ProjectController implements Controller {
       Project project = projectService.getById(operation.getObjectId());
       viewModel = getViewModelForProjectView(project);
     } else if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      viewModel = getViewModelForProjectAdd();
+      if (categoryId == null) {
+        viewModel = getViewModelForProjectAdd();
+      } else {
+        viewModel = getViewModelForProjectAdd(categoryId);
+      }
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       viewModel = getViewModelForProjectEdit(operation, categoryId, null, null);
     } else {
@@ -70,7 +74,7 @@ public class ProjectController implements Controller {
   }
 
   private ViewModel getViewModelForProjectEdit(Operation operation,
-           Integer categoryId, String projectName, String projectDescription) {
+                                               Integer categoryId, String projectName, String projectDescription) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemEdit.jsp");
     Project project = projectService.getById(operation.getObjectId());
     viewModel.addAttributes("categoryId", categoryId);
@@ -79,7 +83,7 @@ public class ProjectController implements Controller {
       viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
     } else if (projectDescription.equals("")) {
       viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
-          "filled");
+              "filled");
     }
     return viewModel;
   }
@@ -89,6 +93,15 @@ public class ProjectController implements Controller {
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
     /*viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");*/
+    viewModel.setUrlForRedirect("/servlet/project/add");
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForProjectAdd(Integer categoryId) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
+    List<Category> categories = categoryService.getAll();
+    viewModel.addAttributes("categories", categories);
+    viewModel.addAttributes("categoryId", categoryId);
     viewModel.setUrlForRedirect("/servlet/project/add");
     return viewModel;
   }
@@ -104,7 +117,7 @@ public class ProjectController implements Controller {
   }
 
   private ViewModel proceedPost(Request request)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
     String url = request.getUrl();
     Operation operation = UrlParser.parse(url);
     ViewModel viewModel = null;
@@ -131,10 +144,10 @@ public class ProjectController implements Controller {
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       if (projectName.equals("") || projectDescription.equals("")) {
         viewModel = getViewModelForProjectEdit(operation, categoryId,
-            projectName, projectDescription);
+                projectName, projectDescription);
       } else {
         projectService.editProject(operation.getObjectId(), projectName,
-            projectDescription);
+                projectDescription);
         viewModel = getViewModelForProjectsViewInCategory(categoryId);
       }
     }
@@ -143,7 +156,7 @@ public class ProjectController implements Controller {
 
   private ViewModel getViewModelForProjectsViewInCategory(Integer categoryId) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
-    Category category= categoryService.getById(categoryId);
+    Category category = categoryService.getById(categoryId);
     List<Project> projects = null;
     if (category != null) {
       projects = projectService.getByCategory(category);
