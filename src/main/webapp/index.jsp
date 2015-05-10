@@ -1,20 +1,24 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        href="bootstrap/css/bootstrap.min.css">
   <title></title>
 </head>
 <body>
 <br><br>
+
 <div class="jumbotron">
-  <p><a href="/servlet/category"><h2 align="center">Categories</h2></a></p>
+  <p><a href="<c:url value="/servlet/category"/>"><h2 align="center">
+    Categories</h2></a></p>
 
 </div>
 
 
 <div class="jumbotron">
 
-  <p><a href="/servlet/project"><h2 align="center">Projects</h2></a></p>
+  <p><a href="<c:url value="/servlet/project"/>"><h2 align="center">
+    Projects</h2></a></p>
 </div>
 
 

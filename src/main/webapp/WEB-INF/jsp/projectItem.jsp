@@ -7,14 +7,14 @@
 <html>
 <head>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="../../bootstrap/jquery/jquery.min.js"></script>
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet"
-        href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        href="../../bootstrap/css/bootstrap.min.css">
 
   <!-- Latest compiled and minified JavaScript-->
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="../../bootstrap/js/bootstrap.min.js"></script>
   <script>$(document).ready(function() {
         /* Automagically jump on good tab based on anchor; for page reloads or links */
         if(location.hash) {

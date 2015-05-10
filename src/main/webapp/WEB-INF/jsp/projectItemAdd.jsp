@@ -3,7 +3,7 @@
 <html>
 <head>
   <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        href="../../bootstrap/css/bootstrap.min.css">
   <title>Add new project:</title>
 </head>
 <body>
@@ -43,9 +43,11 @@
       <br>
       <input class="btn btn-default" type="submit" value="Submit">
     </form>
-
+    <input type="hidden" name="urlCameFrom" value="<c:out
+    value="${urlCameFrom}"/>">
     <button class="btn btn-xs btn-primary"
-            onclick="window.location.href='/servlet/project/'">
+            <c:if test="${urlCameFrom == 'projects'}">onclick="window.location.href='/servlet/project/'"</c:if>
+            <c:if test="${urlCameFrom == 'category'}">onclick="window.location.href='/servlet/category/${categoryId}'"</c:if>>
       <span class="glyphicon glyphicon-backward"></span>
       Back
     </button>

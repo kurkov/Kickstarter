@@ -3,7 +3,7 @@
 <html>
 <head>
   <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        href="../../bootstrap/css/bootstrap.min.css">
   <title></title>
 </head>
 <body>
@@ -12,7 +12,7 @@
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-heading"><b>Full list of projects</b></div>
-    <table class="table table-hover">
+    <table class="table table-hover table-condensed">
       <tbody>
       <tr>
         <th>Project</th>
@@ -50,13 +50,16 @@
       </tr>
       </c:forEach>
       <tr>
-        <td class="text-left text-nowrap">
-          <button class="btn btn-xs btn-primary"
-                  onclick="window.location.href='/servlet/project/add'">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-            Add new project
-          </button>
-        </td>
+        <form>
+          <input type="hidden" name="urlCameFrom" value="projects">
+          <td class="text-left text-nowrap">
+            <button class="btn btn-xs btn-primary" formmethod="get"
+                    formaction="/servlet/project/add" type="submit">
+              <span class="glyphicon glyphicon-plus-sign"></span>
+              Add new project
+            </button>
+          </td>
+        </form>
         <td></td>
         <td></td>
       </tr>
