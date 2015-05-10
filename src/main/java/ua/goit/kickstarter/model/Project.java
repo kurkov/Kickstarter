@@ -9,9 +9,10 @@ public class Project extends AbstractModel {
 
   }
 
-  public Project(String projectName, String description) {
+  public Project(String projectName, String description, Integer categoryId) {
     this.name = projectName;
     this.description = description;
+    category.setId(categoryId);
   }
 
   public Project(Integer id, String name, Category category, String description) {
@@ -30,6 +31,7 @@ public class Project extends AbstractModel {
             ", category=" + category +
             '}';
   }
+
 
   @Override
   public boolean equals(Object o) {

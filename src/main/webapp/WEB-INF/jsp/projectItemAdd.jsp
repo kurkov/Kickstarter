@@ -4,18 +4,13 @@
 <head>
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <title></title>
+  <title>Add new project:</title>
 </head>
 <body>
 
 <div class="container">
+  <h1>Add new project:</h1>
   <div class="row">
-
-    <div>
-      <b>Add new project:</b>
-    </div>
-    <br>
-
     <form action="/servlet/project/add" method="POST">
       <c:if test="${ErrorMessage != null &&ErrorMessage != ''}">
         <div class="alert alert-danger" role="alert"><c:out
@@ -26,13 +21,26 @@
              placeholder="Project name" aria-describedby="basic-addon1">
       <br>
 
+      <select name="categoryId" title="Select category" class="form-control">
+        <option disabled selected value="">Select category</option>
+        <c:forEach var="c" items="${categories}">
+          <option
+                  value="<c:out value="${c.id}"/>"><c:out
+                  value="${c.name}"/>
+          </option>
+        </c:forEach>
+      </select>
+      <br>
+
       <textarea class="form-control" name="projectDescription" rows="3"> <c:out
               value="${project.description}"/> </textarea>
+
+
       <input type="hidden" name="projectId"
              value="<c:out value="${project.id}"/>">
       <input type="hidden" name="categoryId"
              value="<c:out value="${categoryId}"/>">
-
+      <br>
       <input class="btn btn-default" type="submit" value="Submit">
     </form>
 

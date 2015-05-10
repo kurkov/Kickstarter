@@ -86,6 +86,8 @@ public class ProjectController implements Controller {
 
   private ViewModel getViewModelForProjectAdd() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
+    List<Category> categories = categoryService.getAll();
+    viewModel.addAttributes("categories", categories);
     /*viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");*/
     viewModel.setUrlForRedirect("/servlet/project/add");
     return viewModel;
@@ -120,7 +122,7 @@ public class ProjectController implements Controller {
         viewModel = getViewModelForProjectAdd();
       } else {
         Project project = projectService.addNewProject(new Project
-                (projectName, projectDescription));
+                (projectName, projectDescription, categoryId));
         viewModel = getViewModelForProjectView(project);
       }
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
