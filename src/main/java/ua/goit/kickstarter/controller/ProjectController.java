@@ -52,6 +52,7 @@ public class ProjectController implements Controller {
     ViewModel viewModel;
     String categoryIdStr = request.getParameter("categoryId");
     Integer categoryId = getIdInteger(categoryIdStr);
+    String urlCameFrom = request.getParameter("urlCameFrom");
 
     if (operation.getOperationType() == OperationType.VIEW_ITEM) {
       Project project = projectService.getById(operation.getObjectId());
@@ -94,6 +95,7 @@ public class ProjectController implements Controller {
     viewModel.addAttributes("categories", categories);
     /*viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");*/
     viewModel.setUrlForRedirect("/servlet/project/add");
+    viewModel.setUrlCameFrom("projects");
     return viewModel;
   }
 
@@ -102,7 +104,10 @@ public class ProjectController implements Controller {
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
     viewModel.addAttributes("categoryId", categoryId);
-    viewModel.setUrlForRedirect("/servlet/project/add");
+    if (viewModel.getUrlCameFrom().equals("category")) {
+      viewModel.setUrlForRedirect("/servlet/category/" + categoryId);
+    } else if (viewModel.getUrlCameFrom().equals("projects"))
+    viewModel.setUrlForRedirect("/servlet/project");
     return viewModel;
   }
 
@@ -129,6 +134,7 @@ public class ProjectController implements Controller {
     Integer categoryId = getIdInteger(categoryIdStr);
     String projectName = request.getParameter("projectName");
     String projectDescription = request.getParameter("projectDescription");
+    String urlCameFrom = request.getParameter("urlCameFrom");
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       if (projectName.equals("") || projectDescription.equals("")) {

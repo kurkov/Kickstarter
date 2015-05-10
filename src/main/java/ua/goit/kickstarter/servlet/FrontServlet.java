@@ -84,7 +84,6 @@ public class FrontServlet extends HttpServlet {
         forward(req, resp, vm);
       }else if ("POST".equals(request.getMethod())) {
         String urlForRedirect = vm.getUrlForRedirect();
-        System.out.println(urlForRedirect);
         resp.sendRedirect(urlForRedirect);
       }
     } catch (Throwable t) {

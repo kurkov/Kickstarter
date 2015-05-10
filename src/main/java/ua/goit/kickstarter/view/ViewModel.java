@@ -7,6 +7,7 @@ public class ViewModel {
   private final String view;
   private final Map<String, Object> attributes = new HashMap<>();
   private String urlForRedirect;
+  private String urlCameFrom;
 
   public ViewModel(String view) {
     this.view = view;
@@ -35,5 +36,13 @@ public class ViewModel {
 
   public String getUrlForRedirect() {
     return urlForRedirect;
+  }
+
+  public String getUrlCameFrom() {
+    return urlCameFrom;
+  }
+
+  public void setUrlCameFrom(String urlCameFrom) {
+    this.urlCameFrom = urlCameFrom;
   }
 }
