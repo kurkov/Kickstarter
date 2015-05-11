@@ -48,8 +48,7 @@ public class CreateProjectController implements Controller {
   private ViewModel proceedRequest(Request request) {
 
     ViewModel viewModel;
-    String categoryIdStr = request.getParameter("categoryId");
-    Integer categoryId = getIdInteger(categoryIdStr);
+    Integer categoryId = getIdInteger(request.getParameter("categoryId"));
 
     if (categoryId == null) {
       viewModel = getViewModel();
@@ -63,13 +62,11 @@ public class CreateProjectController implements Controller {
   private ViewModel proceedPost(Request request) {
 
     ViewModel viewModel;
-    String categoryIdStr;
     Integer categoryId;
     String projectName;
     String projectDescription;
 
-    categoryIdStr = request.getParameter("categoryId");
-    categoryId = getIdInteger(categoryIdStr);
+    categoryId = getIdInteger(request.getParameter("categoryId"));
 
     projectName = request.getParameter("projectName");
     projectDescription = request.getParameter("projectDescription");
