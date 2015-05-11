@@ -2,9 +2,7 @@ package ua.goit.kickstarter.model;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
-
-public class BlogPost extends AbstractModel {
+public class BlogPost extends AbstractModel implements Comparable {
   private String title;
   private String text;
   private DateTime dateOfCreation;
@@ -90,5 +88,14 @@ public class BlogPost extends AbstractModel {
 
   public void setProject(Project project) {
     this.project = project;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+    if (o == null) {
+      return -1;
+    }
+    BlogPost entry = (BlogPost) o;
+    return -getDateOfCreation().compareTo(entry.getDateOfCreation());
   }
 }
