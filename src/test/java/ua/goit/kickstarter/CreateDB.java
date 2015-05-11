@@ -9,6 +9,5 @@ public class CreateDB {
   public void createDBStructure() {
     DBHelper dbHelper = new DBHelper();
     dbHelper.initDatabase();
-
   }
 }

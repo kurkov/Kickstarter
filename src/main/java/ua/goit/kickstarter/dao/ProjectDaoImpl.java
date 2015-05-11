@@ -1,7 +1,8 @@
 package ua.goit.kickstarter.dao;
 
 import org.apache.log4j.Logger;
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
+import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
@@ -9,15 +10,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDaoImpl extends AbstractDaoImpl<Project>
+public class ProjectDaoImpl extends AbstractDao<Project>
         implements ProjectDao {
+
+  public ProjectDaoImpl(Connection connection) {
+    super(connection);
+  }
 
   @Override
   public Project add(Project newProject) {
 
-    String sqlInsert = "INSERT INTO projects (name,description, id_category) " +
+    String sqlInsert = "INSERT INTO projects (name, description, id_category) " +
             "VALUES ( ?, ?, ? );";
-    Connection connection = ConnectionFactory.getConnection();
+    Connection connection = ConnectionPool.getConnection();
     try {
       PreparedStatement statement = connection.prepareStatement(sqlInsert);
       statement.setString(1, newProject.getName());
@@ -44,10 +49,9 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
   }
 
   @Override
-  public Project add(String name, String categoryId, String
-      description) {
+  public Project add(String name, String description, Integer categoryId) {
 
-    CategoryDao categoryDao = new DaoFactoryImpl().getCategoryDao();
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Category category = categoryDao.getById(categoryId);
 
     if (category == null) {
@@ -56,22 +60,24 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
     return add(new Project(0, name, category, description));
   }
 
-
   @Override
   public Project getById(Integer id) {
     Project project;
     Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl();
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     String sqlQuery = "SELECT * FROM projects WHERE id = " + id + ";";
-    Connection connection = ConnectionFactory.getConnection();
     try {
       Statement statement = connection.createStatement();
       ResultSet rs = statement.executeQuery(sqlQuery);
-      String name = rs.getString("name");
-      String description = rs.getString("description");
-      Integer id_category = rs.getInt("id_category");
-      category = categoryDao.getById(id_category);
-      project = new Project(id, name, category, description);
+      if (rs.next()) {
+        String name = rs.getString("name");
+        String description = rs.getString("description");
+        Integer id_category = rs.getInt("id_category");
+        category = categoryDao.getById(id_category);
+        project = new Project(id, name, category, description);
+      } else {
+        project = null;
+      }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -82,7 +88,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
   public List<Project> getByCategoryId(Integer categoryId) {
     List<Project> projectList = new ArrayList<>();
     Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl();
+    CategoryDao categoryDao = new CategoryDaoImpl(connection);
     Project project;
     String sqlQuery = "SELECT * FROM projects WHERE id_category = " +
             categoryId;
@@ -104,29 +110,26 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
     return projectList;
   }
 
-
   @Override
   public List<Project> getByCategory(Category category) {
     return getByCategoryId(category.getId());
   }
 
-
   @Override
   public List<Project> getAll() {
-    Project project;
-    Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl();
     List<Project> projectList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM projects";
-    ResultSet rs;
+    Project project;
+    CategoryDao categoryDao = new CategoryDaoImpl(connection);
     try {
-      rs = executeQuery(sqlQuery);
+      Statement statement = connection.createStatement();
+      ResultSet rs = statement.executeQuery(sqlQuery);
       while (rs.next()) {
-        int id = rs.getInt("id");
+        Integer id = rs.getInt("id");
         String name = rs.getString("name");
         String description = rs.getString("description");
         Integer id_category = rs.getInt("id_category");
-        category = categoryDao.getById(id_category);
+        Category category = categoryDao.getById(id_category);
         project = new Project(id, name, category, description);
         projectList.add(project);
       }
@@ -135,7 +138,6 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
     }
     return projectList;
   }
-
 
   @Override
   public Project update(Project project) {
@@ -152,8 +154,6 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
     deleteById(project.getId());
   }
 
-
-
   @Override
   public void deleteById(Integer id) {
     Logger logger = Logger.getLogger(this.getClass());
@@ -162,6 +162,4 @@ public class ProjectDaoImpl extends AbstractDaoImpl<Project>
         " WHERE id = " + id + ";";
     executeUpdate(query);
   }
-
-
 }

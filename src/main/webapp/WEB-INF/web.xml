@@ -4,55 +4,15 @@
 
 <web-app>
   <display-name>Kickstarter edu project</display-name>
-  
-  <servlet>
-    <servlet-name>ProjectServlet</servlet-name>
-    <servlet-class>ua.goit.kickstarter.servlet.ProjectServlet</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>ProjectServlet</servlet-name>
-    <url-pattern>/project/*</url-pattern>
-  </servlet-mapping>
 
   <servlet>
-    <servlet-name>CategoryServlet</servlet-name>
-    <servlet-class>ua.goit.kickstarter.servlet.CategoryServlet</servlet-class>
+    <servlet-name>FrontServlet</servlet-name>
+    <servlet-class>ua.goit.kickstarter.servlet.FrontServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>CategoryServlet</servlet-name>
-    <url-pattern>/category/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>CommentServlet</servlet-name>
-    <servlet-class>ua.goit.kickstarter.servlet.CommentServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>CommentServlet</servlet-name>
-    <url-pattern>/comment/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>BlogPostServlet</servlet-name>
-    <servlet-class>ua.goit.kickstarter.servlet.BlogPostServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>BlogPostServlet</servlet-name>
-    <url-pattern>/blogpost/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>ErrorServlet</servlet-name>
-    <servlet-class>ua.goit.kickstarter.servlet.ErrorServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>ErrorServlet</servlet-name>
-    <url-pattern>/error/*</url-pattern>
+    <servlet-name>FrontServlet</servlet-name>
+    <url-pattern>/servlet/*</url-pattern>
   </servlet-mapping>
 
 </web-app>

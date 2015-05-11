@@ -1,6 +1,6 @@
 package ua.goit.kickstarter.dao;
 
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.model.Category;
 
 import java.sql.Connection;
@@ -10,7 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements CategoryDao {
+public class CategoryDaoImpl extends AbstractDao<Category>
+        implements CategoryDao {
+
+  public CategoryDaoImpl(Connection connection) {
+    super(connection);
+  }
 
   @Override
   public Category getById(Integer id) {
@@ -24,7 +29,6 @@ public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements Catego
       } else {
         category = null;
       }
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -57,15 +61,15 @@ public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements Catego
   @Override
   public void deleteById(Integer id) {
     String query = "DELETE FROM categories WHERE id = " +
-        id + ";";
+            id + ";";
     executeUpdate(query);
   }
 
   @Override
   public Category update(Category element) {
     String query = "UPDATE categories " +
-        " SET name = '" + element.getName() + "'" +
-        " WHERE id = " + element.getId() + ";";
+            " SET name = '" + element.getName() + "'" +
+            " WHERE id = " + element.getId() + ";";
     executeUpdate(query);
     return element;
   }
@@ -75,7 +79,7 @@ public class CategoryDaoImpl extends AbstractDaoImpl<Category> implements Catego
     Category category;
     int categoryID;
     String sqlInsert = "INSERT INTO categories (name) VALUES ( ? )";
-    Connection con = ConnectionFactory.getConnection();
+    Connection con = ConnectionPool.getConnection();
     try {
       PreparedStatement statement = con.prepareStatement(sqlInsert);
       statement.setString(1, categoryName);

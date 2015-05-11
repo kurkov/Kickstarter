@@ -1,21 +1,25 @@
 package ua.goit.kickstarter.model;
 
 public class Project extends AbstractModel {
+  private String name;
+  private String description;
+  private Category category;
 
-  String name;
-  String description;
-  Category category;
+  public Project(){
 
-  public Project() {
   }
 
-  public Project(int id, String name, Category category, String description) {
+  public Project(String projectName, String description, Integer categoryId) {
+    this.name = projectName;
+    this.description = description;
+    category.setId(categoryId);
+  }
+
+  public Project(Integer id, String name, Category category, String description) {
     this.id = id;
     this.name = name;
     this.category = category;
     this.description = description;
-    this.description = description;
-
   }
 
   @Override
@@ -27,6 +31,7 @@ public class Project extends AbstractModel {
             ", category=" + category +
             '}';
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -58,10 +63,6 @@ public class Project extends AbstractModel {
     result = 31 * result + (getCategory() != null ? getCategory().hashCode()
             : 0);
     return result;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
   }
 
   public String getName() {

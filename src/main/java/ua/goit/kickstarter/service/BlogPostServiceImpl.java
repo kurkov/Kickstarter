@@ -2,8 +2,6 @@ package ua.goit.kickstarter.service;
 
 
 import ua.goit.kickstarter.dao.BlogPostDao;
-import ua.goit.kickstarter.dao.DaoFactory;
-import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 
@@ -11,8 +9,11 @@ import java.util.List;
 
 public class BlogPostServiceImpl implements BlogPostService {
 
-  private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-  private final BlogPostDao blogPostDao = daoFactory.getBlogPostDao();
+  private final BlogPostDao blogPostDao;
+
+  public BlogPostServiceImpl(BlogPostDao blogPostDao) {
+    this.blogPostDao = blogPostDao;
+  }
 
   @Override
   public List<BlogPost> getAll() {
@@ -42,5 +43,18 @@ public class BlogPostServiceImpl implements BlogPostService {
   @Override
   public void deleteBlogPostById(Integer blogPostId) {
     blogPostDao.deleteById(blogPostId);
+  }
+
+  @Override
+  public void editBlogPost(Integer blogPostId, String title, String text) {
+    BlogPost blogPost = blogPostDao.getById(blogPostId);
+
+    if (blogPost == null) {
+      return;
+    }
+
+    blogPost.setTitle(title);
+    blogPost.setText(text);
+    blogPostDao.update(blogPost);
   }
 }

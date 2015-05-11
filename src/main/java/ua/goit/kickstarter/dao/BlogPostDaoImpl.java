@@ -1,23 +1,27 @@
 package ua.goit.kickstarter.dao;
 
 import org.joda.time.DateTime;
-import ua.goit.kickstarter.factory.ConnectionFactory;
+import ua.goit.kickstarter.factory.ConnectionPool;
+import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
-public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
+public class BlogPostDaoImpl extends AbstractDao<BlogPost>
         implements BlogPostDao {
+
+  public BlogPostDaoImpl(Connection connection) {
+    super(connection);
+  }
 
   @Override
   public BlogPost getById(Integer id) {
     BlogPost blogPost;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl();
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     String sqlSelect = "SELECT * FROM blogs WHERE id = " + id + ";";
     ResultSet rs;
     try {
@@ -29,12 +33,10 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
         DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
-        blogPost = new BlogPost(id, title, text, dateOfCreation,
-            project);
+        blogPost = new BlogPost(id, title, text, dateOfCreation, project);
       } else {
         blogPost = null;
       }
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -46,9 +48,9 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
     List<BlogPost> blogPostList = new ArrayList<>();
     BlogPost blogPost;
     Project project;
-    ProjectDao projectDao = new ProjectDaoImpl();
-    String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
-            projectID + ";";
+    ProjectDao projectDao = Factory.getProjectDao(connection);
+    String sqlSelect = "SELECT * FROM blogs WHERE id_project = "
+        + projectID + ";";
     try {
       ResultSet rs = executeQuery(sqlSelect);
       while (rs.next()) {
@@ -70,38 +72,15 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
 
   @Override
   public List<BlogPost> getByProject(Project project) {
-    List<BlogPost> blogPostList = new ArrayList<>();
-    BlogPost blogPost;
-    ProjectDao projectDao = new ProjectDaoImpl();
     Integer projectID = project.getId();
-    String sqlSelect = "SELECT * FROM blogs WHERE id_project = " +
-            projectID + ";";
-    Connection connection = ConnectionFactory.getConnection();
-    try {
-      Statement statement = connection.createStatement();
-      ResultSet rs = statement.executeQuery(sqlSelect);
-      while (rs.next()) {
-        Integer id = rs.getInt("id");
-        String title = rs.getString("title");
-        String text = rs.getString("text");
-        Long date = rs.getLong("dateOfCreation");
-        DateTime dateOfCreation = new DateTime(date);
-        Integer id_project = rs.getInt("id_project");
-        project = projectDao.getById(id_project);
-        blogPost = new BlogPost(id, title, text, dateOfCreation, project);
-        blogPostList.add(blogPost);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return blogPostList;
+    return getByProjectId(projectID);
   }
 
   @Override
   public List<BlogPost> getAll() {
     Project project;
     BlogPost blogPost;
-    ProjectDao projectDao = new ProjectDaoImpl();
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     List<BlogPost> blogPostList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM blogs;";
     ResultSet rs;
@@ -130,12 +109,10 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
             "dateOfCreation, id_project) VALUES ( ?,?,?,? );";
     Integer id;
     Project project;
-    DaoFactory daoFactory = new DaoFactoryImpl();
-    ProjectDao projectDao = daoFactory.getProjectDao();
-    Connection con = ConnectionFactory.getConnection();
+    ProjectDao projectDao = Factory.getProjectDao(connection);
     DateTime dateOfCreation = new DateTime();
     try {
-      PreparedStatement statement = con.prepareStatement(sqlInsert);
+      PreparedStatement statement = connection.prepareStatement(sqlInsert);
       statement.setString(1, title);
       statement.setString(2, text);
       statement.setLong(3, dateOfCreation.getMillis());
@@ -161,7 +138,7 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
   @Override
   public BlogPost add(BlogPost element) {
     return add(element.getTitle(), element.getText(),
-        element.getProject().getId());
+            element.getProject().getId());
   }
 
   @Override
@@ -171,7 +148,12 @@ public class BlogPostDaoImpl extends AbstractDaoImpl<BlogPost>
   }
 
   @Override
-  public BlogPost update(BlogPost element) {
-    return null;
+  public BlogPost update(BlogPost blogPost) {
+    String query = "UPDATE blogs " +
+        " SET title = '" + blogPost.getTitle() + "'," +
+        " text = '" + blogPost.getText() + "'" +
+        " WHERE id = " + blogPost.getId() + ";";
+    executeUpdate(query);
+    return blogPost;
   }
 }

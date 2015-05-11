@@ -5,7 +5,7 @@ import ua.goit.kickstarter.model.Project;
 
 import java.util.List;
 
-public interface BlogPostDao extends AbstractDao<BlogPost>{
+public interface BlogPostDao extends GenericDao<BlogPost> {
 
   List<BlogPost> getByProjectId(Integer id);
   List<BlogPost> getByProject(Project project);

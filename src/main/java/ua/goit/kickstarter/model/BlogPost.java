@@ -5,11 +5,10 @@ import org.joda.time.DateTime;
 import java.util.Date;
 
 public class BlogPost extends AbstractModel {
-
-  String title;
-  String text;
-  DateTime dateOfCreation;
-  Project project;
+  private String title;
+  private String text;
+  private DateTime dateOfCreation;
+  private Project project;
 
   public BlogPost() {
   }

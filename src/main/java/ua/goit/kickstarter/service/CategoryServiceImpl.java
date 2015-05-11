@@ -1,16 +1,17 @@
 package ua.goit.kickstarter.service;
 
 import ua.goit.kickstarter.dao.CategoryDao;
-import ua.goit.kickstarter.dao.DaoFactory;
-import ua.goit.kickstarter.factory.ConnectionFactory;
 import ua.goit.kickstarter.model.Category;
 
 import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService {
 
-  private final DaoFactory daoFactory = ConnectionFactory.getDaoFactory();
-  private final CategoryDao categoryDao = daoFactory.getCategoryDao();
+  private final CategoryDao categoryDao;
+
+  public CategoryServiceImpl(CategoryDao categoryDao) {
+    this.categoryDao = categoryDao;
+  }
 
   @Override
   public List<Category> getAll() {
@@ -23,8 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Category addNewCategory(String name) {
-    return categoryDao.add(name);
+  public Category addNewCategory(Category categoryName) {
+    return categoryDao.add(categoryName);
   }
 
   @Override

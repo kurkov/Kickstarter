@@ -10,12 +10,11 @@ public interface ProjectService {
 
   List<Project> getByCategory(Category category);
 
-  Project getProjectById(Integer id);
+  Project getById(Integer id);
 
-  Project addNewProject(String name, String description, String category);
+  Project addNewProject(Project project);
 
-  void editProject(String id,String projectName, String projectDescription);
+  void editProject(Integer id,String projectName, String projectDescription);
 
-
-  void deleteProject(String projectId);
+  void deleteProject(Integer projectId);
 }

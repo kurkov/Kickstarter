@@ -1,24 +1,37 @@
 package ua.goit.kickstarter.dao;
 
- import java.util.List;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-public interface AbstractDao <T>{
-  T getById(Integer id);
+public abstract class AbstractDao<T> implements GenericDao<T> {
 
-  T getById(String strId);
+  protected final Connection connection;
 
-  List<T> getAll();
+  protected AbstractDao(Connection connection) {
+    this.connection = connection;
+  }
 
-  T add(T element);
+  public ResultSet executeQuery(String query){
+    ResultSet rs;
+    try {
+      Statement statement = connection.createStatement();
+      rs = statement.executeQuery(query);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return rs;
+  }
 
-  void deleteById(Integer id);
-
-  void deleteById(String strId);
-
-  T update(T element);
+  public int executeUpdate(String query){
+    int rs;
+    try {
+      Statement statement = connection.createStatement();
+      rs = statement.executeUpdate(query);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return rs;
+  }
 }
-
-
-
-
-
