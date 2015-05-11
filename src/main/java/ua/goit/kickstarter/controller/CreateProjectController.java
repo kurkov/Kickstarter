@@ -37,7 +37,7 @@ public class CreateProjectController implements Controller {
     ViewModel viewModel = null;
 
     if ("GET".equals(request.getMethod())) {
-      viewModel = proceedRequest(request);
+      viewModel = proceedGet(request);
     } else if ("POST".equals(request.getMethod())) {
       viewModel = proceedPost(request);
     }
@@ -45,15 +45,15 @@ public class CreateProjectController implements Controller {
     return viewModel;
   }
 
-  private ViewModel proceedRequest(Request request) {
+  private ViewModel proceedGet(Request request) {
 
     ViewModel viewModel;
     Integer categoryId = getIdInteger(request.getParameter("categoryId"));
 
     if (categoryId == null) {
-      viewModel = getViewModel();
+      viewModel = getViewModelForProjectAdd();
     } else {
-      viewModel = getViewModel(categoryId);
+      viewModel = getViewModelForProjectAdd(categoryId);
     }
 
     return viewModel;
@@ -72,16 +72,16 @@ public class CreateProjectController implements Controller {
     projectDescription = request.getParameter("projectDescription");
 
     if (projectName.equals("") || projectDescription.equals("")) {
-      viewModel = getViewModel();
+      viewModel = getViewModelForProjectAdd();
     } else {
       Project project = projectService.addNewProject(new Project(projectName, projectDescription, categoryId));
-      viewModel = getViewModel(project);
+      viewModel = getViewModelForProjectView(project);
     }
 
     return viewModel;
   }
 
-  private ViewModel getViewModel() {
+  private ViewModel getViewModelForProjectAdd() {
 
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
     List<Category> categories = categoryService.getAll();
@@ -92,7 +92,7 @@ public class CreateProjectController implements Controller {
     return viewModel;
   }
 
-  private ViewModel getViewModel(Integer categoryId) {
+  private ViewModel getViewModelForProjectAdd(Integer categoryId) {
 
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
     List<Category> categories = categoryService.getAll();
@@ -108,7 +108,7 @@ public class CreateProjectController implements Controller {
     return viewModel;
   }
 
-  private ViewModel getViewModel(Project project) {
+  private ViewModel getViewModelForProjectView(Project project) {
 
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItem.jsp");
     viewModel.addAttributes("project", project);
