@@ -9,11 +9,11 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
-public class ReadAllProjectController implements Controller {
+public class ReadAllProjectsController implements Controller {
 
   private final ProjectService projectService;
 
-  public ReadAllProjectController(ProjectService projectService) {
+  public ReadAllProjectsController(ProjectService projectService) {
     this.projectService = projectService;
   }
 
