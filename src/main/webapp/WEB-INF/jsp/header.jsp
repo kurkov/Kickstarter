@@ -13,12 +13,12 @@
         </li>
       </ul>
       <ul class="nav navbar-right">
-          <button type="button" class="btn btn-default navbar-btn"
-                  formmethod="get" formaction="#">Sign up
-          </button>
-          <button type="button" class="btn btn-default navbar-btn"
-                  formmethod="get" formaction="#">Log in
-          </button>
+        <button type="button" class="btn btn-default navbar-btn"
+                formmethod="get" formaction="#">Sign up
+        </button>
+        <button type="button" class="btn btn-default navbar-btn"
+                formmethod="get" formaction="#">Log in
+        </button>
         <br>
       </ul>
     </div>

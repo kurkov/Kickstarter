@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <html>
 <head>
-  <link rel="stylesheet"
-        href="../../bootstrap/css/bootstrap.min.css">
+  <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
+        rel="stylesheet">
   <title></title>
 </head>
 <body>
-<%@include file="/WEB-INF/jsp/header.jsp"%>
+<%@include file="/WEB-INF/jsp/header.jsp" %>
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-heading"><b>Full list of projects</b></div>

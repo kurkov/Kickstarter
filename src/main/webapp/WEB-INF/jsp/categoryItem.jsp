@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <html>
 <head>
-  <link rel="stylesheet"
-        href="../../bootstrap/css/bootstrap.min.css">
+  <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
+        rel="stylesheet">
   <title></title>
 </head>
 <body>
-<%@include file="/WEB-INF/jsp/header.jsp"%>
+<%@include file="/WEB-INF/jsp/header.jsp" %>
 <div class="container">
   <div class="row">
 
@@ -26,34 +26,34 @@
       <c:forEach var="c" items="${projects}">
         <tr>
           <form>
-          <td onclick="window.location.href='/servlet/project/<c:out
-                  value="${c.id}"/>'">
-            <a href="/servlet/project/<c:out value="${c.id}"/>">
-              <c:out value="${c.name}"/>
-            </a>
-          </td>
+            <td onclick="window.location.href='/servlet/project/<c:out
+                    value="${c.id}"/>'">
+              <a href="/servlet/project/<c:out value="${c.id}"/>">
+                <c:out value="${c.name}"/>
+              </a>
+            </td>
 
-          <td class="text-right text-nowrap">
+            <td class="text-right text-nowrap">
 
 
-            <button class="btn btn-xs btn-primary" formmethod="get"
-                    formaction='/servlet/project/<c:out
+              <button class="btn btn-xs btn-primary" formmethod="get"
+                      formaction='/servlet/project/<c:out
                       value="${c.id}"/>/edit' type="submit">
-              <span class="glyphicon glyphicon-pencil"></span>
-            </button>
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
 
 
-            <button class="btn btn-xs btn-danger" formmethod="post"
-                    formaction='/servlet/project/<c:out
+              <button class="btn btn-xs btn-danger" formmethod="post"
+                      formaction='/servlet/project/<c:out
                       value="${c.id}"/>/delete' type="submit">
-              <span class="glyphicon glyphicon-trash"></span>
-            </button>
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
 
 
-          </td>
-          <input type="hidden" name="categoryId"
-                 value="<c:out value="${category.id}"/>">
-        </form>
+            </td>
+            <input type="hidden" name="categoryId"
+                   value="<c:out value="${category.id}"/>">
+          </form>
         </tr>
       </c:forEach>
       <tr>
@@ -63,8 +63,9 @@
         </td>
         <td class="text-right text-nowrap">
           <button class="btn btn-xs btn-primary"
-                  onclick="window.location.href='/servlet/project/add?categoryId=<c:out
-                    value="${category.id}"/>'">
+                  onclick="window.location.href='/servlet/project/add?categoryId=
+                  <c:out
+                          value="${category.id}"/>'">
             <span class="glyphicon glyphicon-plus-sign"></span>
             Add
           </button>

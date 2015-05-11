@@ -3,11 +3,11 @@
 <html>
 <head>
   <title>Error</title>
-  <link rel="stylesheet"
-        href="../../bootstrap/css/bootstrap.min.css">
+  <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
+        rel="stylesheet">
 </head>
 <body>
-<%@include file="/WEB-INF/jsp/header.jsp"%>
+<%@include file="/WEB-INF/jsp/header.jsp" %>
 <div class="container">
   <div class="panel panel-danger">
     <div class="panel-heading">Error</div>

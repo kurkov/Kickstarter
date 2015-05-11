@@ -64,7 +64,7 @@ public class ProjectController implements Controller {
         viewModel = getViewModelForProjectAdd(categoryId);
       }
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      viewModel = getViewModelForProjectEdit(operation, categoryId, null, null);
+      viewModel = getViewModelForProjectEdit(operation);
     } else {
       viewModel = new ViewModel("/WEB-INF/jsp/projects.jsp");
       List<Project> projects = projectService.getAll();
@@ -74,18 +74,57 @@ public class ProjectController implements Controller {
     return viewModel;
   }
 
-  private ViewModel getViewModelForProjectEdit(Operation operation,
-                                               Integer categoryId, String projectName, String projectDescription) {
+  private ViewModel proceedPost(Request request)
+          throws ServletException, IOException {
+    String url = request.getUrl();
+    Operation operation = UrlParser.parse(url);
+    ViewModel viewModel = null;
+
+    Logger logger = Logger.getLogger(this.getClass());
+    logger.info(operation);
+
+    String categoryIdStr = request.getParameter("categoryId");
+    Integer categoryId = getIdInteger(categoryIdStr);
+    String projectName = request.getParameter("projectName");
+    String projectDescription = request.getParameter("projectDescription");
+    String urlCameFrom = request.getParameter("urlCameFrom");
+
+    if (operation.getOperationType() == OperationType.ADD_ITEM) {
+      if (projectName.equals("") || projectDescription.equals("")) {
+        viewModel = getViewModelForProjectAdd();
+      } else {
+        Project project = projectService.addNewProject(new Project
+                (projectName, projectDescription, categoryId));
+        viewModel = getViewModelForProjectView(project);
+      }
+    } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
+      projectService.deleteProject(operation.getObjectId());
+      viewModel = getViewModelForProjectsViewInCategory(categoryId);
+    } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
+      if (projectName.equals("") || projectDescription.equals("")) {
+        viewModel = getViewModelForProjectEdit(operation);
+      } else {
+        projectService.editProject(operation.getObjectId(), projectName,
+                projectDescription);
+        viewModel = getViewModelForProjectsViewInCategory(categoryId);
+      }
+    }
+    return viewModel;
+  }
+
+  private ViewModel getViewModelForProjectEdit(Operation operation) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemEdit.jsp");
     Project project = projectService.getById(operation.getObjectId());
-    viewModel.addAttributes("categoryId", categoryId);
+    viewModel.addAttributes("categoryId", project.getCategory().getId());
     viewModel.addAttributes("project", project);
-    if (projectName.equals("")) {
+    String urlForRedirect = "/servlet/project/" + project.getId() + "/edit";
+    viewModel.setUrlForRedirect(urlForRedirect);
+    /*if (projectName.equals("")) {
       viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
     } else if (projectDescription.equals("")) {
       viewModel.addAttributes("ErrorMessage", "Field 'description' must be " +
               "filled");
-    }
+    }*/ //TODO check error msg
     return viewModel;
   }
 
@@ -119,45 +158,6 @@ public class ProjectController implements Controller {
       e.printStackTrace();
     }
     return id;
-  }
-
-  private ViewModel proceedPost(Request request)
-          throws ServletException, IOException {
-    String url = request.getUrl();
-    Operation operation = UrlParser.parse(url);
-    ViewModel viewModel = null;
-
-    Logger logger = Logger.getLogger(this.getClass());
-    logger.info(operation);
-
-    String categoryIdStr = request.getParameter("categoryId");
-    Integer categoryId = getIdInteger(categoryIdStr);
-    String projectName = request.getParameter("projectName");
-    String projectDescription = request.getParameter("projectDescription");
-    String urlCameFrom = request.getParameter("urlCameFrom");
-
-    if (operation.getOperationType() == OperationType.ADD_ITEM) {
-      if (projectName.equals("") || projectDescription.equals("")) {
-        viewModel = getViewModelForProjectAdd();
-      } else {
-        Project project = projectService.addNewProject(new Project
-                (projectName, projectDescription, categoryId));
-        viewModel = getViewModelForProjectView(project);
-      }
-    } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
-      projectService.deleteProject(operation.getObjectId());
-      viewModel = getViewModelForProjectsViewInCategory(categoryId);
-    } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
-      if (projectName.equals("") || projectDescription.equals("")) {
-        viewModel = getViewModelForProjectEdit(operation, categoryId,
-                projectName, projectDescription);
-      } else {
-        projectService.editProject(operation.getObjectId(), projectName,
-                projectDescription);
-        viewModel = getViewModelForProjectsViewInCategory(categoryId);
-      }
-    }
-    return viewModel;
   }
 
   private ViewModel getViewModelForProjectsViewInCategory(Integer categoryId) {

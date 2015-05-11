@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <html>
 <head>
-  <link rel="stylesheet"
-        href="../../bootstrap/css/bootstrap.min.css">
+  <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
+        rel="stylesheet">
   <title></title>
 </head>
 <body>
-<%@include file="/WEB-INF/jsp/header.jsp"%>
+<%@include file="/WEB-INF/jsp/header.jsp" %>
 <div class="container">
   <div class="row">
 
@@ -38,7 +38,7 @@
 
     <button class="btn btn-xs btn-primary"
             onclick="window.location.href='/servlet/project/<c:out
-            value="${categoryId}"/>'">
+                    value="${categoryId}"/>'">
       <span class="glyphicon glyphicon-backward"></span>
       Back
     </button>

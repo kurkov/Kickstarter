@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <html>
 <head>
-  <link rel="stylesheet"
-        href="../../bootstrap/css/bootstrap.min.css">
+  <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
+        rel="stylesheet">
   <title></title>
 </head>
 <body>
-<%@include file="/WEB-INF/jsp/header.jsp"%>
+<%@include file="/WEB-INF/jsp/header.jsp" %>
 <div class="container">
   <div class="row">
 
@@ -15,7 +15,7 @@
       <form action="/servlet/category/add" method="POST">
         <c:if test="${ErrorMessage != null &&ErrorMessage != ''}">
           <div class="alert alert-danger" role="alert"><c:out
-            value="${ErrorMessage}"/></div>
+                  value="${ErrorMessage}"/></div>
         </c:if>
         <input type="text" name="categoryName" class="form-control"
                placeholder="Category name" aria-describedby="basic-addon1">
