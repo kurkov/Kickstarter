@@ -36,8 +36,8 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  public Comment addNewComment(String text, Integer projectId) {
-    return commentDao.add(text, projectId);
+  public Comment addNewComment(Comment comment) {
+    return commentDao.add(comment);
   }
 
   @Override

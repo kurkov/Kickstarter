@@ -146,14 +146,4 @@ public class CommentDaoImpl extends AbstractDao<Comment>
   public Comment update(Comment element) {
     return null;
   }
-
-  @Override
-  public Comment add(String text, Integer projectId) {
-    ProjectDao projectDao = Factory.getProjectDao(connection);
-    Project project = projectDao.getById(projectId);
-    if (project == null) {
-      throw new RuntimeException("Incorrect project id");
-    }
-    return add(new Comment(0, text, new DateTime(), project));
-  }
 }
