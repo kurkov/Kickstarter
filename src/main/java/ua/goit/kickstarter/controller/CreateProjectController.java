@@ -46,33 +46,35 @@ public class CreateProjectController implements Controller {
   }
 
   private ViewModel proceedGet(Request request) {
-
     ViewModel viewModel;
     Integer categoryId = getIdInteger(request.getParameter("categoryId"));
 
     if (categoryId == null) {
-      viewModel = getViewModelForProjectAdd();
+      viewModel = getProjectAddFromProjectsList();
     } else {
-      viewModel = getViewModelForProjectAdd(categoryId);
+      viewModel = getProjectAddFromCategory(categoryId);
     }
 
     return viewModel;
   }
 
+  private ViewModel getProjectAddFromProjectsList() {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
+    List<Category> categoryList = categoryService.getAll();
+    viewModel.addAttributes("categories", categoryList);
+    return viewModel;
+  }
+
   private ViewModel proceedPost(Request request) {
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
+    Integer categoryId = getIdInteger(request.getParameter("categoryId"));
+    String projectName = request.getParameter("projectName");
+    String projectDescription = request.getParameter("projectDescription");
 
-    ViewModel viewModel;
-    Integer categoryId;
-    String projectName;
-    String projectDescription;
-
-    categoryId = getIdInteger(request.getParameter("categoryId"));
-
-    projectName = request.getParameter("projectName");
-    projectDescription = request.getParameter("projectDescription");
-
-    if (projectName.equals("") || projectDescription.equals("")) {
-      viewModel = getViewModelForProjectAdd();
+    if (projectName.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    } else if (projectDescription.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'description' must be filled");
     } else {
       Project project = projectService.addNewProject(new Project(projectName, projectDescription, categoryId));
       viewModel = getViewModelForProjectView(project);
@@ -81,47 +83,27 @@ public class CreateProjectController implements Controller {
     return viewModel;
   }
 
-  private ViewModel getViewModelForProjectAdd() {
-
+  private ViewModel getProjectAddFromCategory(Integer categoryId) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
     List<Category> categories = categoryService.getAll();
-
-    viewModel.addAttributes("categories", categories);
-    viewModel.setUrlForRedirect("/servlet/project/add");
-
-    return viewModel;
-  }
-
-  private ViewModel getViewModelForProjectAdd(Integer categoryId) {
-
-    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
-    List<Category> categories = categoryService.getAll();
-
     viewModel.addAttributes("categories", categories);
     viewModel.addAttributes("categoryId", categoryId);
-
-    if (viewModel.getUrlCameFrom().equals("category")) {
-      viewModel.setUrlForRedirect("/servlet/category/" + categoryId);
-    } else if (viewModel.getUrlCameFrom().equals("projects"))
-      viewModel.setUrlForRedirect("/servlet/project");
-
     return viewModel;
   }
 
   private ViewModel getViewModelForProjectView(Project project) {
-
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItem.jsp");
     viewModel.addAttributes("project", project);
 
     List<Comment> commentList = commentService.getByProject(project);
     if (commentList.size() > 0) {
-      Collections.sort(commentList);
+      Collections.sort(commentList); //TODO sort in request from database
     }
     viewModel.addAttributes("commentList", commentList);
 
     List<BlogPost> blogPostList = blogPostService.getByProject(project);
     if (blogPostList.size() > 0) {
-      Collections.sort(commentList);
+      Collections.sort(commentList); // TODO sort
     }
     viewModel.addAttributes("blogPostList", blogPostList);
 
