@@ -33,21 +33,11 @@ public class ProjectServiceImpl implements ProjectService {
     return projectDao.add(project);
   }
 
-  /*@Override
-  public Project addNewProject(String name, String description,
-                               Integer categoryId) {
-    return projectDao.add(name, description, categoryId);
-  }*/
-
   @Override
-  public void editProject(Integer id, String projectName,
-                          String projectDescription) {
-    Project project = projectDao.getById(id);
-    if (project == null) return;
-
-    project.setName(projectName);
-    project.setDescription(projectDescription);
-    projectDao.update(project);
+  public void editProject(Project project) {
+    if (project != null) {
+      projectDao.update(project);
+    }
   }
 
   @Override

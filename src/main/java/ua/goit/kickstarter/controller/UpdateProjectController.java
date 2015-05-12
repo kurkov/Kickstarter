@@ -49,21 +49,18 @@ public class UpdateProjectController implements Controller {
   private ViewModel proceedPost(Request request) {
 
     ViewModel viewModel;
-    Integer projectId;
-    Integer categoryId;
-    String projectName;
-    String projectDescription;
 
-    projectId = getIdInteger(request.getParameter("projectId"));
-    categoryId = getIdInteger(request.getParameter("categoryId"));
-
-    projectName = request.getParameter("projectName");
-    projectDescription = request.getParameter("projectDescription");
+    Integer projectId = getIdInteger(request.getParameter("projectId"));
+    Integer categoryId = getIdInteger(request.getParameter("categoryId"));
+    String projectName = request.getParameter("projectName");
+    String projectDescription = request.getParameter("projectDescription");
+    Category category = categoryService.getById(categoryId);
+    Project project = new Project(projectId, projectName, category, projectDescription);
 
     if (projectName.equals("") || projectDescription.equals("")) {
       viewModel = getViewModelForProjectEdit(projectId);
     } else {
-      projectService.editProject(projectId, projectName, projectDescription);
+      projectService.editProject(project);
       viewModel = getViewModelForProjectsViewInCategory(categoryId);
     }
 

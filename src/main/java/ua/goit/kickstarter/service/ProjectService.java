@@ -14,7 +14,7 @@ public interface ProjectService {
 
   Project addNewProject(Project project);
 
-  void editProject(Integer id,String projectName, String projectDescription);
+  void editProject(Project project);
 
   void deleteProject(Integer projectId);
 }
