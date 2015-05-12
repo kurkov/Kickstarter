@@ -36,8 +36,8 @@ public class BlogPostServiceImpl implements BlogPostService {
   }
 
   @Override
-  public BlogPost addNewBlogPost(String title, String text, Integer projectId) {
-    return blogPostDao.add(title, text, projectId);
+  public void addPostToProjectBlog(BlogPost blogPost) {
+    blogPostDao.add(blogPost);
   }
 
   @Override
@@ -46,15 +46,9 @@ public class BlogPostServiceImpl implements BlogPostService {
   }
 
   @Override
-  public void editBlogPost(Integer blogPostId, String title, String text) {
-    BlogPost blogPost = blogPostDao.getById(blogPostId);
-
-    if (blogPost == null) {
-      return;
+  public void editBlogPost(BlogPost blogPost) {
+    if (blogPost != null) {
+      blogPostDao.update(blogPost);
     }
-
-    blogPost.setTitle(title);
-    blogPost.setText(text);
-    blogPostDao.update(blogPost);
   }
 }

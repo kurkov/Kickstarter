@@ -10,7 +10,7 @@ public interface BlogPostService {
   List<BlogPost> getByProject(Project project);
   List<BlogPost> getByProjectId(Integer projectId);
   BlogPost getBlogPostById(Integer id);
-  BlogPost addNewBlogPost(String title, String text, Integer projectId);
+  void addPostToProjectBlog(BlogPost blogPost);
   void deleteBlogPostById(Integer blogPostId);
-  void editBlogPost(Integer blogPostId, String title, String text);
+  void editBlogPost(BlogPost blogPost);
 }
