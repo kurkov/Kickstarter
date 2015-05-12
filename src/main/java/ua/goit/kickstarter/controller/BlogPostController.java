@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.controller;
 
+import org.joda.time.DateTime;
 import ua.goit.kickstarter.model.BlogPost;
 import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.servlet.Request;
@@ -35,7 +36,7 @@ public class BlogPostController implements Controller {
   }
 
   public ViewModel proceedRequest(Request request) throws ServletException,
-      IOException {
+          IOException {
     String url = request.getUrl();
     Operation operation = UrlParser.parse(url);
     String projectIdStr = request.getParameter("projectId");
@@ -64,7 +65,7 @@ public class BlogPostController implements Controller {
   }
 
   private ViewModel getViewModelForBlogPostEdit(Integer blogPostId,
-          Project project, String blogPostTitle, String blogPostText) {
+                                                Project project, String blogPostTitle, String blogPostText) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/blogPostEdit.jsp");
     BlogPost blogPost = blogPostService.getBlogPostById(blogPostId);
     viewModel.addAttributes("blogPost", blogPost);
@@ -80,7 +81,7 @@ public class BlogPostController implements Controller {
   }
 
   private ViewModel getViewModelForBlogPostAdd(Project project,
-           String blogPostTitle, String blogPostText) {
+                                               String blogPostTitle, String blogPostText) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/blogPostAdd.jsp");
     viewModel.addAttributes("project", project);
 
@@ -104,7 +105,7 @@ public class BlogPostController implements Controller {
   }
 
   public ViewModel proceedPost(Request request) throws ServletException, IOException {
-    Operation operation= UrlParser.parse(request.getUrl());
+    Operation operation = UrlParser.parse(request.getUrl());
 
     String blogPostTitle = request.getParameter("blogPostTitle");
     String blogPostText = request.getParameter("blogPostText");
@@ -114,15 +115,14 @@ public class BlogPostController implements Controller {
     Integer blogPostId = getInteger(blogPostIdStr);
     ViewModel viewModel = null;
     Project project = projectService.getById(projectId);
+    BlogPost blogPost = new BlogPost(blogPostId, blogPostTitle, blogPostText, new DateTime(), project);
 
     if (operation.getOperationType() == OperationType.ADD_ITEM) {
       if (blogPostTitle.equals("") || blogPostText.equals("")) {
         viewModel = getViewModelForBlogPostAdd(project, blogPostTitle,
-            blogPostText);
+                blogPostText);
       } else {
-        BlogPost blogPost = blogPostService.addNewBlogPost(blogPostTitle,
-            blogPostText,
-            projectId);
+        blogPostService.addPostToProjectBlog(blogPost);
         viewModel = getViewModelForProject(projectId);
       }
     } else if (operation.getOperationType() == OperationType.DELETE_ITEM) {
@@ -133,9 +133,9 @@ public class BlogPostController implements Controller {
     } else if (operation.getOperationType() == OperationType.EDIT_ITEM) {
       if (blogPostTitle.equals("") || blogPostText.equals("")) {
         viewModel = getViewModelForBlogPostEdit(blogPostId, project,
-            blogPostTitle, blogPostText);
+                blogPostTitle, blogPostText);
       } else {
-        blogPostService.editBlogPost(blogPostId, blogPostTitle, blogPostText);
+        blogPostService.editBlogPost(blogPost);
         viewModel = getViewModelForProject(projectId);
       }
     }
