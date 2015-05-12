@@ -18,6 +18,12 @@ public class Comment extends AbstractModel implements Comparable {
     this.project = project;
   }
 
+  public Comment(String text, DateTime dateOfCreation, Project project) {
+    this.text = text;
+    this.dateOfCreation = dateOfCreation;
+    this.project = project;
+  }
+
   @Override
   public boolean equals(Object o) {
       if (this == o) return true;

@@ -10,6 +10,6 @@ public interface CommentService {
   List<Comment> getByProject(Project project);
   List<Comment> getByProjectId(Integer projectId);
   Comment getCommentById(Integer id);
-  Comment addNewComment(String text, Integer projectId);
+  Comment addNewComment(Comment comment);
   void deleteCommentById(Integer commentId);
 }
