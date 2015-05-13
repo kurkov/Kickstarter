@@ -11,8 +11,7 @@ public class BlogPost extends AbstractModel implements Comparable {
   public BlogPost() {
   }
 
-  public BlogPost(Integer id, String title, String text, DateTime dateOfCreation, Project project) {
-    this.id = id;
+  public BlogPost(String title, String text, DateTime dateOfCreation, Project project) {
     this.title = title;
     this.text = text;
     this.dateOfCreation = dateOfCreation;
