@@ -80,6 +80,19 @@ public class Factory {
     return controller;
   }
 
+  public static Controller createErrorController(Class<? extends
+      Controller> clazz, Connection connection) {
+    Controller controller;
+    try {
+      Constructor<? extends Controller> constructor =
+          clazz.getConstructor();
+      controller = constructor.newInstance();
+    } catch (Throwable t) {
+      throw new RuntimeException(t);
+    }
+    return controller;
+  }
+
   public static CategoryDao getCategoryDao(Connection connection) {
     return new CategoryDaoImpl(connection);
   }

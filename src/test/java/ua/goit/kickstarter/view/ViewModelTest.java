@@ -5,8 +5,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import ua.goit.kickstarter.controller.CategoryController;
 import ua.goit.kickstarter.controller.Controller;
+import ua.goit.kickstarter.controller.CreateCategoryController;
 import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.servlet.Request;
@@ -36,10 +36,9 @@ public class ViewModelTest {
     }};
     String method = "POST";
     String url = "/category/add";
-    String simpleUrl = "/category";
-    Request request = new Request(parameters, method, url, simpleUrl);
+    Request request = new Request(parameters, method, url);
     Controller controller = Factory.createCategoryController
-        (CategoryController.class, connection);
+        (CreateCategoryController.class, connection);
     ViewModel viewModel =  controller.process(request);
     String actual = viewModel.getView();
 
