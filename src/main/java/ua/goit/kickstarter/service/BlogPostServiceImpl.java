@@ -36,8 +36,8 @@ public class BlogPostServiceImpl implements BlogPostService {
   }
 
   @Override
-  public void addPostToProjectBlog(BlogPost blogPost) {
-    blogPostDao.add(blogPost);
+  public BlogPost addPostToProjectBlog(BlogPost blogPost) {
+    return blogPostDao.add(blogPost);
   }
 
   @Override

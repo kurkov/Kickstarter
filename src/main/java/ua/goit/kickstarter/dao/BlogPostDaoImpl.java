@@ -33,7 +33,8 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
         DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
-        blogPost = new BlogPost(id, title, text, dateOfCreation, project);
+        blogPost = new BlogPost(title, text, dateOfCreation, project);
+        blogPost.setId(id);
       } else {
         blogPost = null;
       }
@@ -61,7 +62,8 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
         DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
-        blogPost = new BlogPost(id, title, text, dateOfCreation, project);
+        blogPost = new BlogPost(title, text, dateOfCreation, project);
+        blogPost.setId(id);
         blogPostList.add(blogPost);
       }
     } catch (SQLException e) {
@@ -94,7 +96,8 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
         DateTime dateOfCreation = new DateTime(date);
         Integer id_project = rs.getInt("id_project");
         project = projectDao.getById(id_project);
-        blogPost = new BlogPost(id, title, text, dateOfCreation, project);
+        blogPost = new BlogPost(title, text, dateOfCreation, project);
+        blogPost.setId(id);
         blogPostList.add(blogPost);
       }
     } catch (SQLException e) {
@@ -132,7 +135,9 @@ public class BlogPostDaoImpl extends AbstractDao<BlogPost>
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return new BlogPost(id, title, text, dateOfCreation, project);
+    BlogPost blogPost = new BlogPost(title, text, dateOfCreation, project);
+    blogPost.setId(id);
+    return blogPost;
   }
 
   @Override
