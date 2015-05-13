@@ -80,17 +80,11 @@ public class FrontServlet extends HttpServlet {
         throw new RuntimeException("Can not handle " + request);
       }
       ViewModel vm = controller.process(request);
-      if ("GET".equals(request.getMethod())) {
-        forward(req, resp, vm);
-      }else if ("POST".equals(request.getMethod())) {
-        String urlForRedirect = vm.getUrlForRedirect();
-        resp.sendRedirect(urlForRedirect);
-      }
+      forward(req, resp, vm);
     } catch (Throwable t) {
       logger.error("error", t);
       ViewModel vm = new ErrorController().process(request);
       vm.addAttributes("error", t.getClass() + " " + t.getMessage());
-
       forward(req, resp, vm);
     }
   }
