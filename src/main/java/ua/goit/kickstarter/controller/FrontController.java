@@ -45,7 +45,7 @@ public class FrontController {
           (DeleteCategoryController.class, ConnectionPool.getConnection());
       viewModel = deleteCategoryController.process(request);
     } else if(url.matches(".*\\d+.*")) {
-      Controller readCategoryController = Factory.createCategoryController
+      Controller readCategoryController = Factory.createReadCategoryController
           (ReadCategoryController.class, ConnectionPool.getConnection());
       viewModel = readCategoryController.process(request);
     } else {
@@ -60,7 +60,7 @@ public class FrontController {
       IOException {
     ViewModel viewModel;
     if (url.contains("add")) {
-      Controller createProjectController = Factory.createProjectController
+      Controller createProjectController = Factory.createCreateProjectController
           (CreateProjectController.class, ConnectionPool.getConnection());
       viewModel = createProjectController.process(request);
     } else if (url.contains("edit")) {
@@ -72,11 +72,11 @@ public class FrontController {
           (DeleteProjectController.class, ConnectionPool.getConnection());
       viewModel = deleteProjectController.process(request);
     } else if(url.matches(".*\\d+.*")) {
-      Controller readProjectController = Factory.createProjectController
+      Controller readProjectController = Factory.createReadProjectController
           (ReadProjectController.class, ConnectionPool.getConnection());
       viewModel = readProjectController.process(request);
     } else {
-      Controller readAllProjectsController = Factory.createProjectController
+      Controller readAllProjectsController = Factory.createReadAllProjectsController
           (ReadAllProjectsController.class, ConnectionPool.getConnection());
       viewModel = readAllProjectsController.process(request);
     }
