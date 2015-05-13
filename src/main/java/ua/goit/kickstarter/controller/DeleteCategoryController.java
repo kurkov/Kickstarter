@@ -37,6 +37,7 @@ public class DeleteCategoryController implements Controller {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
+    viewModel.setUrlForRedirect("/servlet/category");
     return viewModel;
   }
 }

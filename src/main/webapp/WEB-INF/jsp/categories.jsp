@@ -35,6 +35,8 @@
               <button class="btn btn-xs btn-danger" formmethod="post"
                       formaction='/servlet/category/<c:out
                       value="${c.id}"/>/delete' type="submit">
+                <input type="hidden" name="categoryId"
+                       value="<c:out value="${c.id}"/>">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </td>
