@@ -3,6 +3,7 @@ package ua.goit.kickstarter.controller;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.servlet.Request;
+import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.ServletException;
@@ -29,7 +30,7 @@ public class UpdateCategoryController implements Controller {
 
   private ViewModel proceedGet(Request request) throws ServletException, IOException {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
-    Integer categoryId = getIdInteger(request.getParameter("categoryId"));
+    Integer categoryId = UrlParser.getObjectId(request.getUrl());
     Category category = categoryService.getById(categoryId);
     viewModel.addAttributes("category", category);
     return viewModel;
@@ -47,7 +48,7 @@ public class UpdateCategoryController implements Controller {
 
   private ViewModel proceedPost(Request request) throws ServletException, IOException {
     String categoryName = request.getParameter("categoryName");
-    Integer categoryId = getIdInteger(request.getParameter("categoryId"));
+    Integer categoryId = UrlParser.getObjectId(request.getUrl());
     ViewModel viewModel;
 
     if (categoryName.equals("")) {

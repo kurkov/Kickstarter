@@ -5,6 +5,7 @@ import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.service.ProjectService;
 import ua.goit.kickstarter.servlet.Request;
+import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.ServletException;
@@ -22,19 +23,9 @@ public class ReadCategoryController implements Controller {
 
   @Override
   public ViewModel process(Request request) throws ServletException, IOException {
-    Integer categoryId = getIdInteger(request.getParameter("categoryId"));
+    Integer categoryId = UrlParser.getObjectId(request.getUrl());
     Category category = categoryService.getById(categoryId);
     return getCategoryView(category);
-  }
-
-  private Integer getIdInteger(String idStr) {
-    Integer id = null;
-    try {
-      id = Integer.parseInt(idStr);
-    } catch (NumberFormatException e) {
-      e.printStackTrace();
-    }
-    return id;
   }
 
   private ViewModel getCategoryView(Category category) {
