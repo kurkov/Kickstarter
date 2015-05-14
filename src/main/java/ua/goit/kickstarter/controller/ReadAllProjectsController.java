@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class ReadAllProjectsController implements Controller {
-
   private final ProjectService projectService;
 
   public ReadAllProjectsController(ProjectService projectService) {
@@ -19,11 +18,10 @@ public class ReadAllProjectsController implements Controller {
 
   @Override
   public ViewModel process(Request request) throws ServletException, IOException {
-    return proceedGet(request);
+    return proceedGet();
   }
 
-  private ViewModel proceedGet(Request request) {
-
+  private ViewModel proceedGet() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projects.jsp");
     List<Project> projects = projectService.getAll();
     viewModel.addAttributes("projects", projects);

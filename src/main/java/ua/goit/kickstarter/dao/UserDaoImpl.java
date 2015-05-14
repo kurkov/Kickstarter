@@ -48,7 +48,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
   public User add(User element) {
 
     int userId;
-    User newUser = null;
+    User newUser;
     String sqlInsert = "INSERT INTO users (login,password,firstName, lastName, email ) VALUES ( ?,?,?,?,? )";
     Connection con = ConnectionPool.getConnection();
     try {
@@ -78,7 +78,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
     return newUser;
   }
-
 
   @Override
   public void deleteById(Integer id) {

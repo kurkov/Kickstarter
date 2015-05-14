@@ -18,6 +18,10 @@ public class ReadAllCategoriesController implements Controller {
 
   @Override
   public ViewModel process(Request request) throws ServletException, IOException {
+    return proceedGet();
+  }
+
+  private ViewModel proceedGet() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);

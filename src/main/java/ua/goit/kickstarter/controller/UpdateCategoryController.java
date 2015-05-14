@@ -36,16 +36,6 @@ public class UpdateCategoryController implements Controller {
     return viewModel;
   }
 
-  private Integer getIdInteger(String idStr) {
-    Integer id = null;
-    try {
-      id = Integer.parseInt(idStr);
-    } catch (NumberFormatException e) {
-      e.printStackTrace();
-    }
-    return id;
-  }
-
   private ViewModel proceedPost(Request request) throws ServletException, IOException {
     String categoryName = request.getParameter("categoryName");
     Integer categoryId = UrlParser.getObjectId(request.getUrl());
@@ -70,6 +60,7 @@ public class UpdateCategoryController implements Controller {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
+    viewModel.setUrlForRedirect("/servlet/category");
     return viewModel;
   }
 }

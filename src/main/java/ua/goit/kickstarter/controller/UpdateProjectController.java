@@ -5,6 +5,7 @@ import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.service.ProjectService;
 import ua.goit.kickstarter.servlet.Request;
+import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,6 @@ public class UpdateProjectController implements Controller {
 
   @Override
   public ViewModel process(Request request) throws ServletException, IOException {
-
     ViewModel viewModel = null;
 
     if ("GET".equals(request.getMethod())) {
@@ -36,29 +36,23 @@ public class UpdateProjectController implements Controller {
   }
 
   private ViewModel proceedGet(Request request) {
-
-    ViewModel viewModel;
-    Integer projectId;
-
-    projectId = getIdInteger(request.getParameter("projectId"));
-    viewModel = getViewModelForProjectEdit(projectId);
-
-    return viewModel;
+    Integer projectId = UrlParser.getObjectId(request.getUrl());
+    return getViewModelForProjectEdit(projectId);
   }
 
   private ViewModel proceedPost(Request request) {
-
-    ViewModel viewModel;
-
     Integer projectId = getIdInteger(request.getParameter("projectId"));
     Integer categoryId = getIdInteger(request.getParameter("categoryId"));
     String projectName = request.getParameter("projectName");
     String projectDescription = request.getParameter("projectDescription");
     Category category = categoryService.getById(categoryId);
     Project project = new Project(projectId, projectName, category, projectDescription);
+    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
 
-    if (projectName.equals("") || projectDescription.equals("")) {
-      viewModel = getViewModelForProjectEdit(projectId);
+    if (projectName.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    } else if (projectDescription.equals("")) {
+      viewModel.addAttributes("ErrorMessage", "Field 'description' must be filled");
     } else {
       projectService.editProject(project);
       viewModel = getViewModelForProjectsViewInCategory(categoryId);
@@ -68,7 +62,6 @@ public class UpdateProjectController implements Controller {
   }
 
   private ViewModel getViewModelForProjectsViewInCategory(Integer categoryId) {
-
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
     Category category = categoryService.getById(categoryId);
     List<Project> projects = null;
@@ -85,10 +78,8 @@ public class UpdateProjectController implements Controller {
   }
 
   private ViewModel getViewModelForProjectEdit(Integer projectId) {
-
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemEdit.jsp");
     Project project = projectService.getById(projectId);
-
     viewModel.addAttributes("categoryId", project.getCategory().getId());
     viewModel.addAttributes("project", project);
 
@@ -96,9 +87,7 @@ public class UpdateProjectController implements Controller {
   }
 
   private Integer getIdInteger(String idStr) {
-
     Integer id = null;
-
     try {
       id = Integer.parseInt(idStr);
     } catch (NumberFormatException e) {
