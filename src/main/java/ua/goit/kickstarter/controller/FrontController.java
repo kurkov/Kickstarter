@@ -16,10 +16,6 @@ public class FrontController {
       viewModel = getViewModelFromCategoryControllers(request, url);
     } else if (url.contains("project")) {
       viewModel = getViewModelFromProjectControllers(request, url);
-    } else if (url.contains("comment")) {
-      viewModel = getViewModelFromCommentControllers(request, url);
-    } else if (url.contains("blogpost")) {
-      viewModel = getViewModelFromBlogPostControllers(request, url);
     } else {
       Controller errorController = Factory.createErrorController
           (ErrorController.class, ConnectionPool.getConnection());
@@ -79,48 +75,6 @@ public class FrontController {
       Controller readAllProjectsController = Factory.createReadAllProjectsController
           (ReadAllProjectsController.class, ConnectionPool.getConnection());
       viewModel = readAllProjectsController.process(request);
-    }
-    return viewModel;
-  }
-
-  private ViewModel getViewModelFromCommentControllers(Request request, String url) throws ServletException,
-      IOException {
-    ViewModel viewModel;
-    if (url.contains("add")) {
-      Controller createCommentController = Factory.createCommentController
-          (CreateCommentController.class, ConnectionPool.getConnection());
-      viewModel = createCommentController.process(request);
-    } else if (url.contains("delete")) {
-      Controller deleteCommentController = Factory.createCommentController
-          (DeleteCommentController.class, ConnectionPool.getConnection());
-      viewModel = deleteCommentController.process(request);
-    } else {
-      Controller errorController = Factory.createErrorController
-          (ErrorController.class, ConnectionPool.getConnection());
-      viewModel = errorController.process(request);
-    }
-    return viewModel;
-  }
-
-  private ViewModel getViewModelFromBlogPostControllers(Request request, String url) throws ServletException,
-      IOException {
-    ViewModel viewModel;
-    if (url.contains("add")) {
-      Controller createBlogPostController = Factory.createBlogPostController
-          (CreateBlogPostController.class, ConnectionPool.getConnection());
-      viewModel = createBlogPostController.process(request);
-    } else if (url.contains("edit")) {
-      Controller updateBlogPostController = Factory.createBlogPostController
-          (UpdateBlogPostController.class, ConnectionPool.getConnection());
-      viewModel = updateBlogPostController.process(request);
-    } else if (url.contains("delete")) {
-      Controller deleteBlogPostController = Factory.createBlogPostController
-          (DeleteBlogPostController.class, ConnectionPool.getConnection());
-      viewModel = deleteBlogPostController.process(request);
-    } else {
-      Controller errorController = Factory.createErrorController
-          (ErrorController.class, ConnectionPool.getConnection());
-      viewModel = errorController.process(request);
     }
     return viewModel;
   }

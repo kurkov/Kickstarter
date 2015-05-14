@@ -27,23 +27,14 @@ public class DeleteProjectController implements Controller {
   }
 
   private ViewModel proceedPost(Request request) {
-
-    ViewModel viewModel;
-    Integer categoryId;
-    Integer projectId;
-
-    projectId = getIdInteger(request.getParameter("projectId"));
-    categoryId = getIdInteger(request.getParameter("categoryId"));
-
+    Integer projectId = getIdInteger(request.getParameter("projectId"));
+    Integer categoryId = getIdInteger(request.getParameter("categoryId"));
     projectService.deleteProject(projectId);
 
-    viewModel = getViewModelForProjectsViewInCategory(categoryId);
-
-    return viewModel;
+    return getViewModelForProjectsViewInCategory(categoryId);
   }
 
   private ViewModel getViewModelForProjectsViewInCategory(Integer categoryId) {
-
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItem.jsp");
     Category category = categoryService.getById(categoryId);
     List<Project> projects = null;
@@ -60,9 +51,7 @@ public class DeleteProjectController implements Controller {
   }
 
   private Integer getIdInteger(String idStr) {
-
     Integer id = null;
-
     try {
       id = Integer.parseInt(idStr);
     } catch (NumberFormatException e) {

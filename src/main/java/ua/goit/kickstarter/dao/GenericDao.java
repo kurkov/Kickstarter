@@ -1,6 +1,6 @@
 package ua.goit.kickstarter.dao;
 
- import java.util.List;
+import java.util.List;
 
 public interface GenericDao<T>{
   T getById(Integer id);

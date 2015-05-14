@@ -23,6 +23,10 @@ public class ReadCategoryController implements Controller {
 
   @Override
   public ViewModel process(Request request) throws ServletException, IOException {
+    return proceedGet(request);
+  }
+
+  private ViewModel proceedGet(Request request) {
     Integer categoryId = UrlParser.getObjectId(request.getUrl());
     Category category = categoryService.getById(categoryId);
     return getCategoryView(category);
