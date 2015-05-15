@@ -45,8 +45,6 @@ public class DeleteProjectController implements Controller {
 
     viewModel.addAttributes("projects", projects);
     viewModel.addAttributes("category", category);
-    viewModel.setUrlForRedirect("/servlet/category/" + categoryId);
-
     return viewModel;
   }
 

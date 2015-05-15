@@ -47,7 +47,6 @@ public class CreateCategoryController implements Controller {
   private ViewModel getErrorMessage() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
     viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
-    viewModel.setUrlForRedirect("/servlet/category/add");
     return viewModel;
   }
 
@@ -55,7 +54,6 @@ public class CreateCategoryController implements Controller {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
-    viewModel.setUrlForRedirect("/servlet/category");
     return viewModel;
   }
 }

@@ -68,7 +68,6 @@ public class CreateProjectController implements Controller {
   private ViewModel getViewModelForProjectView(Project project) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItem.jsp");
     viewModel.addAttributes("project", project);
-    viewModel.setUrlForRedirect("/servlet/project/" + project.getId());
     return viewModel;
   }
 }
