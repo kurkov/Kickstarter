@@ -1,6 +1,5 @@
 package ua.goit.kickstarter.controller;
 
-import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.ProjectService;
 import ua.goit.kickstarter.servlet.Request;
@@ -9,7 +8,6 @@ import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.util.Calendar;
 
 public class ReadProjectController implements Controller {
 
