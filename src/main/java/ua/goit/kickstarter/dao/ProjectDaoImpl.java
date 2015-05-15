@@ -97,31 +97,6 @@ public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
   }
 
   @Override
-  public List<Project> getAll() {
-    List<Project> projectList = new ArrayList<>();
-    String sqlQuery = "SELECT * FROM projects";
-    Project project;
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
-    try {
-      Statement statement = connection.createStatement();
-      ResultSet rs = statement.executeQuery(sqlQuery);
-      while (rs.next()) {
-        Integer id = rs.getInt("id");
-        String name = rs.getString("name");
-        String description = rs.getString("description");
-        Integer id_category = rs.getInt("id_category");
-        Category category = categoryDao.getById(id_category);
-        project = new Project(name, description, category);
-        project.setId(id);
-        projectList.add(project);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return projectList;
-  }
-
-  @Override
   public Project update(Project project) {
     String query = "UPDATE projects " +
         " SET name = '" + project.getName() + "'," +
