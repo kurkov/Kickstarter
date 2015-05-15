@@ -14,8 +14,7 @@
     <div class="input-group">
       <form action="/servlet/category/add" method="POST">
         <c:if test="${ErrorMessage != null &&ErrorMessage != ''}">
-          <div class="alert alert-danger" role="alert"><c:out
-                  value="${ErrorMessage}"/></div>
+          <div class="alert alert-danger" role="alert"><c:out value="${ErrorMessage}"/></div>
         </c:if>
         <input type="text" name="categoryName" class="form-control"
                placeholder="Category name" aria-describedby="basic-addon1">
