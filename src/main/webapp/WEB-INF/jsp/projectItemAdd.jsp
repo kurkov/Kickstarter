@@ -14,11 +14,9 @@
   <div class="row">
     <form action="/servlet/project/add" method="POST">
       <c:if test="${ErrorMessage != null && ErrorMessage != ''}">
-        <div class="alert alert-danger" role="alert"><c:out
-                value="${ErrorMessage}"/></div>
+        <div class="alert alert-danger" role="alert"><c:out value="${ErrorMessage}"/></div>
       </c:if>
-      <input type="text" name="projectName" class="form-control"
-             value="<c:out value="${project.name}"/>"
+      <input type="text" name="projectName" class="form-control" value="<c:out value="${project.name}"/>"
              placeholder="Project name" aria-describedby="basic-addon1">
       <br>
 

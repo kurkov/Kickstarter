@@ -39,10 +39,11 @@ public class UpdateCategoryController implements Controller {
   private ViewModel proceedPost(Request request) throws ServletException, IOException {
     String categoryName = request.getParameter("categoryName");
     Integer categoryId = UrlParser.getObjectId(request.getUrl());
+    Category category = categoryService.getById(categoryId);
     ViewModel viewModel;
 
     if (categoryName.equals("")) {
-      viewModel = getErrorMessage();
+      viewModel = getErrorMessage(category);
     } else {
       categoryService.editCategory(new Category(categoryId, categoryName));
       viewModel = getAllCategories();
@@ -50,9 +51,10 @@ public class UpdateCategoryController implements Controller {
     return viewModel;
   }
 
-  private ViewModel getErrorMessage() {
+  private ViewModel getErrorMessage(Category category) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
     viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    viewModel.addAttributes("category", category);
     return viewModel;
   }
 
@@ -60,7 +62,6 @@ public class UpdateCategoryController implements Controller {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
-    viewModel.setUrlForRedirect("/servlet/category");
     return viewModel;
   }
 }

@@ -33,11 +33,7 @@ public class FrontServlet extends HttpServlet {
     try {
       FrontController frontController = new FrontController();
       ViewModel vm = frontController.dispatchRequest(request);
-      if ("GET".equals(request.getMethod())) {
-        forward(req, resp, vm);
-      } else if ("POST".equals(request.getMethod())) {
-        resp.sendRedirect(vm.getUrlForRedirect());
-      }
+      forward(req, resp, vm);
     } catch (Throwable t) {
       ViewModel vm = new ErrorController().process(request);
       vm.addAttributes("error", t.getClass() + " " + t.getMessage());
