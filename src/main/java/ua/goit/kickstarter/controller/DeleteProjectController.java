@@ -1,10 +1,12 @@
 package ua.goit.kickstarter.controller;
 
+import com.sun.jndi.toolkit.url.Uri;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.service.ProjectService;
 import ua.goit.kickstarter.servlet.Request;
+import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.ServletException;
@@ -27,7 +29,7 @@ public class DeleteProjectController implements Controller {
   }
 
   private ViewModel proceedPost(Request request) {
-    Integer projectId = getIdInteger(request.getParameter("projectId"));
+    Integer projectId = UrlParser.getObjectId(request.getUrl());
     Integer categoryId = getIdInteger(request.getParameter("categoryId"));
     projectService.deleteProject(projectId);
 
