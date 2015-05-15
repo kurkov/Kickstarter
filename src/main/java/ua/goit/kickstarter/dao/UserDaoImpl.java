@@ -45,7 +45,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
   }
 
   @Override
-  public User add(User element) {
+  public User add(User user) {
 
     int userId;
     User newUser;
@@ -53,11 +53,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     Connection con = ConnectionPool.getConnection();
     try {
       PreparedStatement statement = con.prepareStatement(sqlInsert);
-      statement.setString(1, element.getLogin());
-      statement.setString(2, element.getPassword());
-      statement.setString(3, element.getFirstName());
-      statement.setString(4, element.getLastName());
-      statement.setString(5, element.getEmail());
+      statement.setString(1, user.getLogin());
+      statement.setString(2, user.getPassword());
+      statement.setString(3, user.getFirstName());
+      statement.setString(4, user.getLastName());
+      statement.setString(5, user.getEmail());
 
       int affectedRows = statement.executeUpdate();
 
@@ -80,12 +80,12 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public void delete(User user) {
 
   }
 
   @Override
-  public User update(User element) {
+  public User update(User user) {
     return null;
   }
 }

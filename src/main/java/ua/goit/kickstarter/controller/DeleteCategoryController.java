@@ -20,7 +20,8 @@ public class DeleteCategoryController implements Controller {
   @Override
   public ViewModel process(Request request) throws ServletException, IOException {
     Integer categoryId = UrlParser.getObjectId(request.getUrl());
-    categoryService.deleteItem(categoryId);
+    Category category = categoryService.getById(categoryId);
+    categoryService.delete(category);
     return getAllCategories();
   }
 

@@ -5,7 +5,6 @@ import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.service.ProjectService;
 import ua.goit.kickstarter.servlet.Request;
-import ua.goit.kickstarter.util.UrlParser;
 import ua.goit.kickstarter.view.ViewModel;
 
 import javax.servlet.ServletException;
@@ -78,7 +77,7 @@ public class CreateProjectController implements Controller {
       viewModel.addAttributes("categories", categories);
     } else {
       Project newProject = new Project(projectName, projectDescription, category);
-      Project project = projectService.addNewProject(newProject);
+      Project project = projectService.add(newProject);
       viewModel = getViewModelForProjectView(project);
     }
 

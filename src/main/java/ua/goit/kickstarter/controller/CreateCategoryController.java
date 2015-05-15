@@ -38,7 +38,7 @@ public class CreateCategoryController implements Controller {
     if (categoryName.equals("")) {
       viewModel = getErrorMessage();
     } else {
-      categoryService.addNewCategory(new Category(categoryName));
+      categoryService.add(new Category(categoryName));
       viewModel = getViewModelForAllCategories();
     }
     return viewModel;

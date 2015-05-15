@@ -57,7 +57,7 @@ public class UpdateProjectController implements Controller {
     } else if (projectDescription.equals("")) {
       viewModel.addAttributes("ErrorMessage", "Field 'description' must be filled");
     } else {
-      projectService.editProject(project);
+      projectService.update(project);
       viewModel = getViewModelForProjectsViewInCategory(categoryId);
     }
 
