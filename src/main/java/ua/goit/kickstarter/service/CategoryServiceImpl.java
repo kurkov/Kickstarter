@@ -24,17 +24,17 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Category addNewCategory(Category categoryName) {
-    return categoryDao.add(categoryName);
+  public Category add(Category category) {
+    return categoryDao.add(category);
   }
 
   @Override
-  public void deleteItem(Integer objectId) {
-    categoryDao.deleteById(objectId);
+  public void delete(Category category) {
+    categoryDao.delete(category);
   }
 
   @Override
-  public Category editCategory(Category category) {
+  public Category update(Category category) {
     return categoryDao.update(category);
   }
 }

@@ -29,24 +29,17 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public Project addNewProject(Project project) {
+  public Project add(Project project) {
     return projectDao.add(project);
   }
 
   @Override
-  public void editProject(Project project) {
-    if (project != null) {
-      projectDao.update(project);
-    }
+  public Project update(Project project) {
+    return projectDao.update(project);
   }
 
   @Override
-  public void deleteProject(Integer projectId) {
-    try {
-      projectDao.deleteById(projectId);
-    } catch (NumberFormatException e) {
-      //NE
-      return;
-    }
+  public void delete(Project project) {
+    projectDao.delete(project);
   }
 }

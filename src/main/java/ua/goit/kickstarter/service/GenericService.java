@@ -1,8 +1,8 @@
-package ua.goit.kickstarter.dao;
+package ua.goit.kickstarter.service;
 
 import java.util.List;
 
-public interface GenericDao<T>{
+public interface GenericService<T> {
   T getById(Integer id);
 
   List<T> getAll();
@@ -13,8 +13,3 @@ public interface GenericDao<T>{
 
   T update(T element);
 }
-
-
-
-
-

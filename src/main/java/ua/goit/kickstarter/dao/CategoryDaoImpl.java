@@ -10,8 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDaoImpl extends AbstractDao<Category>
-        implements CategoryDao {
+public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDao {
 
   public CategoryDaoImpl(Connection connection) {
     super(connection);
@@ -25,7 +24,8 @@ public class CategoryDaoImpl extends AbstractDao<Category>
       ResultSet rs = executeQuery(sqlSelect);
       if (rs.next()) {
         String name = rs.getString("name");
-        category = new Category(id, name);
+        category = new Category(name);
+        category.setId(id);
       } else {
         category = null;
       }
@@ -44,7 +44,8 @@ public class CategoryDaoImpl extends AbstractDao<Category>
       while (rs.next()) {
         Integer id = rs.getInt("id");
         String name = rs.getString("name");
-        Category category = new Category(id, name);
+        Category category = new Category(name);
+        category.setId(id);
         categoryList.add(category);
       }
     } catch (SQLException e) {
@@ -54,14 +55,37 @@ public class CategoryDaoImpl extends AbstractDao<Category>
   }
 
   @Override
-  public Category add(Category element) {
-    return add(element.getName());
+  public Category add(Category category) {
+    int categoryId;
+    String sqlInsert = "INSERT INTO categories (name) VALUES ( ? )";
+    Connection con = ConnectionPool.getConnection();
+    try {
+      PreparedStatement statement = con.prepareStatement(sqlInsert);
+      statement.setString(1, category.getName());
+
+      int affectedRows = statement.executeUpdate();
+      if (affectedRows == 0) {
+        throw new SQLException("Creating user failed, no rows affected.");
+      }
+      try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+        if (generatedKeys.next()) {
+          categoryId = generatedKeys.getInt(1);
+          category = getById(categoryId);
+        } else {
+          throw new SQLException("Creating user failed, no ID obtained.");
+        }
+      }
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return category;
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public void delete(Category category) {
     String query = "DELETE FROM categories WHERE id = " +
-            id + ";";
+            category.getId() + ";";
     executeUpdate(query);
   }
 
@@ -72,35 +96,5 @@ public class CategoryDaoImpl extends AbstractDao<Category>
             " WHERE id = " + element.getId() + ";";
     executeUpdate(query);
     return element;
-  }
-
-  @Override
-  public Category add(String categoryName) {
-    Category category;
-    int categoryID;
-    String sqlInsert = "INSERT INTO categories (name) VALUES ( ? )";
-    Connection con = ConnectionPool.getConnection();
-    try {
-      PreparedStatement statement = con.prepareStatement(sqlInsert);
-      statement.setString(1, categoryName);
-
-      int affectedRows = statement.executeUpdate();
-
-      if (affectedRows == 0) {
-        throw new SQLException("Creating user failed, no rows affected.");
-      }
-      try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-        if (generatedKeys.next()) {
-          categoryID = generatedKeys.getInt(1);
-          category = getById(categoryID);
-        } else {
-          throw new SQLException("Creating user failed, no ID obtained.");
-        }
-      }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return category;
   }
 }

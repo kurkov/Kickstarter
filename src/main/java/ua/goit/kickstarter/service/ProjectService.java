@@ -5,16 +5,6 @@ import ua.goit.kickstarter.model.Project;
 
 import java.util.List;
 
-public interface ProjectService {
-  List<Project> getAll();
-
+public interface ProjectService extends GenericService<Project>{
   List<Project> getByCategory(Category category);
-
-  Project getById(Integer id);
-
-  Project addNewProject(Project project);
-
-  void editProject(Project project);
-
-  void deleteProject(Integer projectId);
 }

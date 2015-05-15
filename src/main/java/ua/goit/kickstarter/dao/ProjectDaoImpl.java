@@ -133,15 +133,8 @@ public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
 
   @Override
   public void delete(Project project) {
-    deleteById(project.getId());
-  }
-
-  @Override
-  public void deleteById(Integer id) {
-    Logger logger = Logger.getLogger(this.getClass());
-    logger.info("Deleted! id=" + id);
     String query = "DELETE FROM projects " +
-        " WHERE id = " + id + ";";
+        " WHERE id = " + project.getId() + ";";
     executeUpdate(query);
   }
 }
