@@ -41,6 +41,8 @@
       <span class="glyphicon glyphicon-trash"></span>
       Delete project
     </button>
+    <input type="hidden" name="categoryId" value="<c:out value="${category.id}"/>">
+
   </form>
 
 </div>

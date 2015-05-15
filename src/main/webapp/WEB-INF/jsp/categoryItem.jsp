@@ -36,14 +36,12 @@
             <td class="text-right text-nowrap">
 
               <button class="btn btn-xs btn-primary" formmethod="get"
-                      formaction='/servlet/project/<c:out
-                      value="${c.id}"/>/edit' type="submit">
+                      formaction='/servlet/project/<c:out value="${c.id}"/>/edit' type="submit">
                 <span class="glyphicon glyphicon-pencil"></span>
               </button>
 
               <button class="btn btn-xs btn-danger" formmethod="post"
-                      formaction='/servlet/project/<c:out
-                      value="${c.id}"/>/delete' type="submit">
+                      formaction='/servlet/project/<c:out value="${c.id}"/>/delete' type="submit">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
 
