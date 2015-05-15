@@ -6,20 +6,12 @@ public class Project extends AbstractModel {
   private Category category;
 
   public Project(){
-
   }
 
-  public Project(String projectName, String description, Integer categoryId) {
+  public Project(String projectName, String description, Category category) {
     this.name = projectName;
     this.description = description;
-    category.setId(categoryId);
-  }
-
-  public Project(Integer id, String name, Category category, String description) {
-    this.id = id;
-    this.name = name;
     this.category = category;
-    this.description = description;
   }
 
   @Override

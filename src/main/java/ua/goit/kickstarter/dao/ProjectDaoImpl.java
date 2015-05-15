@@ -19,7 +19,6 @@ public class ProjectDaoImpl extends AbstractDao<Project>
 
   @Override
   public Project add(Project newProject) {
-
     String sqlInsert = "INSERT INTO projects (name, description, id_category) " +
             "VALUES ( ?, ?, ? );";
     Connection connection = ConnectionPool.getConnection();
@@ -27,7 +26,7 @@ public class ProjectDaoImpl extends AbstractDao<Project>
       PreparedStatement statement = connection.prepareStatement(sqlInsert);
       statement.setString(1, newProject.getName());
       statement.setString(2, newProject.getDescription());
-      statement.setString(3, newProject.getCategory().getId().toString());
+      statement.setInt(3, newProject.getCategory().getId());
 
       int affectedRows = statement.executeUpdate();
 

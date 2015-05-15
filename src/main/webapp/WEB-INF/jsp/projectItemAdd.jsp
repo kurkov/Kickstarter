@@ -16,7 +16,7 @@
       <c:if test="${ErrorMessage != null && ErrorMessage != ''}">
         <div class="alert alert-danger" role="alert"><c:out value="${ErrorMessage}"/></div>
       </c:if>
-      <input type="text" name="projectName" class="form-control" value="<c:out value="${project.name}"/>"
+      <input type="text" name="projectName" class="form-control"
              placeholder="Project name" aria-describedby="basic-addon1">
       <br>
 
@@ -39,10 +39,8 @@
       <br>
 
       <textarea class="form-control" name="projectDescription" rows="3">
-        <c:out value="${project.description}"/>
       </textarea>
 
-      <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
       <input type="hidden" name="categoryId" value="<c:out value="${category.id}"/>">
       <br>
       <input class="btn btn-default" type="submit" value="Submit">
