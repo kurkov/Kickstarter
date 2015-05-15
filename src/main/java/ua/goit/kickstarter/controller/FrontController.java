@@ -72,9 +72,9 @@ public class FrontController {
           (ReadProjectController.class, ConnectionPool.getConnection());
       viewModel = readProjectController.process(request);
     } else {
-      Controller readAllProjectsController = Factory.createReadAllProjectsController
-          (ReadAllProjectsController.class, ConnectionPool.getConnection());
-      viewModel = readAllProjectsController.process(request);
+      Controller readAllCategoriesController = Factory.createCategoryController
+          (ReadAllCategoriesController.class, ConnectionPool.getConnection());
+      viewModel = readAllCategoriesController.process(request);
     }
     return viewModel;
   }

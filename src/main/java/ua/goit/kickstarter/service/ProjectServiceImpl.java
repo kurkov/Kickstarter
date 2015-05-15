@@ -14,11 +14,6 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public List<Project> getAll() {
-    return projectDao.getAll();
-  }
-
-  @Override
   public List<Project> getByCategory(Category category) {
     return projectDao.getByCategory(category);
   }
