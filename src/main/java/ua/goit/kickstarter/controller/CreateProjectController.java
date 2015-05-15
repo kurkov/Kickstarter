@@ -77,11 +77,8 @@ public class CreateProjectController implements Controller {
       viewModel.addAttributes("category", category);
       viewModel.addAttributes("categories", categories);
     } else {
-      System.out.println("Before creating project");
       Project newProject = new Project(projectName, projectDescription, category);
-      System.out.println(newProject.toString());
       Project project = projectService.addNewProject(newProject);
-      System.out.println(project.toString());
       viewModel = getViewModelForProjectView(project);
     }
 

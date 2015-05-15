@@ -10,8 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDaoImpl extends AbstractDao<Project>
-        implements ProjectDao {
+public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
 
   public ProjectDaoImpl(Connection connection) {
     super(connection);
@@ -48,18 +47,6 @@ public class ProjectDaoImpl extends AbstractDao<Project>
   }
 
   @Override
-  public Project add(String name, String description, Integer categoryId) {
-
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
-    Category category = categoryDao.getById(categoryId);
-
-    if (category == null) {
-      throw new RuntimeException("wrong category id ( category_id ='" + categoryId + "'");
-    }
-    return add(new Project(0, name, category, description));
-  }
-
-  @Override
   public Project getById(Integer id) {
     Project project;
     Category category;
@@ -73,7 +60,8 @@ public class ProjectDaoImpl extends AbstractDao<Project>
         String description = rs.getString("description");
         Integer id_category = rs.getInt("id_category");
         category = categoryDao.getById(id_category);
-        project = new Project(id, name, category, description);
+        project = new Project(name, description, category);
+        project.setId(id);
       } else {
         project = null;
       }
@@ -84,13 +72,11 @@ public class ProjectDaoImpl extends AbstractDao<Project>
   }
 
   @Override
-  public List<Project> getByCategoryId(Integer categoryId) {
+  public List<Project> getByCategory(Category category) {
     List<Project> projectList = new ArrayList<>();
-    Category category;
-    CategoryDao categoryDao = new CategoryDaoImpl(connection);
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     Project project;
-    String sqlQuery = "SELECT * FROM projects WHERE id_category = " +
-            categoryId;
+    String sqlQuery = "SELECT * FROM projects WHERE id_category = " + category.getId();
     ResultSet rs;
     try {
       rs = executeQuery(sqlQuery);
@@ -100,7 +86,8 @@ public class ProjectDaoImpl extends AbstractDao<Project>
         String description = rs.getString("description");
         Integer id_category = rs.getInt("id_category");
         category = categoryDao.getById(id_category);
-        project = new Project(id, name, category, description);
+        project = new Project(name, description, category);
+        project.setId(id);
         projectList.add(project);
       }
     } catch (SQLException e) {
@@ -110,16 +97,11 @@ public class ProjectDaoImpl extends AbstractDao<Project>
   }
 
   @Override
-  public List<Project> getByCategory(Category category) {
-    return getByCategoryId(category.getId());
-  }
-
-  @Override
   public List<Project> getAll() {
     List<Project> projectList = new ArrayList<>();
     String sqlQuery = "SELECT * FROM projects";
     Project project;
-    CategoryDao categoryDao = new CategoryDaoImpl(connection);
+    CategoryDao categoryDao = Factory.getCategoryDao(connection);
     try {
       Statement statement = connection.createStatement();
       ResultSet rs = statement.executeQuery(sqlQuery);
@@ -129,7 +111,8 @@ public class ProjectDaoImpl extends AbstractDao<Project>
         String description = rs.getString("description");
         Integer id_category = rs.getInt("id_category");
         Category category = categoryDao.getById(id_category);
-        project = new Project(id, name, category, description);
+        project = new Project(name, description, category);
+        project.setId(id);
         projectList.add(project);
       }
     } catch (SQLException e) {

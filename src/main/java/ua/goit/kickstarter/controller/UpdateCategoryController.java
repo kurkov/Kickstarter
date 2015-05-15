@@ -45,7 +45,8 @@ public class UpdateCategoryController implements Controller {
     if (categoryName.equals("")) {
       viewModel = getErrorMessage(category);
     } else {
-      categoryService.editCategory(new Category(categoryId, categoryName));
+      category.setName(categoryName);
+      categoryService.editCategory(category);
       viewModel = getAllCategories();
     }
     return viewModel;

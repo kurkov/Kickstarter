@@ -46,7 +46,10 @@ public class UpdateProjectController implements Controller {
     String projectName = request.getParameter("projectName");
     String projectDescription = request.getParameter("projectDescription");
     Category category = categoryService.getById(categoryId);
-    Project project = new Project(projectId, projectName, category, projectDescription);
+    Project project = projectService.getById(projectId);
+    project.setName(projectName);
+    project.setDescription(projectDescription);
+    project.setCategory(category);
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemEdit.jsp");
 
     if (projectName.equals("")) {
