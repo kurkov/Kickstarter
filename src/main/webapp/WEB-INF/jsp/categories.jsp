@@ -15,23 +15,20 @@
       <c:forEach var="c" items="${categories}">
         <tr>
           <form>
-            <td onclick="window.location.href='/servlet/category/<c:out value="${c.id}"/>'">
-              <a href="/servlet/category/<c:out value="${c.id}"/>">
+            <td >
+              <a onclick="window.location.href='/servlet/category/<c:out value="${c.id}"/>'">
                 <c:out value="${c.name}"/>
               </a>
             </td>
 
-            <td class="text-right"
-                onclick="window.location.href='/servlet/category/<c:out value="${c.id}"/>/edit'">
-              <a href="/servlet/category/<c:out value="${c.id}"/>/edit">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </a>
-            </td>
-
             <td class="text-right">
-            <button class="btn btn-xs btn-danger" formmethod="post"
-                      formaction='/servlet/category/<c:out
-                      value="${c.id}"/>/delete' type="submit">
+              <button class="btn btn-xs btn-primary" formmethod="get"
+                      formaction='/servlet/category/<c:out value="${c.id}"/>/edit' type="submit">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+
+              <button class="btn btn-xs btn-danger" formmethod="post"
+                      formaction='/servlet/category/<c:out value="${c.id}"/>/delete' type="submit">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </td>
