@@ -47,6 +47,7 @@ public class CreateCategoryController implements Controller {
   private ViewModel getErrorMessage() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
     viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+    viewModel.setUrlForRedirect("/servlet/category/add");
     return viewModel;
   }
 
