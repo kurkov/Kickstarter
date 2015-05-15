@@ -56,8 +56,7 @@
         <td class="text-right text-nowrap"></td>
         <td class="text-right text-nowrap">
           <button class="btn btn-xs btn-primary"
-                  onclick="window.location.href='/servlet/project/add'">
-            <input type="hidden" name="categoryId" value="<c:out value="${category.id}"/>">
+                  onclick="window.location.href='/servlet/project/add?categoryId=<c:out value="${category.id}"/>'">
             <span class="glyphicon glyphicon-plus-sign"></span>
             Add
           </button>

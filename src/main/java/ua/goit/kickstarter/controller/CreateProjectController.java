@@ -35,28 +35,47 @@ public class CreateProjectController implements Controller {
   }
 
   private ViewModel proceedGet(Request request) {
-    Integer categoryId = UrlParser.getObjectId(request.getUrl());
-    return getProjectAddFromCategory(categoryId);
+    String categoryIdStr = request.getParameter("categoryId");
+    Integer categoryId = getIntegerId(categoryIdStr);
+    Category category = categoryService.getById(categoryId);
+    return getProjectAddFromCategory(category);
   }
 
-  private ViewModel getProjectAddFromCategory(Integer categoryId) {
+  private Integer getIntegerId(String categoryIdStr) {
+    Integer id = null;
+    try {
+      id = Integer.parseInt(categoryIdStr);
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+    }
+    return id;
+  }
+
+  private ViewModel getProjectAddFromCategory(Category category) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
     List<Category> categories = categoryService.getAll();
     viewModel.addAttributes("categories", categories);
-    viewModel.addAttributes("categoryId", categoryId);
+    viewModel.addAttributes("category", category);
     return viewModel;
   }
 
   private ViewModel proceedPost(Request request) {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/projectItemAdd.jsp");
-    Integer categoryId = UrlParser.getObjectId(request.getUrl());
     String projectName = request.getParameter("projectName");
     String projectDescription = request.getParameter("projectDescription");
+    String categoryIdStr = request.getParameter("categoryId");
+    Integer categoryId = getIntegerId(categoryIdStr);
+    Category category = categoryService.getById(categoryId);
+    List<Category> categories = categoryService.getAll();
 
     if (projectName.equals("")) {
       viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
+      viewModel.addAttributes("category", category);
+      viewModel.addAttributes("categories", categories);
     } else if (projectDescription.equals("")) {
       viewModel.addAttributes("ErrorMessage", "Field 'description' must be filled");
+      viewModel.addAttributes("category", category);
+      viewModel.addAttributes("categories", categories);
     } else {
       Project project = projectService.addNewProject(new Project(projectName, projectDescription, categoryId));
       viewModel = getViewModelForProjectView(project);
