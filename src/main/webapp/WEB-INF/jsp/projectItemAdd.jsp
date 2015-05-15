@@ -20,35 +20,39 @@
              placeholder="Project name" aria-describedby="basic-addon1">
       <br>
 
-      <select name="categoryId" title="categoryId" class="form-control">
-        <option value="">Select category</option>
-        <c:forEach var="c" items="${categories}">
-          <option value="<c:out value="${c.id}"/>"<c:if
-                  test="${c.id == categoryId}"> selected</c:if>><c:out
-                  value="${c.name}"/></option>
-        </c:forEach>
-      </select>
+      <c:choose>
+        <c:when test="${category.id == null}">
+          <select name="categoryId" title="categoryId" class="form-control">
+            <option value="">Select category</option>
+            <c:forEach var="c" items="${categories}">
+              <option value="<c:out value="${c.id}"/>"<c:if
+                      test="${c.id == category.id}"> selected</c:if>><c:out
+                      value="${c.name}"/></option>
+            </c:forEach>
+          </select>
+        </c:when>
+        <c:otherwise>
+          <input type="text" name="categoryName" class="form-control" value="<c:out value="${category.name}"/>"
+                 placeholder="Category name" aria-describedby="basic-addon1">
+        </c:otherwise>
+      </c:choose>
       <br>
 
-      <textarea class="form-control" name="projectDescription" rows="3"> <c:out
-              value="${project.description}"/> </textarea>
+      <textarea class="form-control" name="projectDescription" rows="3">
+        <c:out value="${project.description}"/>
+      </textarea>
 
-
-      <input type="hidden" name="projectId"
-             value="<c:out value="${project.id}"/>">
-      <input type="hidden" name="categoryId"
-             value="<c:out value="${categoryId}"/>">
+      <input type="hidden" name="projectId" value="<c:out value="${project.id}"/>">
+      <input type="hidden" name="categoryId" value="<c:out value="${category.id}"/>">
       <br>
       <input class="btn btn-default" type="submit" value="Submit">
     </form>
-    <input type="hidden" name="urlCameFrom" value="<c:out
-    value="${urlCameFrom}"/>">
-    <button class="btn btn-xs btn-primary"
-            <c:if test="${urlCameFrom == 'projects'}">onclick="window.location.href='/servlet/project/'"</c:if>
-            <c:if test="${urlCameFrom == 'category'}">onclick="window.location.href='/servlet/category/${categoryId}'"</c:if>>
+
+    <button class="btn btn-xs btn-primary" onclick="window.location.href='/servlet/category/${category.id}'">
       <span class="glyphicon glyphicon-backward"></span>
       Back
     </button>
+
   </div>
 </div>
 </body>
