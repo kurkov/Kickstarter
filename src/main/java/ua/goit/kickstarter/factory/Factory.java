@@ -74,18 +74,6 @@ public class Factory {
     return controller;
   }
 
-  public static Controller createReadAllProjectsController(Class<? extends Controller> clazz, Connection connection) {
-    Controller controller;
-    try {
-      Constructor<? extends Controller> constructor = clazz.getConstructor(ProjectService.class);
-      ProjectService projectService = getProjectService(getProjectDao(connection));
-      controller = constructor.newInstance(projectService);
-    } catch (Throwable t) {
-      throw new RuntimeException(t);
-    }
-    return controller;
-  }
-
   public static Controller createErrorController(Class<? extends
       Controller> clazz, Connection connection) {
     Controller controller;
