@@ -25,12 +25,24 @@ public class DBHelper {
   }
 
   private void executeQueryFromFile(String filename) {
+
     InputStream input = this.getClass().getResourceAsStream(filename);
+
     if (input == null) {
       throw new RuntimeException("Cannot read file: " + filename);
     }
+
     String query = getStringFromInputStream(input);
-    executeUpdate(query);
+    String[] arrayOfQueries = query.split(";");
+
+    for (String arrayOfQuery : arrayOfQueries) {
+      // we ensure that there is no spaces before or after the request string
+      // in order to not execute empty statements
+      if (!arrayOfQuery.trim().equals("")) {
+        executeUpdate(arrayOfQuery);
+      }
+    }
+
     try {
       input.close();
     } catch (IOException e) {
@@ -45,6 +57,9 @@ public class DBHelper {
     try {
       br = new BufferedReader(new InputStreamReader(is));
       while ((line = br.readLine()) != null) {
+        if (sb.length() > 0) {
+          sb.append(" ");
+        }
         sb.append(line);
       }
     } catch (IOException e) {

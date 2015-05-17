@@ -108,12 +108,16 @@ public class Factory {
   }
 
   public static Connection getConnection() {
+
     Connection connection;
     ProjectProperties prop = new ProjectProperties();
+
     String database = prop.getDatabase();
+    String user = prop.getUser();
+    String password = prop.getPassword();
 
     try {
-      connection = DriverManager.getConnection(database);
+      connection = DriverManager.getConnection(database, user, password);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
