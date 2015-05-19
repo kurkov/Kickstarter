@@ -2,10 +2,7 @@ package ua.goit.kickstarter.dao;
 
 import ua.goit.kickstarter.model.Category;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,9 +53,9 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
   @Override
   public Category add(Category category) {
     int categoryId;
-    String sqlInsert = "INSERT INTO categories (name) VALUES ( ? )";
+    String sqlInsert = "INSERT INTO categories (name) VALUES (?);";
     try {
-      PreparedStatement statement = connection.prepareStatement(sqlInsert);
+      PreparedStatement statement = connection.prepareStatement(sqlInsert,Statement.RETURN_GENERATED_KEYS);
       statement.setString(1, category.getName());
 
       int affectedRows = statement.executeUpdate();

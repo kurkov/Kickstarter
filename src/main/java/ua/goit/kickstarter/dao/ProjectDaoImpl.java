@@ -19,7 +19,7 @@ public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
     String sqlInsert = "INSERT INTO projects (name, description, id_category) " +
             "VALUES ( ?, ?, ? );";
     try {
-      PreparedStatement statement = connection.prepareStatement(sqlInsert);
+      PreparedStatement statement = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
       statement.setString(1, newProject.getName());
       statement.setString(2, newProject.getDescription());
       statement.setInt(3, newProject.getCategory().getId());

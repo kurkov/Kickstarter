@@ -27,7 +27,6 @@ public class ViewModelTest {
 
   @BeforeClass
   public static void createConnection() throws SQLException {
-
     connection = FrontServlet.getConnection();
     connection.setAutoCommit(false);
   }

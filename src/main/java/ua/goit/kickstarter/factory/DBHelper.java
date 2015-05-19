@@ -15,11 +15,6 @@ public class DBHelper {
   public static final String DROP_TABLES_FILENAME = "/sql/dropTables.sql";
   public static final String INSERT_DATA_FILENAME = "/sql/insertData.sql";
 
-  public static void main(String[] args) {
-    DBHelper dbHelper = new DBHelper();
-    dbHelper.initDatabase();
-  }
-
   public void initDatabase() {
     executeQueryFromFile(DROP_TABLES_FILENAME);
     executeQueryFromFile(CREATE_TABLES_FILENAME);
@@ -27,7 +22,6 @@ public class DBHelper {
   }
 
   private void executeQueryFromFile(String filename) {
-
     InputStream input = this.getClass().getResourceAsStream(filename);
 
     if (input == null) {
