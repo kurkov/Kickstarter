@@ -6,8 +6,6 @@ import ua.goit.kickstarter.view.ViewModel;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +15,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class FrontServlet extends HttpServlet implements ServletContextListener {
+public class FrontServlet extends HttpServlet {
   static DataSource dataSource;
 
   @Override
-  public void contextInitialized(ServletContextEvent servletContextEvent) {
+  public void init() throws ServletException {
+    super.init();
     InitialContext cxt;
     try {
       cxt = new InitialContext();
@@ -29,10 +28,6 @@ public class FrontServlet extends HttpServlet implements ServletContextListener 
     } catch (NamingException e) {
       e.printStackTrace();
     }
-  }
-
-  @Override
-  public void contextDestroyed(ServletContextEvent servletContextEvent) {
   }
 
   @Override
