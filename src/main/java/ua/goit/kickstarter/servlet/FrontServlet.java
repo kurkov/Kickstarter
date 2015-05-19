@@ -3,14 +3,37 @@ package ua.goit.kickstarter.servlet;
 import ua.goit.kickstarter.controller.*;
 import ua.goit.kickstarter.view.ViewModel;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-public class FrontServlet extends HttpServlet {
+public class FrontServlet extends HttpServlet implements ServletContextListener {
+  static DataSource dataSource;
+
+  @Override
+  public void contextInitialized(ServletContextEvent servletContextEvent) {
+    InitialContext cxt;
+    try {
+      cxt = new InitialContext();
+      dataSource = (DataSource) cxt.lookup("java:/comp/env/jdbc/kickstarter");
+    } catch (NamingException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void contextDestroyed(ServletContextEvent servletContextEvent) {
+  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -26,12 +49,13 @@ public class FrontServlet extends HttpServlet {
 
   private void handle(HttpServletRequest req, HttpServletResponse resp)
           throws ServletException, IOException {
-
     Request request = new Request(req.getParameterMap(), req.getMethod(),
             req.getRequestURI());
 
+    Connection connection = getConnection();
+
     try {
-      FrontController frontController = new FrontController();
+      FrontController frontController = new FrontController(connection);
       ViewModel vm = frontController.dispatchRequest(request);
       forward(req, resp, vm);
     } catch (Throwable t) {
@@ -39,6 +63,16 @@ public class FrontServlet extends HttpServlet {
       vm.addAttributes("error", t.getClass() + " " + t.getMessage());
       forward(req, resp, vm);
     }
+  }
+
+  public static Connection getConnection() {
+    Connection connection = null;
+    try {
+      connection = dataSource.getConnection();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return connection;
   }
 
   private void forward(HttpServletRequest req, HttpServletResponse resp, ViewModel vm)

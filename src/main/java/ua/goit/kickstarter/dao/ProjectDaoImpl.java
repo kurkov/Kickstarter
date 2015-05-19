@@ -1,7 +1,5 @@
 package ua.goit.kickstarter.dao;
 
-import org.apache.log4j.Logger;
-import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
@@ -20,7 +18,6 @@ public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
   public Project add(Project newProject) {
     String sqlInsert = "INSERT INTO projects (name, description, id_category) " +
             "VALUES ( ?, ?, ? );";
-    Connection connection = ConnectionPool.getConnection();
     try {
       PreparedStatement statement = connection.prepareStatement(sqlInsert);
       statement.setString(1, newProject.getName());

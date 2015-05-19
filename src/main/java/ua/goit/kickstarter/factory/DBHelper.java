@@ -1,5 +1,7 @@
 package ua.goit.kickstarter.factory;
 
+import ua.goit.kickstarter.servlet.FrontServlet;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,7 +79,7 @@ public class DBHelper {
   }
 
   private int executeUpdate(String query) {
-    Connection connection = ConnectionPool.getConnection();
+    Connection connection = FrontServlet.getConnection();
     int rs;
     try {
       Statement statement = connection.createStatement();

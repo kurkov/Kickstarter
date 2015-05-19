@@ -2,12 +2,13 @@ package ua.goit.kickstarter.factory;
 
 import ua.goit.kickstarter.controller.Controller;
 import ua.goit.kickstarter.dao.*;
-import ua.goit.kickstarter.service.*;
+import ua.goit.kickstarter.service.CategoryService;
+import ua.goit.kickstarter.service.CategoryServiceImpl;
+import ua.goit.kickstarter.service.ProjectService;
+import ua.goit.kickstarter.service.ProjectServiceImpl;
 
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class Factory {
 
@@ -107,20 +108,4 @@ public class Factory {
     return new ProjectServiceImpl(dao);
   }
 
-  public static Connection getConnection() {
-
-    Connection connection;
-    ProjectProperties prop = new ProjectProperties();
-
-    String database = prop.getDatabase();
-    String user = prop.getUser();
-    String password = prop.getPassword();
-
-    try {
-      connection = DriverManager.getConnection(database, user, password);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return connection;
-  }
 }

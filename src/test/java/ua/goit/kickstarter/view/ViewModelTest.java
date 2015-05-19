@@ -1,6 +1,5 @@
 package ua.goit.kickstarter.view;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -10,10 +9,10 @@ import ua.goit.kickstarter.controller.CreateCategoryController;
 import ua.goit.kickstarter.controller.UpdateProjectController;
 import ua.goit.kickstarter.dao.CategoryDao;
 import ua.goit.kickstarter.dao.ProjectDao;
-import ua.goit.kickstarter.factory.ConnectionPool;
 import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
+import ua.goit.kickstarter.servlet.FrontServlet;
 import ua.goit.kickstarter.servlet.Request;
 
 import javax.servlet.ServletException;
@@ -28,7 +27,8 @@ public class ViewModelTest {
 
   @BeforeClass
   public static void createConnection() throws SQLException {
-    connection = ConnectionPool.getConnection();
+
+    connection = FrontServlet.getConnection();
     connection.setAutoCommit(false);
   }
 
@@ -84,10 +84,5 @@ public class ViewModelTest {
     assertEquals(expected, actual);
 
     connection.rollback();
-  }
-
-  @AfterClass
-  public static void closeConnection() throws SQLException {
-    connection.close();
   }
 }
