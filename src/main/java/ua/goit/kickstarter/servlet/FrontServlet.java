@@ -57,6 +57,12 @@ public class FrontServlet extends HttpServlet {
       ViewModel vm = new ErrorController().process(request);
       vm.addAttributes("error", t.getClass() + " " + t.getMessage());
       forward(req, resp, vm);
+    } finally {
+      try {
+        connection.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
   }
 

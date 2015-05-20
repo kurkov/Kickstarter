@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
   protected final Connection connection;
+  protected Statement statement = null;
 
   protected AbstractDao(Connection connection) {
     this.connection = connection;
@@ -15,7 +16,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
   public ResultSet executeQuery(String query){
     ResultSet rs;
     try {
-      Statement statement = connection.createStatement();
+      statement = connection.createStatement();
       rs = statement.executeQuery(query);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -26,7 +27,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
   public int executeUpdate(String query){
     int rs;
     try {
-      Statement statement = connection.createStatement();
+      statement = connection.createStatement();
       rs = statement.executeUpdate(query);
     } catch (SQLException e) {
       throw new RuntimeException(e);

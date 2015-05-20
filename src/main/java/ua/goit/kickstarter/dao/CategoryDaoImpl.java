@@ -25,6 +25,8 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
       } else {
         category = null;
       }
+      rs.close();
+      statement.close();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

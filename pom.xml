@@ -71,6 +71,19 @@
             <version>5.1.35</version>
         </dependency>
 
+      <dependency>
+        <groupId>com.mockrunner</groupId>
+        <artifactId>mockrunner-jdbc</artifactId>
+        <version>1.0.6</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.mockrunner</groupId>
+        <artifactId>mockrunner-ejb</artifactId>
+        <version>1.0.6</version>
+      </dependency>
+
+
     </dependencies>
 
     <build>
