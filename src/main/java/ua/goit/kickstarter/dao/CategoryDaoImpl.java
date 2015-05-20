@@ -36,7 +36,7 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
   @Override
   public List<Category> getAll() {
     List<Category> categoryList = new ArrayList<>();
-    String sqlSelect = "SELECT * FROM categories";
+    String sqlSelect = "SELECT * FROM categories;";
     try {
       ResultSet rs = executeQuery(sqlSelect);
       while (rs.next()) {
@@ -46,6 +46,8 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
         category.setId(id);
         categoryList.add(category);
       }
+      rs.close();
+      statement.close();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

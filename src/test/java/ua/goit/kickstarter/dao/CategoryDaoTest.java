@@ -17,6 +17,7 @@ import ua.goit.kickstarter.model.Category;
 import javax.naming.InitialContext;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
   private CategoryDao categoryDao;
@@ -41,7 +42,7 @@ public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
   }
 
   @Test
-  public void testGetById() {
+  public void testGetCategoryById() {
     createResultSet();
     Category category = categoryDao.getById(1);
     String sql = "SELECT * FROM categories WHERE id = 1;";
@@ -71,5 +72,20 @@ public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
     resultSet.addColumn("id", new Object[]{"1"});
     resultSet.addColumn("name", new Object[]{"Game"});
     handler.prepareGlobalResultSet(resultSet);
+  }
+
+  @Test
+  public void testGetAllCategories() {
+    createResultSet();
+    List<Category> categoryList = categoryDao.getAll();
+    String sql = "SELECT * FROM categories;";
+    closeConnection();
+
+    verifySQLStatementExecuted(sql);
+    verifyAllResultSetsClosed();
+    verifyAllStatementsClosed();
+    verifyConnectionClosed();
+
+    assertEquals(1, categoryList.size());
   }
 }
