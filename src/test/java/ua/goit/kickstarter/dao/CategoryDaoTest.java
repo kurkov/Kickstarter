@@ -3,8 +3,9 @@ package ua.goit.kickstarter.dao;
 import static org.junit.Assert.assertEquals;
 
 import com.mockrunner.jdbc.BasicJDBCTestCaseAdapter;
-import com.mockrunner.jdbc.StatementResultSetHandler;
+import com.mockrunner.jdbc.PreparedStatementResultSetHandler;
 import com.mockrunner.mock.jdbc.JDBCMockObjectFactory;
+import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockDataSource;
 import com.mockrunner.mock.jdbc.MockResultSet;
 import org.junit.After;
@@ -15,20 +16,19 @@ import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 
 import javax.naming.InitialContext;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
   private CategoryDao categoryDao;
-  private Connection connection;
+  private MockConnection connection;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
     JDBCMockObjectFactory factory = getJDBCMockObjectFactory();
     MockDataSource dataSource = factory.getMockDataSource();
-    connection = dataSource.getConnection();
+    connection = dataSource.getMockConnection();
     categoryDao = Factory.getCategoryDao(connection);
     MockContextFactory.setAsInitial();
     InitialContext context = new InitialContext();
@@ -67,7 +67,7 @@ public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
   }
 
   private void createResultSet() {
-    StatementResultSetHandler handler = getStatementResultSetHandler();
+    PreparedStatementResultSetHandler handler = getPreparedStatementResultSetHandler();
     MockResultSet resultSet = handler.createResultSet();
     resultSet.addColumn("id", new Object[]{"1"});
     resultSet.addColumn("name", new Object[]{"Game"});
@@ -87,5 +87,21 @@ public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
     verifyConnectionClosed();
 
     assertEquals(1, categoryList.size());
+  }
+
+  @Test
+  public void testAddCategory() {
+    createResultSet();
+    String categoryName = "Space";
+    Category category = categoryDao.add(new Category(categoryName));
+    String sql = "INSERT INTO categories (name) VALUE" + categoryName + ";";
+    closeConnection();
+
+    verifySQLStatementExecuted(sql);
+    verifyAllResultSetsClosed();
+    verifyAllStatementsClosed();
+    verifyConnectionClosed();
+
+    assertEquals(categoryName, category.getName());
   }
 }

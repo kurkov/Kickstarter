@@ -62,10 +62,8 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
       PreparedStatement statement = connection.prepareStatement(sqlInsert,Statement.RETURN_GENERATED_KEYS);
       statement.setString(1, category.getName());
 
-      int affectedRows = statement.executeUpdate();
-      if (affectedRows == 0) {
-        throw new SQLException("Creating user failed, no rows affected.");
-      }
+      statement.executeUpdate();
+
       try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
         if (generatedKeys.next()) {
           categoryId = generatedKeys.getInt(1);
