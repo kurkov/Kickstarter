@@ -4,10 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.mockrunner.jdbc.BasicJDBCTestCaseAdapter;
 import com.mockrunner.jdbc.PreparedStatementResultSetHandler;
-import com.mockrunner.mock.jdbc.JDBCMockObjectFactory;
-import com.mockrunner.mock.jdbc.MockConnection;
-import com.mockrunner.mock.jdbc.MockDataSource;
-import com.mockrunner.mock.jdbc.MockResultSet;
+import com.mockrunner.mock.jdbc.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,11 +14,13 @@ import ua.goit.kickstarter.model.Category;
 
 import javax.naming.InitialContext;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
   private CategoryDao categoryDao;
   private MockConnection connection;
+  private MockStatement statement;
 
   @Before
   public void setUp() throws Exception {
@@ -90,11 +89,12 @@ public class CategoryDaoTest extends BasicJDBCTestCaseAdapter {
   }
 
   @Test
-  public void testAddCategory() {
+  public void testAddCategory() throws SQLException {
     createResultSet();
-    String categoryName = "Space";
-    Category category = categoryDao.add(new Category(categoryName));
+    String categoryName = "Game";
     String sql = "INSERT INTO categories (name) VALUE" + categoryName + ";";
+    statement = new MockStatement(connection);
+    Category category = categoryDao.add(new Category(categoryName));
     closeConnection();
 
     verifySQLStatementExecuted(sql);

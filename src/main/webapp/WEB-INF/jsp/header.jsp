@@ -9,7 +9,7 @@
     </div>
     <div class="navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="<c:url value="/servlet/category/"/>"><b>Discover</b></a>
+        <li><a href="<c:url value="/servlet/category"/>"><b>Discover</b></a>
         </li>
       </ul>
       <ul class="nav navbar-right">
