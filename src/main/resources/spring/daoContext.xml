@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="connection" class="ua.goit.kickstarter.servlet.FrontServlet" factory-method="getConnection"/>
+
+    <bean id="categoryDao" class="ua.goit.kickstarter.dao.CategoryDaoImpl">
+        <constructor-arg>
+            <ref bean="connection"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="projectDao" class="ua.goit.kickstarter.dao.ProjectDaoImpl">
+        <constructor-arg>
+            <ref bean="connection"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="userDao" class="ua.goit.kickstarter.dao.UserDaoImpl">
+        <constructor-arg>
+            <ref bean="connection"/>
+        </constructor-arg>
+    </bean>
+
+</beans>
