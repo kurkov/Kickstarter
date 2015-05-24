@@ -1,5 +1,7 @@
 package ua.goit.kickstarter.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.servlet.Request;
@@ -9,9 +11,12 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
+@org.springframework.stereotype.Controller
 public class CreateCategoryController implements Controller {
+
   private final CategoryService categoryService;
 
+  @Autowired
   public CreateCategoryController(CategoryService categoryService) {
     this.categoryService = categoryService;
   }
@@ -50,6 +55,7 @@ public class CreateCategoryController implements Controller {
     return viewModel;
   }
 
+  @RequestMapping("/category")
   private ViewModel getViewModelForAllCategories() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
     List<Category> categories = categoryService.getAll();
