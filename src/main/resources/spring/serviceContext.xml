@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="daoContext.xml"/>
+
+    <bean name="categoryService" class="ua.goit.kickstarter.service.CategoryServiceImpl">
+        <constructor-arg ref="categoryDao"/>
+    </bean>
+
+    <bean name="projectService" class="ua.goit.kickstarter.service.ProjectServiceImpl">
+        <constructor-arg ref="projectDao"/>
+    </bean>
+
+</beans>
