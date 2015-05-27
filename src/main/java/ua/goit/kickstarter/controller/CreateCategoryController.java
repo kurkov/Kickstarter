@@ -14,24 +14,13 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-public class CreateCategoryController implements Controller {
+public class CreateCategoryController {
 
   private final CategoryService categoryService;
 
   @Autowired
   public CreateCategoryController(CategoryService categoryService) {
     this.categoryService = categoryService;
-  }
-
-  @Override
-  public ViewModel process(Request request) throws ServletException, IOException {
-    ViewModel viewModel = null;
-    if ("GET".equals(request.getMethod())) {
-      viewModel = proceedGet(request);
-    } else if ("POST".equals(request.getMethod())) {
-      viewModel = proceedPost(request);
-    }
-    return viewModel;
   }
 
   private ViewModel proceedGet (Request request) throws ServletException, IOException {
@@ -51,6 +40,7 @@ public class CreateCategoryController implements Controller {
     return viewModel;
   }
 
+  @RequestMapping()
   private ViewModel getErrorMessage() {
     ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
     viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
