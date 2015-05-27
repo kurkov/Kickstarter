@@ -1,7 +1,9 @@
 package ua.goit.kickstarter.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.servlet.Request;
@@ -11,7 +13,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
-@org.springframework.stereotype.Controller
+@Controller
 public class CreateCategoryController implements Controller {
 
   private final CategoryService categoryService;
