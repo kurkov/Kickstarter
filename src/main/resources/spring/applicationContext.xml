@@ -7,4 +7,13 @@
 
     <context:component-scan base-package="ua.goit.kickstarter.controller" />
 
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+    <property name="viewClass"
+              value="org.springframework.web.servlet.view.JstlView"/>
+    <property name="prefix" value="/WEB-INF/jsp/"/>
+    <property name="suffix" value=".jsp"/>
+  </bean>
+
+  <import resource="serviceContext.xml"/>
+
 </beans>
