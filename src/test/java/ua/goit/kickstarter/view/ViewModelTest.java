@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import ua.goit.kickstarter.controller.Controller;
-import ua.goit.kickstarter.controller.CreateCategoryController;
+import ua.goit.kickstarter.controller.CategoryController;
 import ua.goit.kickstarter.controller.UpdateProjectController;
 import ua.goit.kickstarter.dao.CategoryDao;
 import ua.goit.kickstarter.dao.ProjectDao;
@@ -42,7 +42,7 @@ public class ViewModelTest {
     String url = "/category/add";
     Request request = new Request(parameters, method, url);
     Controller controller = Factory.createCategoryController
-        (CreateCategoryController.class, connection);
+        (CategoryController.class, connection);
     ViewModel viewModel =  controller.process(request);
     String actual = viewModel.getView();
 
