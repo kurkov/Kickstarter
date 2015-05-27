@@ -1,14 +1,18 @@
 package ua.goit.kickstarter.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.goit.kickstarter.dao.ProjectDao;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
 import java.util.List;
 
+@Component
 public class ProjectServiceImpl implements ProjectService {
   private final ProjectDao projectDao;
 
+  @Autowired
   public ProjectServiceImpl(ProjectDao projectDao) {
     this.projectDao = projectDao;
   }

@@ -1,14 +1,18 @@
 package ua.goit.kickstarter.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.goit.kickstarter.dao.CategoryDao;
 import ua.goit.kickstarter.model.Category;
 
 import java.util.List;
 
+@Component
 public class CategoryServiceImpl implements CategoryService {
 
   private final CategoryDao categoryDao;
 
+  @Autowired
   public CategoryServiceImpl(CategoryDao categoryDao) {
     this.categoryDao = categoryDao;
   }
