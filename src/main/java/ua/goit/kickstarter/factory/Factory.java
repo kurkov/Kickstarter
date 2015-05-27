@@ -1,13 +1,11 @@
 package ua.goit.kickstarter.factory;
 
-import ua.goit.kickstarter.controller.Controller;
 import ua.goit.kickstarter.dao.*;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.service.CategoryServiceImpl;
 import ua.goit.kickstarter.service.ProjectService;
 import ua.goit.kickstarter.service.ProjectServiceImpl;
 
-import java.lang.reflect.Constructor;
 import java.sql.Connection;
 
 public class Factory {
