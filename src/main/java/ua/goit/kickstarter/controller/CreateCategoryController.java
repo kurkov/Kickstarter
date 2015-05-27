@@ -4,13 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.service.CategoryService;
-import ua.goit.kickstarter.servlet.Request;
-import ua.goit.kickstarter.view.ViewModel;
 
-import javax.servlet.ServletException;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -23,35 +22,33 @@ public class CreateCategoryController {
     this.categoryService = categoryService;
   }
 
-  private ViewModel proceedGet (Request request) throws ServletException, IOException {
-    return new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
+  @RequestMapping(method = RequestMethod.GET, value = "/category/add")
+  public ModelAndView addCategory() {
+    return new ModelAndView("categoryItemAdd");
   }
 
-  private ViewModel proceedPost (Request request) throws ServletException, IOException {
-    String categoryName = request.getParameter("categoryName");
-    ViewModel viewModel;
-
+  @RequestMapping(method = RequestMethod.POST, value = "/category/add")
+  public ModelAndView addCategory(@RequestParam("categoryName") String categoryName ) {
+    ModelAndView mv;
     if (categoryName.equals("")) {
-      viewModel = getErrorMessage();
+      mv = getErrorMessage();
     } else {
       categoryService.add(new Category(categoryName));
-      viewModel = getViewModelForAllCategories();
+      mv = getAllCategories();
     }
-    return viewModel;
+    return  mv;
   }
 
-  @RequestMapping()
-  private ViewModel getErrorMessage() {
-    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categoryItemAdd.jsp");
-    viewModel.addAttributes("ErrorMessage", "Field 'name' must be filled");
-    return viewModel;
+  private ModelAndView getErrorMessage() {
+    ModelAndView mv = new ModelAndView("categoryItemAdd");
+    mv.addObject("ErrorMessage", "Field 'name' must be filled");
+    return mv;
   }
 
-  @RequestMapping("/category")
-  private ViewModel getViewModelForAllCategories() {
-    ViewModel viewModel = new ViewModel("/WEB-INF/jsp/categories.jsp");
+  private ModelAndView getAllCategories() {
+    ModelAndView mv = new ModelAndView("categories");
     List<Category> categories = categoryService.getAll();
-    viewModel.addAttributes("categories", categories);
-    return viewModel;
+    mv.addObject("categories", categories);
+    return mv;
   }
 }
