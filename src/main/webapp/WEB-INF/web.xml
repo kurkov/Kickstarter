@@ -6,13 +6,13 @@
   <display-name>Kickstarter edu project</display-name>
 
   <servlet>
-    <servlet-name>FrontServlet</servlet-name>
+    <servlet-name>kickstarter</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>FrontServlet</servlet-name>
+    <servlet-name>kickstarter</servlet-name>
     <url-pattern>/servlet/*</url-pattern>
   </servlet-mapping>
 

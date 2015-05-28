@@ -31,7 +31,7 @@
       <input type="hidden" name="projectId"
              value="<c:out value="${project.id}"/>">
       <input type="hidden" name="categoryId"
-             value="<c:out value="${categoryId}"/>">
+             value="<c:out value="${category.id}"/>">
 
       <input class="btn btn-default" type="submit" value="Submit">
     </form>
