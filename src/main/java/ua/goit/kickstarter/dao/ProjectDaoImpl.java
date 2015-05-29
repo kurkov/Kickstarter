@@ -1,5 +1,7 @@
 package ua.goit.kickstarter.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.goit.kickstarter.factory.Factory;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
@@ -8,8 +10,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
 
+  @Autowired
   public ProjectDaoImpl(Connection connection) {
     super(connection);
   }

@@ -1,13 +1,17 @@
 package ua.goit.kickstarter.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.goit.kickstarter.model.Category;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDao {
 
+  @Autowired
   public CategoryDaoImpl(Connection connection) {
     super(connection);
   }

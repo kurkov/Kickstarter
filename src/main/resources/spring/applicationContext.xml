@@ -7,9 +7,14 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="ua.goit.kickstarter"/>
+  <context:component-scan base-package="ua.goit.kickstarter"/>
+
   <context:annotation-config/>
 
-  <import resource="daoContext.xml"/>
+  <bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="java:comp/env/jdbc/kickstarter"/>
+  </bean>
+
+  <bean id="connection" class="ua.goit.kickstarter.servlet.InitListener" factory-method="getConnection"/>
 
 </beans>
