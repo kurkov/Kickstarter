@@ -1,116 +1,27 @@
 package ua.goit.kickstarter.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ua.goit.kickstarter.factory.Factory;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Repository
 public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
 
-  @Autowired
-  public ProjectDaoImpl(Connection connection) {
-    super(connection);
-  }
-
-  @Override
-  public Project add(Project newProject) {
-    String sqlInsert = "INSERT INTO projects (name, description, id_category) " +
-            "VALUES ( ?, ?, ? );";
-    try {
-      PreparedStatement statement = connection.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
-      statement.setString(1, newProject.getName());
-      statement.setString(2, newProject.getDescription());
-      statement.setInt(3, newProject.getCategory().getId());
-
-      int affectedRows = statement.executeUpdate();
-
-      if (affectedRows == 0) {
-        throw new SQLException("Creating project failed, no rows affected.");
-      }
-
-      try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-        if (generatedKeys.next()) {
-          newProject.setId(generatedKeys.getInt(1));
-        } else {
-          throw new SQLException("Creating project failed, no ID obtained.");
-        }
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return newProject;
-  }
-
-  @Override
-  public Project getById(Integer id) {
-    Project project;
-    Category category;
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
-    String sqlQuery = "SELECT * FROM projects WHERE id = " + id + ";";
-    try {
-      Statement statement = connection.createStatement();
-      ResultSet rs = statement.executeQuery(sqlQuery);
-      if (rs.next()) {
-        String name = rs.getString("name");
-        String description = rs.getString("description");
-        Integer id_category = rs.getInt("id_category");
-        category = categoryDao.getById(id_category);
-        project = new Project(name, description, category);
-        project.setId(id);
-      } else {
-        project = null;
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return project;
+  public ProjectDaoImpl() {
+    super(Project.class);
   }
 
   @Override
   public List<Project> getByCategory(Category category) {
-    List<Project> projectList = new ArrayList<>();
-    CategoryDao categoryDao = Factory.getCategoryDao(connection);
-    Project project;
-    String sqlQuery = "SELECT * FROM projects WHERE id_category = " + category.getId();
-    ResultSet rs;
-    try {
-      rs = executeQuery(sqlQuery);
-      while (rs.next()) {
-        Integer id = rs.getInt("id");
-        String name = rs.getString("name");
-        String description = rs.getString("description");
-        Integer id_category = rs.getInt("id_category");
-        category = categoryDao.getById(id_category);
-        project = new Project(name, description, category);
-        project.setId(id);
-        projectList.add(project);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return projectList;
-  }
-
-  @Override
-  public Project update(Project project) {
-    String query = "UPDATE projects " +
-        " SET name = '" + project.getName() + "'," +
-        " description = '" + project.getDescription() + "'" +
-        " WHERE id = " + project.getId() + ";";
-    executeUpdate(query);
-    return project;
-  }
-
-  @Override
-  public void delete(Project project) {
-    String query = "DELETE FROM projects " +
-        " WHERE id = " + project.getId() + ";";
-    executeUpdate(query);
+    Session session = sessionFactory.getCurrentSession();
+    return session.createCriteria(Project.class)
+        .add(Restrictions.like("id_category", category.getId()))
+        .addOrder(Order.asc("name"))
+        .list();
   }
 }

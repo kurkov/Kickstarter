@@ -1,34 +1,35 @@
 package ua.goit.kickstarter.dao;
 
-import java.sql.*;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
-  protected final Connection connection;
-  protected PreparedStatement statement = null;
+  @Autowired
+  SessionFactory sessionFactory;
 
-  protected AbstractDao(Connection connection) {
-    this.connection = connection;
+  Class<T> type;
+
+  protected AbstractDao(Class<T> type) {
+    this.type = type;
   }
 
-  public ResultSet executeQuery(String query){
-    ResultSet rs;
-    try {
-      statement = connection.prepareStatement(query);
-      rs = statement.executeQuery(query);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return rs;
+  @Override
+  public T getById(Integer id) {
+    return (T) sessionFactory.getCurrentSession().get(type, id);
   }
 
-  public int executeUpdate(String query){
-    int rs;
-    try {
-      statement = connection.prepareStatement(query);
-      rs = statement.executeUpdate(query);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return rs;
+  @Override
+  public void add(T element) {
+    sessionFactory.getCurrentSession().save(element);
+  }
+
+  @Override
+  public void delete(T element) {
+    sessionFactory.getCurrentSession().delete(element);
+  }
+
+  @Override
+  public void update(T element) {
+    sessionFactory.getCurrentSession().update(element);
   }
 }

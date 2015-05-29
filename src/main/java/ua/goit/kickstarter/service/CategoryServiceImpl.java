@@ -30,8 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Category add(Category category) {
-    return categoryDao.add(category);
+  public void add(Category category) {
+    categoryDao.add(category);
   }
 
   @Override
@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Category update(Category category) {
-    return categoryDao.update(category);
+  public void update(Category category) {
+    categoryDao.update(category);
   }
 }

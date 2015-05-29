@@ -30,13 +30,13 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public Project add(Project project) {
-    return projectDao.add(project);
+  public void add(Project project) {
+    projectDao.add(project);
   }
 
   @Override
-  public Project update(Project project) {
-    return projectDao.update(project);
+  public void update(Project project) {
+    projectDao.update(project);
   }
 
   @Override

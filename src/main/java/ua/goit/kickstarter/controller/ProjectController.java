@@ -53,8 +53,8 @@ public class ProjectController {
       mv.addObject("category", category);
       mv.addObject("categories", categories);
     } else {
-      Project newProject = new Project(projectName, projectDescription, category);
-      Project project = projectService.add(newProject);
+      Project project = new Project(projectName, projectDescription, category);
+      projectService.add(project);
       mv = getProject(project);
     }
     return mv;
