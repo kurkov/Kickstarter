@@ -2,6 +2,7 @@ package ua.goit.kickstarter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.goit.kickstarter.dao.ProjectDao;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
@@ -9,6 +10,7 @@ import ua.goit.kickstarter.model.Project;
 import java.util.List;
 
 @Service
+@Transactional
 public class ProjectServiceImpl implements ProjectService {
   private final ProjectDao projectDao;
 

@@ -1,11 +1,18 @@
 package ua.goit.kickstarter.model;
 
-public class Category extends AbstractModel {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "categories")
+public class Category {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int id;
+
   private String name;
 
-  public Category(Integer id, String name) {
-    this.id = id;
-    this.name = name;
+  public Category() {
   }
 
   public Category(String categoryName) {
@@ -39,6 +46,14 @@ public class Category extends AbstractModel {
     int result = (int) (id ^ (id >>> 32));
     result = 31 * result + (name != null ? name.hashCode() : 0);
     return result;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getName() {

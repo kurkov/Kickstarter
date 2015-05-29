@@ -1,8 +1,20 @@
 package ua.goit.kickstarter.model;
 
-public class Project extends AbstractModel {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "projects")
+public class Project {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int id;
+
   private String name;
   private String description;
+
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_category")
   private Category category;
 
   public Project(){
@@ -55,6 +67,14 @@ public class Project extends AbstractModel {
     result = 31 * result + (getCategory() != null ? getCategory().hashCode()
             : 0);
     return result;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getName() {
