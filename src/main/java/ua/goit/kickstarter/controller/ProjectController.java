@@ -123,6 +123,7 @@ public class ProjectController {
       if (category != null) {
         projects = projectService.getByCategory(category);
       }
+      mv.addObject("project", project);
       mv.addObject("projects", projects);
       mv.addObject("category", category);
     }

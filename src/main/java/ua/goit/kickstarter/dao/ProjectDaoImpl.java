@@ -20,7 +20,7 @@ public class ProjectDaoImpl extends AbstractDao<Project> implements ProjectDao {
   public List<Project> getByCategory(Category category) {
     Session session = sessionFactory.getCurrentSession();
     return session.createCriteria(Project.class)
-        .add(Restrictions.like("id_category", category.getId()))
+        .add(Restrictions.eq("category.id", category.getId()))
         .addOrder(Order.asc("name"))
         .list();
   }
