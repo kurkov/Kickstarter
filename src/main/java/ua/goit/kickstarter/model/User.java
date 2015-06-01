@@ -1,34 +1,38 @@
 package ua.goit.kickstarter.model;
 
-public class User extends AbstractModel {
+public class User {
+  private int id;
   private String login;
   private String email;
-  private String firstName;
-  private String lastName;
+  private String name;
   private String password;
 
   public User() {
   }
 
-  public User(Integer id, String login, String password, String firstName, String lastName, String email) {
-    this.id = id;
+  public User(String login, String password, String name, String email) {
     this.login = login;
     this.email = email;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.name = name;
     this.password = password;
   }
 
   @Override
   public String toString() {
     return "User{" +
-        "id=" + id +
-        ", login='" + login + '\'' +
+        "login='" + login + '\'' +
         ", email='" + email + '\'' +
-        ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' +
+        ", name='" + name + '\'' +
         ", password='" + password + '\'' +
         '}';
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getLogin() {
@@ -47,12 +51,12 @@ public class User extends AbstractModel {
     this.email = email;
   }
 
-  public String getFirstName() {
-    return firstName;
+  public String getName() {
+    return name;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getPassword() {
@@ -61,13 +65,5 @@ public class User extends AbstractModel {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
   }
 }

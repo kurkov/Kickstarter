@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
@@ -31,14 +31,14 @@
       <input type="hidden" name="projectId"
              value="<c:out value="${project.id}"/>">
       <input type="hidden" name="categoryId"
-             value="<c:out value="${categoryId}"/>">
+             value="<c:out value="${category.id}"/>">
 
       <input class="btn btn-default" type="submit" value="Submit">
     </form>
 
     <button class="btn btn-xs btn-primary"
             onclick="window.location.href='/servlet/project/<c:out
-                    value="${categoryId}"/>'">
+                    value="${category.id}"/>'">
       <span class="glyphicon glyphicon-backward"></span>
       Back
     </button>

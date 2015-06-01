@@ -1,14 +1,20 @@
 package ua.goit.kickstarter.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.goit.kickstarter.dao.ProjectDao;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 
 import java.util.List;
 
+@Service
+@Transactional
 public class ProjectServiceImpl implements ProjectService {
   private final ProjectDao projectDao;
 
+  @Autowired
   public ProjectServiceImpl(ProjectDao projectDao) {
     this.projectDao = projectDao;
   }
@@ -24,13 +30,13 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public Project add(Project project) {
-    return projectDao.add(project);
+  public void add(Project project) {
+    projectDao.add(project);
   }
 
   @Override
-  public Project update(Project project) {
-    return projectDao.update(project);
+  public void update(Project project) {
+    projectDao.update(project);
   }
 
   @Override

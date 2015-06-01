@@ -1,14 +1,20 @@
 package ua.goit.kickstarter.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.goit.kickstarter.dao.CategoryDao;
 import ua.goit.kickstarter.model.Category;
 
 import java.util.List;
 
+@Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
   private final CategoryDao categoryDao;
 
+  @Autowired
   public CategoryServiceImpl(CategoryDao categoryDao) {
     this.categoryDao = categoryDao;
   }
@@ -24,8 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Category add(Category category) {
-    return categoryDao.add(category);
+  public void add(Category category) {
+    categoryDao.add(category);
   }
 
   @Override
@@ -34,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Category update(Category category) {
-    return categoryDao.update(category);
+  public void update(Category category) {
+    categoryDao.update(category);
   }
 }
