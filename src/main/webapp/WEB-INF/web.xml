@@ -2,9 +2,18 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+                  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
   <display-name>Kickstarter edu project</display-name>
+
+  <!--<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/kickstarter-servlet.xml</param-value>
+  </context-param>-->
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
   <servlet>
     <servlet-name>kickstarter</servlet-name>
@@ -17,11 +26,11 @@
     <url-pattern>/servlet/*</url-pattern>
   </servlet-mapping>
 
-  <resource-ref>
+  <!--<resource-ref>
     <description>DB Connection</description>
     <res-ref-name>jdbc/kickstarter</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
-  </resource-ref>
+  </resource-ref>-->
 
 </web-app>
