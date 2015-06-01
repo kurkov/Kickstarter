@@ -21,4 +21,5 @@ public class CategoryDaoImpl extends AbstractDao<Category> implements CategoryDa
         .addOrder(Order.asc("name"))
         .list();
   }
+
 }

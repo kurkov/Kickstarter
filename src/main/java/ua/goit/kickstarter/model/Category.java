@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.model;
 
+
 import javax.persistence.*;
 
 @Entity
