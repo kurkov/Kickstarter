@@ -94,14 +94,14 @@ public class ProjectController {
   public ModelAndView updateProject(@PathVariable("id") int projectId) {
     ModelAndView mv = new ModelAndView("projectItemEdit");
     Project project = projectService.getById(projectId);
-    mv.addObject("categoryId", project.getCategory().getId());
+    mv.addObject("category", project.getCategory());
     mv.addObject("project", project);
     return mv;
   }
 
   @RequestMapping(method = RequestMethod.POST, value = "/{id}/edit")
   public ModelAndView updateProject(@PathVariable("id") int projectId,
-                                    @RequestParam("id") int categoryId,
+                                    @RequestParam("categoryId") int categoryId,
                                     @RequestParam("projectName") String projectName,
                                     @RequestParam("projectDescription") String projectDescription) {
     Category category = categoryService.getById(categoryId);

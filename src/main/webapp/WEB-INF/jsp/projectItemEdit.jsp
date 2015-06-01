@@ -38,7 +38,7 @@
 
     <button class="btn btn-xs btn-primary"
             onclick="window.location.href='/servlet/project/<c:out
-                    value="${categoryId}"/>'">
+                    value="${category.id}"/>'">
       <span class="glyphicon glyphicon-backward"></span>
       Back
     </button>
