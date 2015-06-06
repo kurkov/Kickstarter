@@ -12,7 +12,8 @@
   <div class="panel panel-danger">
     <div class="panel-heading">Error</div>
     <div class="panel-body">
-      Message: <c:out value="${error}"/>
+      Failed URL: <c:out value="${url}"/>
+      Message: <c:out value="${ErrorMessage}"/>
     </div>
   </div>
 </div>

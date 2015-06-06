@@ -2,28 +2,25 @@ package ua.goit.kickstarter.model;
 
 public class User {
   private int id;
-  private String login;
-  private String email;
   private String name;
   private String password;
+  private String email;
 
   public User() {
   }
 
-  public User(String login, String password, String name, String email) {
-    this.login = login;
-    this.email = email;
+  public User(String name, String password, String email) {
     this.name = name;
     this.password = password;
+    this.email = email;
   }
 
   @Override
   public String toString() {
     return "User{" +
-        "login='" + login + '\'' +
-        ", email='" + email + '\'' +
-        ", name='" + name + '\'' +
+        "name='" + name + '\'' +
         ", password='" + password + '\'' +
+        ", email='" + email + '\'' +
         '}';
   }
 
@@ -33,22 +30,6 @@ public class User {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   public String getName() {
@@ -65,5 +46,12 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 }

@@ -14,7 +14,8 @@ public class ErrorController {
   @ResponseBody
   public ModelAndView error(HttpServletRequest request) {
     ModelAndView mv = new ModelAndView("error");
-    mv.addObject("ErrorMessage", "404 not found");
+    mv.addObject("url", request.getRequestURL());
+    mv.addObject("ErrorMessage", "404 Page not found");
     return mv;
   }
 }

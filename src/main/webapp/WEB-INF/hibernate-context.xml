@@ -15,19 +15,16 @@
         p:configLocation="/WEB-INF/hibernate.cfg.xml"
         p:packagesToScan="ua.goit.kickstarter.model"/>
 
-  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-    <property name="url" value="jdbc:mysql://localhost:3306/kickstarter" />
-    <property name="username" value="root" />
-    <property name="password" value="root" />
-  </bean>
-
-
-  <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
     <property name="jndiName" value="java:comp/env/jdbc/kickstarter"/>
-  </bean>-->
+  </bean>
 
   <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
         p:sessionFactory-ref="sessionFactory"/>
+
+  <bean id="savedRequestAwareAuthenticationSuccessHandler"
+        class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+    <property name="targetUrlParameter" value="targetUrl" />
+  </bean>
 
 </beans>

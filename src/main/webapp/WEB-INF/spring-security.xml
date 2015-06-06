@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                 http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                 http://www.springframework.org/schema/security
+                 http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+       <beans:import resource="hibernate-context.xml"/>
+
+       <http auto-config="true" access-denied-page="/">
+              <intercept-url pattern="/" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
+              <intercept-url pattern="/servlet/category" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
+              <intercept-url pattern="/servlet/project" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
+
+              <intercept-url pattern="/servlet/add*" access="ROLE_USER,ROLE_ADMIN"/>
+              <intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
+              <form-login login-page="/login" default-target-url="/" authentication-failure-url="/login"/>
+              <logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/category"/>
+              <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
+              <!-- enable remember me -->
+              <remember-me
+                      token-validity-seconds="1209600"
+                      data-source-ref="dataSource"
+                      user-service-ref="userDetailsServiceImpl"/>
+       </http>
+
+       <global-method-security secured-annotations="enabled" />
+
+       <authentication-manager>
+              <authentication-provider user-service-ref="userDetailsServiceImpl" >
+                     <password-encoder hash="md5" />
+              </authentication-provider>
+       </authentication-manager>
+
+       <beans:bean id="userDetailsServiceImpl" class="ua.goit.kickstarter.service.UserDetailsServiceImpl"/>
+
+       <beans:bean id="webSecurityExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+
+</beans:beans>
+
