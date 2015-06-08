@@ -10,14 +10,9 @@
        <beans:import resource="hibernate-context.xml"/>
 
        <http auto-config="true" access-denied-page="/">
-              <intercept-url pattern="/" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
-              <intercept-url pattern="/servlet/category" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
-              <intercept-url pattern="/servlet/project" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
-
-              <intercept-url pattern="/servlet/add*" access="ROLE_USER,ROLE_ADMIN"/>
-              <intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
-              <form-login login-page="/login" default-target-url="/" authentication-failure-url="/login"/>
-              <logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/category"/>
+              <form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?error=true"
+                          always-use-default-target="false"/>
+              <logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/servlet"/>
               <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
               <!-- enable remember me -->
               <remember-me
