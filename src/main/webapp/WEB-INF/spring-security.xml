@@ -24,7 +24,7 @@
        <global-method-security secured-annotations="enabled" />
 
        <authentication-manager>
-              <authentication-provider user-service-ref="userDetailsServiceImpl" >
+              <authentication-provider user-service-ref="userDetailsServiceImpl">
                      <password-encoder hash="md5" />
               </authentication-provider>
        </authentication-manager>
