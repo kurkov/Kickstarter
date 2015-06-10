@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
   <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
@@ -34,16 +35,18 @@
             </td>
 
             <td class="text-right text-nowrap">
-
-              <button class="btn btn-xs btn-primary" formmethod="get"
-                      formaction='/servlet/project/<c:out value="${c.id}"/>/edit' type="submit">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </button>
-
-              <button class="btn btn-xs btn-danger" formmethod="post"
-                      formaction='/servlet/project/<c:out value="${c.id}"/>/delete' type="submit">
-                <span class="glyphicon glyphicon-trash"></span>
-              </button>
+              <security:authorize access="hasRole('ROLE_USER')">
+                <button class="btn btn-xs btn-primary" formmethod="get"
+                        formaction='/servlet/project/<c:out value="${c.id}"/>/edit' type="submit">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+              </security:authorize>
+              <security:authorize access="hasRole('ROLE_ADMIN')">
+                <button class="btn btn-xs btn-danger" formmethod="post"
+                        formaction='/servlet/project/<c:out value="${c.id}"/>/delete' type="submit">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </security:authorize>
 
             </td>
             <input type="hidden" name="categoryId" value="<c:out value="${category.id}"/>">
@@ -52,12 +55,15 @@
       </c:forEach>
       <tr>
         <td class="text-right text-nowrap"></td>
+
         <td class="text-right text-nowrap">
-          <button class="btn btn-xs btn-primary"
-                  onclick="window.location.href='/servlet/project/add?categoryId=<c:out value="${category.id}"/>'">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-            Add
-          </button>
+          <security:authorize access="hasRole('ROLE_USER')">
+            <button class="btn btn-xs btn-primary"
+                    onclick="window.location.href='/servlet/project/add?categoryId=<c:out value="${category.id}"/>'">
+              <span class="glyphicon glyphicon-plus-sign"></span>
+              Add
+            </button>
+          </security:authorize>
         </td>
 
       </tr>

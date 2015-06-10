@@ -9,7 +9,7 @@
 
        <beans:import resource="hibernate-context.xml"/>
 
-       <http auto-config="true" access-denied-page="/">
+       <http auto-config="true" use-expressions="true">
               <form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?error=true"
                           always-use-default-target="false"/>
               <logout logout-url="/logout" delete-cookies="JSESSIONID" logout-success-url="/servlet"/>
