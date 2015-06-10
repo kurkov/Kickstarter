@@ -48,4 +48,10 @@ public class UserServiceImpl implements UserService {
   public void update(User user) {
     userDao.update(user);
   }
+
+  @Override
+  @Secured("ROLE_ADMIN")
+  public User getByName(String name) {
+    return userDao.getByName(name);
+  }
 }

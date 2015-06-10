@@ -21,4 +21,10 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         .addOrder(Order.asc("name"))
         .list();
   }
+
+  @Override
+  public User getByName(String name) {
+    return (User) sessionFactory.getCurrentSession().get(User.class, name);
+
+  }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface UserService extends GenericService<User> {
   List<User> getAll();
+  User getByName(String name);
 }
