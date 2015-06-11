@@ -1,11 +1,9 @@
 package ua.goit.kickstarter.model;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class User extends UserDetails {
+public class User {
   private int id;
 
   @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long.")
