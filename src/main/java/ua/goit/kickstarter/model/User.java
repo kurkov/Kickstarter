@@ -1,9 +1,13 @@
 package ua.goit.kickstarter.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
-public class User {
+public class User implements UserDetails {
   private int id;
 
   @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long.")
@@ -15,15 +19,17 @@ public class User {
 
   @Pattern(regexp = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,4}", message = "Invalid email address.")
   private String email;
+
   private boolean enable;
 
   public User() {
   }
 
-  public User(String name, String password, String email) {
+  public User(String name, String password, String email, boolean enable) {
     this.name = name;
     this.password = password;
     this.email = email;
+    this.enable = enable;
   }
 
   @Override
@@ -64,5 +70,39 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public void setEnable(boolean enable) {
+    this.enable = enable;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
+  }
+
+  @Override
+  public String getUsername() {
+    return name;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enable;
   }
 }

@@ -20,13 +20,13 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  @Secured("ROLE_ANONYMOUS, ROLE_USER, ROLE_ADMIN")
+  @Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
   public List<Category> getAll() {
     return categoryDao.getAll();
   }
 
   @Override
-  @Secured("ROLE_ANONYMOUS, ROLE_USER, ROLE_ADMIN")
+  @Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
   public Category getById(Integer id) {
     return categoryDao.getById(id);
   }

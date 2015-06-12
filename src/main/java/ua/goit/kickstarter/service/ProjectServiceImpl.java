@@ -21,25 +21,25 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  @Secured("ROLE_ANONYMOUS, ROLE_USER, ROLE_ADMIN")
+  @Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
   public List<Project> getByCategory(Category category) {
     return projectDao.getByCategory(category);
   }
 
   @Override
-  @Secured("ROLE_ANONYMOUS, ROLE_USER, ROLE_ADMIN")
+  @Secured({"ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN"})
   public Project getById(Integer id) {
     return projectDao.getById(id);
   }
 
   @Override
-  @Secured("ROLE_USER, ROLE_ADMIN")
+  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   public void add(Project project) {
     projectDao.add(project);
   }
 
   @Override
-  @Secured("ROLE_USER, ROLE_ADMIN")
+  @Secured({"ROLE_USER", "ROLE_ADMIN"})
   public void update(Project project) {
     projectDao.update(project);
   }

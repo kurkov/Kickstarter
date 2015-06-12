@@ -26,25 +26,25 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Secured("ROLE_ADMIN, ROLE_USER")
+  @Secured({"ROLE_ADMIN", "ROLE_USER"})
   public User getById(Integer id) {
     return userDao.getById(id);
   }
 
   @Override
-  @Secured("ROLE_ADMIN, ROLE_USER")
+  @Secured({"ROLE_ADMIN", "ROLE_USER"})
   public void add(User user) {
     userDao.add(user);
   }
 
   @Override
-  @Secured("ROLE_ADMIN, ROLE_USER")
+  @Secured({"ROLE_ADMIN", "ROLE_USER"})
   public void delete(User user) {
     userDao.delete(user);
   }
 
   @Override
-  @Secured("ROLE_ADMIN, ROLE_USER")
+  @Secured({"ROLE_ADMIN", "ROLE_USER"})
   public void update(User user) {
     userDao.update(user);
   }

@@ -10,7 +10,8 @@
        <beans:import resource="hibernate-context.xml"/>
 
        <http auto-config="true">
-              <form-login login-page="/login.jsp"
+         <intercept-url pattern="/servlet" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
+         <form-login login-page="/login.jsp"
                           authentication-failure-url="/login.jsp?error=true"
                           always-use-default-target="false"/>
               <logout logout-url="/logout"
@@ -18,18 +19,15 @@
               <anonymous username="guest"
                          granted-authority="ROLE_ANONYMOUS"/>
               <!-- enable remember me -->
-              <remember-me
-
-                      data-source-ref="dataSource"/>
+              <remember-me data-source-ref="dataSource"/>
        </http>
 
        <global-method-security secured-annotations="enabled" />
 
-        <jdbc-user-service data-source-ref="dataSource"
-                           id="userService"/>
+        <beans:bean id="userDetailsService" class="ua.goit.kickstarter.service.UserDetailsServiceImpl"/>
 
        <authentication-manager>
-              <authentication-provider user-service-ref="userService"/>
+              <authentication-provider user-service-ref="userDetailsService"/>
        </authentication-manager>
 
        <beans:bean id="webSecurityExpressionHandler"
