@@ -15,16 +15,16 @@
       </ul>
       <ul class="nav navbar-right">
         <security:authorize access="hasRole('ROLE_ANONYMOUS')">
-          <button type="button" class="btn btn-default navbar-btn"
-                  formmethod="get" formaction="#">Sign up
+          <button type="submit" class="btn btn-default navbar-btn"
+                  formmethod="get" formaction="/servlet/user"> Sign up
           </button>
-          <button type="button" class="btn btn-default navbar-btn"
-                  formmethod="get" formaction="#">Log in
+          <button type="submit" class="btn btn-default navbar-btn"
+                  formmethod="get" formaction="/servlet/login">Log in
           </button>
         </security:authorize>
         <security:authorize access="hasRole('ROLE_ADMIN')">
-          <button type="button" class="btn btn-default navbar-btn"
-                  formmethod="get" formaction="#">Log out
+          <button type="submit" class="btn btn-default navbar-btn"
+                  formmethod="get" formaction="/logout">Log out
           </button>
         </security:authorize>
         <br>
