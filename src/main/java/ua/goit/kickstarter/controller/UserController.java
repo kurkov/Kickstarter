@@ -29,7 +29,7 @@ public class UserController {
   public ModelAndView addUser(@RequestParam("userName") String name,
                               @RequestParam("userPassword") String password,
                               @RequestParam("userEmail") String email) {
-    User user = new User(name, password, email);
+    User user = new User(name, password, email, true);
     userService.add(user);
     return new ModelAndView("userProfile");
   }

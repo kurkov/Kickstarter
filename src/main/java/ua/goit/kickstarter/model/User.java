@@ -1,11 +1,14 @@
 package ua.goit.kickstarter.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class User implements UserDetails {
   private int id;
@@ -78,7 +81,11 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    Set<GrantedAuthority> roles = new HashSet<>();
+    roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    roles.add(new SimpleGrantedAuthority("ROLE_ANONYMOUS"));
+    roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+    return roles;
   }
 
   @Override

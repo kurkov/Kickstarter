@@ -1,19 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title></title>
 </head>
 <body>
   <h1>LOGIN</h1>
-  <form name="form_login" action="/j_spring_security_check" method="post">
+  <form name="form_login" action="<c:url value='/j_spring_security_check'/>" method="post">
     <table>
       <tr>
         <td>User:</td>
-        <td><input type="text" name="j_username"></td>
+        <td><input type="text" name="username"></td>
       </tr>
       <tr>
         <td>Password:</td>
-        <td><input type="password" name="j_password"></td>
+        <td><input type="password" name="password"></td>
       </tr>
       <tr>
         <td>Remember me <input type="checkbox" name="_spring_security_remember_me"></td>

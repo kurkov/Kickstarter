@@ -9,9 +9,9 @@
 
        <beans:import resource="hibernate-context.xml"/>
 
-       <http auto-config="true">
-         <intercept-url pattern="/servlet" access="ROLE_USER,ROLE_ANONYMOUS,ROLE_ADMIN"/>
-         <form-login login-page="/login.jsp"
+       <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/servlet" access="hasRole('ROLE_ANONYMOUS')"/>
+         <form-login login-page="/login"
                           authentication-failure-url="/login.jsp?error=true"
                           always-use-default-target="false"/>
               <logout logout-url="/logout"

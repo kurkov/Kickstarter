@@ -1,14 +1,17 @@
 package ua.goit.kickstarter.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ua.goit.kickstarter.model.User;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
-  @Override
-  public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+  @Autowired
+  private UserService userService;
 
-    return new User();
+  @Override
+  public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+
+    return userService.getByName(name);
   }
 }

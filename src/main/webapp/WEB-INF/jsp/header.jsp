@@ -14,8 +14,7 @@
         </li>
       </ul>
       <ul class="nav navbar-right">
-        Hello, <security:authentication property="principal.username"/>
-        <security:authorize access="isAnonymous">
+        <security:authorize access="hasRole('ROLE_ANONYMOUS')">
           <button type="button" class="btn btn-default navbar-btn"
                   formmethod="get" formaction="#">Sign up
           </button>
@@ -23,7 +22,7 @@
                   formmethod="get" formaction="#">Log in
           </button>
         </security:authorize>
-        <security:authorize access="isAuthenticated">
+        <security:authorize access="hasRole('ROLE_ADMIN')">
           <button type="button" class="btn btn-default navbar-btn"
                   formmethod="get" formaction="#">Log out
           </button>
