@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>LOGIN</h1>
-  <form name="form_login" action="<c:url value='/j_spring_security_check'/>" method="post">
+  <form name="form_login" action="<c:url value='/servlet/login'/>" method="post">
     <table>
       <tr>
         <td>User:</td>

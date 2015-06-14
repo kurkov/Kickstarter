@@ -9,17 +9,18 @@
 
        <beans:import resource="hibernate-context.xml"/>
 
-       <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/servlet" access="hasRole('ROLE_ANONYMOUS')"/>
+       <http auto-config="true">
+        <intercept-url pattern="/servlet" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
          <form-login login-page="/login"
-                          authentication-failure-url="/login.jsp?error=true"
+                          authentication-failure-url="/login?error"
                           always-use-default-target="false"/>
               <logout logout-url="/logout"
                       logout-success-url="/servlet"/>
               <anonymous username="guest"
-                         granted-authority="ROLE_ANONYMOUS"/>
+                         granted-authority="ANONYMOUS"/>
               <!-- enable remember me -->
               <remember-me data-source-ref="dataSource"/>
+         <csrf disabled="true"/>
        </http>
 
        <global-method-security secured-annotations="enabled" />
