@@ -11,7 +11,8 @@
 
        <http auto-config="true">
         <intercept-url pattern="/servlet" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
-         <form-login login-page="/login"/>
+         <form-login login-page="/servlet/login"
+                     default-target-url="/servlet/home"/>
          <logout logout-url="/logout"
                  logout-success-url="/servlet"/>
          <anonymous username="guest"

@@ -13,7 +13,7 @@
   <c:if test="${param.error != null}">
     <p>Invalid username / password</p>
   </c:if>
-  <c:url var="loginUrl" value="/servlet/login"/>
+  <c:url var="loginUrl" value="/login"/>
   <form action="${loginUrl}" method="post">
     <p><label for="username">User:</label></p>
     <input type="text" id="username" name="username"/>
