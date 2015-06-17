@@ -6,7 +6,7 @@
 <nav class="navbar navbar-default">
   <div>
     <div>
-      <a class="navbar-brand" href="<c:url value="/"/>"><b>[KICKSTARTER]</b></a>
+      <a class="navbar-brand" href="<c:url value="/servlet/home"/>"><b>[KICKSTARTER]</b></a>
     </div>
     <div class="navbar-collapse">
       <ul class="nav navbar-nav">
