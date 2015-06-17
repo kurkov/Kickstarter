@@ -11,17 +11,13 @@
 
        <http auto-config="true">
         <intercept-url pattern="/servlet" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
-         <form-login login-page="/login"
-                     username-parameter="j_username"
-                     password-parameter="j_password"
-                     login-processing-url="j_spring_security_check"
-                          authentication-failure-url="/login?error=1"/>
-              <logout logout-url="/logout"
-                      logout-success-url="/servlet"/>
-              <anonymous username="guest"
-                         granted-authority="ANONYMOUS"/>
+         <form-login login-page="/login"/>
+         <logout logout-url="/logout"
+                 logout-success-url="/servlet"/>
+         <anonymous username="guest"
+                    granted-authority="ANONYMOUS"/>
               <!-- enable remember me -->
-              <remember-me data-source-ref="dataSource"/>
+         <remember-me data-source-ref="dataSource"/>
          <csrf disabled="true"/>
        </http>
 
