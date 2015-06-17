@@ -11,7 +11,7 @@
   <%@include file="/WEB-INF/jsp/header.jsp" %>
 
   <div class="container" style="width: 300px;">
-    <c:url value="/j_spring_security_check" var="loginUrl"/>
+    <c:url value="/servlet/login" var="loginUrl"/>
     <form action="${loginUrl}" method="post">
       <h2 class="form-sigin-heading">Pleas sign in</h2>
       <input type="text" class="form-control" name="j_username" placeholder="Username">

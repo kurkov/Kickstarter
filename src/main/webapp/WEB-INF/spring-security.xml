@@ -12,8 +12,10 @@
        <http auto-config="true">
         <intercept-url pattern="/servlet" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
          <form-login login-page="/login"
-                          authentication-failure-url="/login?error"
-                          always-use-default-target="false"/>
+                     username-parameter="j_username"
+                     password-parameter="j_password"
+                     login-processing-url="j_spring_security_check"
+                          authentication-failure-url="/login?error=1"/>
               <logout logout-url="/logout"
                       logout-success-url="/servlet"/>
               <anonymous username="guest"
