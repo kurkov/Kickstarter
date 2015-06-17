@@ -14,18 +14,14 @@
         </li>
       </ul>
       <ul class="nav navbar-right">
-        <security:authorize access="hasRole('ROLE_ANONYMOUS')">
+        <security:authorize access="!isAuthenticated()">
+          <p><a class="btn btn-lg btn-success" href="<c:url value="/servlet/login"/>" role="button">Log in</a></p>
           <button type="submit" class="btn btn-default navbar-btn"
                   formmethod="get" formaction="/servlet/user"> Sign up
           </button>
-          <button type="submit" class="btn btn-default navbar-btn"
-                  formmethod="get" formaction="/servlet/login">Log in
-          </button>
         </security:authorize>
-        <security:authorize access="hasRole('ROLE_ADMIN')">
-          <button type="submit" class="btn btn-default navbar-btn"
-                  formmethod="get" formaction="/logout">Log out
-          </button>
+        <security:authorize access="isAuthenticated()">
+          <p><a class="btn btn-lg btn-danger" href="<c:url value="/servlet/logout"/>" role="button">Log out</a></p>
         </security:authorize>
         <br>
       </ul>
