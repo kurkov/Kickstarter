@@ -7,7 +7,7 @@
   <display-name>Kickstarter edu project</display-name>
 
   <welcome-file-list>
-    <welcome-file>/jsp/index.jsp</welcome-file>
+    <welcome-file>/jsp/home.jsp</welcome-file>
   </welcome-file-list>
 
   <listener>
@@ -25,7 +25,6 @@
   <servlet>
     <servlet-name>kickstarter</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
@@ -41,7 +40,7 @@
 
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>
-    <url-pattern>servlet/*</url-pattern>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
 
 </web-app>
