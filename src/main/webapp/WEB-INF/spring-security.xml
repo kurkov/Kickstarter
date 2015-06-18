@@ -11,15 +11,14 @@
 
        <http auto-config="true">
         <intercept-url pattern="/home" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
-         <intercept-url pattern="/login" access="isAnonymous"/>
+         <intercept-url pattern="/login" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
          <form-login login-page="/servlet/login"
-                     default-target-url="/servlet/home"/>
-         <logout logout-url="/logout"
+                     default-target-url="/servlet/home"
+                     always-use-default-target="true"/>
+         <logout logout-url="/servlet/logout"
                  logout-success-url="/servlet/home"/>
          <anonymous username="guest"
                     granted-authority="ANONYMOUS"/>
-              <!-- enable remember me -->
-         <remember-me data-source-ref="dataSource"/>
          <csrf disabled="true"/>
        </http>
 
@@ -28,7 +27,7 @@
         <beans:bean id="userDetailsService" class="ua.goit.kickstarter.service.UserDetailsServiceImpl"/>
 
        <authentication-manager>
-              <authentication-provider user-service-ref="userDetailsService"/>
+              <authentication-provider user-service-ref="userDetailsServiceImpl"/>
        </authentication-manager>
 
        <beans:bean id="webSecurityExpressionHandler"

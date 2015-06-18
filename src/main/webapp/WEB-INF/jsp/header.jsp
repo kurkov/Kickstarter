@@ -21,7 +21,8 @@
           </button>
         </security:authorize>
         <security:authorize access="isAuthenticated()">
-          <p><a class="btn btn-lg btn-danger" href="<c:url value="/servlet/logout"/>" role="button">Log out</a></p>
+          <p><a class="btn btn-lg btn-danger" href="<c:url value="/logout"/>" role="button">Log
+            out</a></p>
         </security:authorize>
         <br>
       </ul>
