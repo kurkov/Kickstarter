@@ -10,11 +10,12 @@
        <beans:import resource="hibernate-context.xml"/>
 
        <http auto-config="true">
-        <intercept-url pattern="/servlet" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
+        <intercept-url pattern="/home" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
+         <intercept-url pattern="/login" access="isAnonymous"/>
          <form-login login-page="/servlet/login"
                      default-target-url="/servlet/home"/>
          <logout logout-url="/logout"
-                 logout-success-url="/servlet"/>
+                 logout-success-url="/servlet/home"/>
          <anonymous username="guest"
                     granted-authority="ANONYMOUS"/>
               <!-- enable remember me -->

@@ -27,8 +27,7 @@
       <c:forEach var="c" items="${projects}">
         <tr>
           <form>
-            <td onclick="window.location.href='/servlet/project/<c:out
-                    value="${c.id}"/>'">
+            <td onclick="window.location.href='/servlet/project/<c:out value="${c.id}"/>'">
               <a href="/servlet/project/<c:out value="${c.id}"/>">
                 <c:out value="${c.name}"/>
               </a>

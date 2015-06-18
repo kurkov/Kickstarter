@@ -16,8 +16,8 @@
       <c:forEach var="c" items="${categories}">
         <tr>
           <form>
-            <td >
-              <a onclick="window.location.href='/servlet/category/<c:out value="${c.id}"/>'">
+            <td onclick="window.location.href='/servlet/category/<c:out value="${c.id}"/>'">
+              <a href='/servlet/category/<c:out value="${c.id}"/>'>
                 <c:out value="${c.name}"/>
               </a>
             </td>

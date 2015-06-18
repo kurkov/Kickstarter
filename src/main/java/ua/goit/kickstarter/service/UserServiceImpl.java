@@ -50,8 +50,9 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Secured("ROLE_ADMIN")
+  @Secured("ANONYMOUS")
   public User getByName(String name) {
     return userDao.getByName(name);
   }
+
 }
