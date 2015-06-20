@@ -27,7 +27,7 @@
         <beans:bean id="userDetailsService" class="ua.goit.kickstarter.service.UserDetailsServiceImpl"/>
 
        <authentication-manager>
-              <authentication-provider user-service-ref="userDetailsServiceImpl"/>
+              <authentication-provider user-service-ref="userDetailsService"/>
        </authentication-manager>
 
        <beans:bean id="webSecurityExpressionHandler"
