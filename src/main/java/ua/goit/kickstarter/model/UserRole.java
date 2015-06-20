@@ -17,6 +17,14 @@ public class UserRole {
   @Column(name = "authority")
   private String role;
 
+  public UserRole() {
+  }
+
+  public UserRole(Roles roles, User user) {
+    role = roles.toString();
+    this.user = user;
+  }
+
   public int getId() {
     return id;
   }
