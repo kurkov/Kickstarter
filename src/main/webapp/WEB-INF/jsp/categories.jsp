@@ -22,7 +22,7 @@
               </a>
             </td>
 
-            <security:authorize access="hasRole('ROLE_ADMIN')">
+            <security:authorize access="hasRole('ADMIN')">
               <td class="text-right">
                 <button class="btn btn-xs btn-primary" formmethod="get"
                         formaction='/servlet/category/<c:out value="${c.id}"/>/edit' type="submit">
@@ -39,7 +39,7 @@
           </form>
         </tr>
       </c:forEach>
-      <security:authorize access="hasRole('ROLE_ADMIN')">
+      <security:authorize access="hasRole('ADMIN')">
         <tr>
           <td class="text-left text-nowrap">
             <button class="btn btn-xs btn-primary"

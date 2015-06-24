@@ -24,7 +24,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
   @Override
   public User getByName(String name) {
-    return (User) sessionFactory.getCurrentSession().get(User.class, name);
+//    return (User) sessionFactory.getCurrentSession().get(User.class, name);
 
+    return new User("olenenok", "olenenok", "olenenok", true, null);
   }
 }

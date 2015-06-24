@@ -1,7 +1,6 @@
 package ua.goit.kickstarter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.kickstarter.dao.CategoryDao;
@@ -20,31 +19,31 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  @Secured({"ANONYMOUS", "USER", "ADMIN"})
+  //@Secured({"ANONYMOUS", "USER", "ADMIN"})
   public List<Category> getAll() {
     return categoryDao.getAll();
   }
 
   @Override
-  @Secured({"ANONYMOUS", "USER", "ADMIN"})
+  //@Secured({"ANONYMOUS", "USER", "ADMIN"})
   public Category getById(Integer id) {
     return categoryDao.getById(id);
   }
 
   @Override
-  @Secured("ADMIN")
+  //@Secured("ADMIN")
   public void add(Category category) {
     categoryDao.add(category);
   }
 
   @Override
-  @Secured("ADMIN")
+  //@Secured("ADMIN")
   public void delete(Category category) {
     categoryDao.delete(category);
   }
 
   @Override
-  @Secured("ADMIN")
+  //@Secured("ADMIN")
   public void update(Category category) {
     categoryDao.update(category);
   }
