@@ -28,7 +28,7 @@
 
   <br>
 
-  <security:authorize access="hasRole('ROLE_USER')">
+  <security:authorize access="hasRole('USER')">
     <form>
       <button class="btn btn-primary" formmethod="get"
               formaction="/servlet/project/<c:out value='${project.id}'/>/edit" type="submit">
@@ -38,7 +38,7 @@
     </form>
   </security:authorize>
 
-  <security:authorize access="hasRole('ROLE_ADMIN')">
+  <security:authorize access="hasRole('ADMIN')">
     <form>
       <button class="btn btn-danger" formmethod="post"
               formaction="/servlet/project/<c:out value='${project.id}'/>/delete" type="submit">
