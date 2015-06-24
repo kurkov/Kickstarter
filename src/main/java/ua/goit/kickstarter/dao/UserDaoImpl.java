@@ -30,10 +30,10 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
   public User getByName(String name) {
 //    return (User) sessionFactory.getCurrentSession().get(User.class, name);
 
-    Set<UserRole> roles = new HashSet<>();
     User user = new User("olenenok", "olenenok", "masyakot@gmail.com", true);
-
+    Set<UserRole> roles = new HashSet<>();
     roles.add(new UserRole(Roles.ADMIN, user));
+    user.setRoles(roles);
     return user;
   }
 }
