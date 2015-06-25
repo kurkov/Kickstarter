@@ -10,8 +10,17 @@
        <beans:import resource="hibernate-context.xml"/>
 
        <http auto-config="true">
-        <intercept-url pattern="/home" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
-         <intercept-url pattern="/login" access="hasAnyRole('ANONYMOUS', 'USER', 'ADMIN')"/>
+         <intercept-url pattern="/home" access="hasAnyRole()"/>
+         <intercept-url pattern="/category/" access="hasAnyRole()"/>
+         <intercept-url pattern="/category/add" access="hasRole('ADMIN')"/>
+         <intercept-url pattern="/category/*" access="hasAnyRole()"/>
+         <intercept-url pattern="/category/**/" access="hasRole('ADMIN')"/>
+         <intercept-url pattern="/login" access="hasRole('ANONYMOUS')"/>
+         <intercept-url pattern="/project/add" access="hasAnyRole('USER', 'ADMIN')"/>
+         <intercept-url pattern="/project/*" access="hasAnyRole()"/>
+         <intercept-url pattern="/project/**" access="hasAnyRole('USER', 'ADMIN')"/>
+         <intercept-url pattern="/user**" access="hasAnyRole('USER', 'ADMIN')"/>
+         <intercept-url pattern="/error" access="hasAnyRole()"/>
          <form-login login-page="/servlet/login"
                      default-target-url="/servlet/home"
                      always-use-default-target="true"/>

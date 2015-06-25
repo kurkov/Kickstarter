@@ -1,13 +1,14 @@
 package ua.goit.kickstarter.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.goit.kickstarter.model.Category;
 import ua.goit.kickstarter.model.Project;
 import ua.goit.kickstarter.service.CategoryService;
 import ua.goit.kickstarter.service.ProjectService;
+
 import java.util.List;
 
 @Controller

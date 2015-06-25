@@ -20,31 +20,26 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  //@Secured({"ANONYMOUS", "USER", "ADMIN"})
   public List<Project> getByCategory(Category category) {
     return projectDao.getByCategory(category);
   }
 
   @Override
-  //@Secured({"ANONYMOUS", "USER", "ADMIN"})
   public Project getById(Integer id) {
     return projectDao.getById(id);
   }
 
   @Override
-  //@Secured({"USER", "ADMIN"})
   public void add(Project project) {
     projectDao.add(project);
   }
 
   @Override
-  //@Secured({"USER", "ADMIN"})
   public void update(Project project) {
     projectDao.update(project);
   }
 
   @Override
-  //@Secured("ADMIN")
   public void delete(Project project) {
     projectDao.delete(project);
   }
