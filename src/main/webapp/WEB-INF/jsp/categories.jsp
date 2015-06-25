@@ -22,8 +22,9 @@
               </a>
             </td>
 
-            <security:authorize access="hasRole('ADMIN')">
-              <td class="text-right">
+
+            <td class="text-right">
+              <security:authorize access="hasRole('ADMIN')">
                 <button class="btn btn-xs btn-primary" formmethod="get"
                         formaction='/servlet/category/<c:out value="${c.id}"/>/edit' type="submit">
                   <span class="glyphicon glyphicon-pencil"></span>
@@ -33,8 +34,8 @@
                         formaction='/servlet/category/<c:out value="${c.id}"/>/delete' type="submit">
                   <span class="glyphicon glyphicon-trash"></span>
                 </button>
+              </security:authorize>
               </td>
-            </security:authorize>
 
           </form>
         </tr>
