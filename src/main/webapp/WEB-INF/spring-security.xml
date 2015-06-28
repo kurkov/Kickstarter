@@ -9,29 +9,42 @@
 
        <beans:import resource="hibernate-context.xml"/>
 
+      <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <beans:constructor-arg ref="roleHierarchy" />
+      </beans:bean>
+      <beans:bean id="roleHierarchy"
+            class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <beans:property name="hierarchy">
+          <beans:value>
+            ROLE_ADMIN > ROLE_USER
+            ROLE_USER > ROLE_ANONYMOUS
+          </beans:value>
+        </beans:property>
+      </beans:bean>
+
        <http auto-config="true" use-expressions="true">
          <intercept-url pattern="/home" access="hasAnyRole()"/>
-         <intercept-url pattern="/category/" access="hasAnyRole()"/>
-         <intercept-url pattern="/category/add" access="hasRole('ADMIN')"/>
-         <intercept-url pattern="/category/*" access="hasAnyRole()"/>
-         <intercept-url pattern="/category/**/" access="hasRole('ADMIN')"/>
-         <intercept-url pattern="/login" access="hasRole('ANONYMOUS')"/>
-         <intercept-url pattern="/project/add" access="hasAnyRole('USER', 'ADMIN')"/>
-         <intercept-url pattern="/project/*" access="hasAnyRole()"/>
-         <intercept-url pattern="/project/**" access="hasAnyRole('USER', 'ADMIN')"/>
-         <intercept-url pattern="/user**" access="hasAnyRole('USER', 'ADMIN')"/>
+         <intercept-url pattern="/category" access="hasAnyRole()"/>
+         <intercept-url pattern="/category/add*" access="ROLE_ADMIN"/>
+         <intercept-url pattern="/category*" access="hasAnyRole()"/>
+         <intercept-url pattern="/category**" access="hasRole('ROLE_ADMIN')"/>
+         <intercept-url pattern="/login" access="hasRole('ROLE_ANONYMOUS')"/>
+         <intercept-url pattern="/project/add*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+         <intercept-url pattern="/project*" access="hasAnyRole()"/>
+         <intercept-url pattern="/project**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+         <intercept-url pattern="/user**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
          <intercept-url pattern="/error" access="hasAnyRole()"/>
-         <form-login login-page="/servlet/login"
+         <form-login login-page="/login"
                      default-target-url="/servlet/home"
                      always-use-default-target="true"/>
-         <logout logout-url="/servlet/logout"
+         <logout logout-url="/logout"
                  logout-success-url="/servlet/home"/>
          <anonymous username="guest"
-                    granted-authority="ANONYMOUS"/>
+                    granted-authority="ROLE_ANONYMOUS"/>
          <csrf disabled="true"/>
+
        </http>
 
-       <!--<global-method-security secured-annotations="enabled" />-->
     <global-method-security secured-annotations="enabled" proxy-target-class="true"/>
 
         <beans:bean id="userDetailsService" class="ua.goit.kickstarter.service.UserDetailsServiceImpl"/>

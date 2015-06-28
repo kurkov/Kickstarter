@@ -32,7 +32,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     User user = new User("olenenok", "olenenok", "masyakot@gmail.com", true);
     Set<UserRole> roles = new HashSet<>();
-    roles.add(new UserRole(Roles.ADMIN, user));
+    roles.add(new UserRole(Roles.ROLE_ADMIN, user));
     user.setRoles(roles);
     return user;
   }
