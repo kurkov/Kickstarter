@@ -1,5 +1,6 @@
 package ua.goit.kickstarter.dao;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,22 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     return session.createCriteria(User.class)
         .addOrder(Order.asc("name"))
         .list();
+  }
+
+  @Override
+  public User getByName(String name) {
+    Session session = sessionFactory.getCurrentSession();
+    String sql = "from User u where u.name=:name";
+    Query query = session.createQuery(sql);
+    return (User) query.setParameter("name", name).uniqueResult();
+
+
+    /*return (User) sessionFactory.getCurrentSession().get(User.class, name);
+*/
+    /*User user = new User("olenenok", "olenenok", "masyakot@gmail.com", true);
+    Set<UserRole> roles = new HashSet<>();
+    roles.add(new UserRole(Roles.ROLE_ADMIN, user));
+    user.setRoles(roles);
+    return user;*/
   }
 }

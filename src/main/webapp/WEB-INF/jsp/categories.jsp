@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
   <link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>"
@@ -15,37 +16,42 @@
       <c:forEach var="c" items="${categories}">
         <tr>
           <form>
-            <td >
-              <a onclick="window.location.href='/servlet/category/<c:out value="${c.id}"/>'">
+            <td onclick="window.location.href='/servlet/category/<c:out value="${c.id}"/>'">
+              <a href='/servlet/category/<c:out value="${c.id}"/>'>
                 <c:out value="${c.name}"/>
               </a>
             </td>
 
-            <td class="text-right">
-              <button class="btn btn-xs btn-primary" formmethod="get"
-                      formaction='/servlet/category/<c:out value="${c.id}"/>/edit' type="submit">
-                <span class="glyphicon glyphicon-pencil"></span>
-              </button>
 
-              <button class="btn btn-xs btn-danger" formmethod="post"
-                      formaction='/servlet/category/<c:out value="${c.id}"/>/delete' type="submit">
-                <span class="glyphicon glyphicon-trash"></span>
-              </button>
-            </td>
+            <td class="text-right">
+              <security:authorize access="hasRole('ROLE_ADMIN')">
+                <button class="btn btn-xs btn-primary" formmethod="get"
+                        formaction='/servlet/category/<c:out value="${c.id}"/>/edit' type="submit">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+
+                <button class="btn btn-xs btn-danger" formmethod="post"
+                        formaction='/servlet/category/<c:out value="${c.id}"/>/delete' type="submit">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </security:authorize>
+              </td>
 
           </form>
         </tr>
       </c:forEach>
-      <tr>
-        <td class="text-left text-nowrap">
-          <button class="btn btn-xs btn-primary"
-                  onclick="window.location.href='/servlet/category/add'">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-            Add new category
-          </button>
-        </td>
-        <td></td>
-      </tr>
+      <security:authorize access="hasAuthority('ROLE_ADMIN')">
+        <tr>
+          <td class="text-left text-nowrap">
+            <button class="btn btn-xs btn-primary"
+                    onclick="window.location.href='/servlet/category/add'">
+              <span class="glyphicon glyphicon-plus-sign"></span>
+              Add new category
+            </button>
+          </td>
+          <td></td>
+        </tr>
+      </security:authorize>
       </tbody>
     </table>
   </div>

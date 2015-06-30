@@ -9,8 +9,8 @@
     <name>kickstarter Maven Webapp</name>
 
     <properties>
-        <spring.version>4.1.6.RELEASE</spring.version>
-      <hibernate.version>4.2.19</hibernate.version>
+      <spring.version>4.1.6.RELEASE</spring.version>
+      <spring.security.version>4.0.1.RELEASE</spring.security.version>
     </properties>
 
     <repositories>
@@ -47,6 +47,13 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.5.8</version>
+        <scope>runtime</scope>
+      </dependency>
 
         <dependency>
             <groupId>javax.servlet.jsp.jstl</groupId>
@@ -88,6 +95,7 @@
             <version>1.0.6</version>
         </dependency>
 
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -117,18 +125,52 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
         </dependency>
+      <!-- Spring Security -->
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring.security.version}</version>
+      </dependency>
 
       <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-        <version>${hibernate.version}.Final</version>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring.security.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring.security.version}</version>
+      </dependency>
+
+      <!-- Spring Security JSP Taglib -->
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-taglibs</artifactId>
+        <version>${spring.security.version}</version>
+      </dependency>
+
+      <!--Validation-->
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+      </dependency>
+
+
+      <!--Hibernate -->
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>4.3.10.Final</version>
+      </dependency>
+
       <dependency>
         <groupId>commons-dbcp</groupId>
         <artifactId>commons-dbcp</artifactId>
         <version>1.4</version>
       </dependency>
-
 
     </dependencies>
 
