@@ -1,15 +1,12 @@
 package ua.goit.kickstarter.dao;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
-import ua.goit.kickstarter.model.Roles;
 import ua.goit.kickstarter.model.User;
-import ua.goit.kickstarter.model.UserRole;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
@@ -28,12 +25,18 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
   @Override
   public User getByName(String name) {
-//    return (User) sessionFactory.getCurrentSession().get(User.class, name);
+    Session session = sessionFactory.getCurrentSession();
+    String sql = "from User u where u.name=:name";
+    Query query = session.createQuery(sql);
+    return (User) query.setParameter("name", name).uniqueResult();
 
-    User user = new User("olenenok", "olenenok", "masyakot@gmail.com", true);
+
+    /*return (User) sessionFactory.getCurrentSession().get(User.class, name);
+*/
+    /*User user = new User("olenenok", "olenenok", "masyakot@gmail.com", true);
     Set<UserRole> roles = new HashSet<>();
     roles.add(new UserRole(Roles.ROLE_ADMIN, user));
     user.setRoles(roles);
-    return user;
+    return user;*/
   }
 }

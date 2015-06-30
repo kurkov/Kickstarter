@@ -9,9 +9,8 @@
     <name>kickstarter Maven Webapp</name>
 
     <properties>
-        <spring.version>4.1.6.RELEASE</spring.version>
+      <spring.version>4.1.6.RELEASE</spring.version>
       <spring.security.version>4.0.1.RELEASE</spring.security.version>
-      <hibernate.version>4.2.19</hibernate.version>
     </properties>
 
     <repositories>
@@ -48,6 +47,13 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.5.8</version>
+        <scope>runtime</scope>
+      </dependency>
 
         <dependency>
             <groupId>javax.servlet.jsp.jstl</groupId>
@@ -156,15 +162,15 @@
       <!--Hibernate -->
       <dependency>
         <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-        <version>${hibernate.version}.Final</version>
+        <artifactId>hibernate-core</artifactId>
+        <version>4.3.10.Final</version>
       </dependency>
+
       <dependency>
         <groupId>commons-dbcp</groupId>
         <artifactId>commons-dbcp</artifactId>
         <version>1.4</version>
       </dependency>
-
 
     </dependencies>
 

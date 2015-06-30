@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.goit.kickstarter.dao.UserDao;
 import ua.goit.kickstarter.model.User;
 import ua.goit.kickstarter.model.UserRole;
 
@@ -17,25 +18,21 @@ import java.util.List;
 import java.util.Set;
 
 @Service("UserDetailServiceImpl")
-@Transactional
+@Transactional(readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
-  private UserService userService;
+  private UserDao userDao;
 
   @Override
   public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-    User user = userService.getByName(name);
-    List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
+    User user = userDao.getByName(name);
+    List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
     return buildUserForAuthentication(user, authorities);
   }
 
-  private List<GrantedAuthority> buildUserAuthority(Set<UserRole> roles) {
+  private List<GrantedAuthority> buildUserAuthority(UserRole role) {
     Set<GrantedAuthority> authoritySet = new HashSet<>();
-
-    for (UserRole role : roles) {
-      authoritySet.add(new SimpleGrantedAuthority(role.getRole()));
-    }
-
+    authoritySet.add(new SimpleGrantedAuthority(role.getRole()));
     return new ArrayList<>(authoritySet);
   }
 

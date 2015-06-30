@@ -3,8 +3,6 @@ package ua.goit.kickstarter.model;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -26,8 +24,10 @@ public class User {
 
   private boolean enable;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-  private Set<UserRole> roles = new HashSet<>(0);
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinTable(name = "user_authority", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
+  private UserRole userRole;
 
   public User() {
   }
@@ -39,12 +39,12 @@ public class User {
     this.enable = enable;
   }
 
-  public User(String name, String password, String email, boolean enable, Set<UserRole> roles) {
+  public User(String name, String password, String email, boolean enable, UserRole userRole) {
     this.name = name;
     this.password = password;
     this.email = email;
     this.enable = enable;
-    this.roles = roles;
+    this.userRole = userRole;
   }
 
   public Integer getId() {
@@ -87,11 +87,11 @@ public class User {
     this.enable = enable;
   }
 
-  public Set<UserRole> getRoles() {
-    return roles;
+  public UserRole getUserRole() {
+    return userRole;
   }
 
-  public void setRoles(Set<UserRole> roles) {
-    this.roles = roles;
+  public void setUserRole(UserRole userRole) {
+    this.userRole = userRole;
   }
 }
