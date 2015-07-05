@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = "/login")
 public class LoginController {
 
-  @RequestMapping(value = "/login", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET)
   public ModelAndView login() {
     return new ModelAndView("login");
   }
