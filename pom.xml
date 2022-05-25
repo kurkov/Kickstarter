@@ -9,7 +9,7 @@
     <name>kickstarter Maven Webapp</name>
 
     <properties>
-      <spring.version>5.2.9.RELEASE</spring.version>
+      <spring.version>5.2.22.RELEASE</spring.version>
       <spring.security.version>5.4.1</spring.security.version>
     </properties>
 
